@@ -2,7 +2,7 @@ cd /tmp/libhdfs3
 
 mkdir build
 pushd build
-../bootstrap
+../bootstrap --prefix=/usr/local
 make
 make install
 popd

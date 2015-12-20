@@ -1,0 +1,11 @@
+def make_ext(modname, pyxfilename):
+    from distutils.extension import Extension
+    return Extension(name = modname,
+                     sources=[pyxfilename],
+                     include_dirs=['/usr/local/include/hdfs'],
+                     library_dirs=['/usr/local/lib/', '/usr/local/lib/libhdfs3.so'],
+                     libraries=['hdfs3'],
+                    )
+
+def make_setup_args():
+    return dict(script_args=["--verbose"])

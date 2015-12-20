@@ -1,4 +1,4 @@
-cd /tmp/libhdfs3
+cd /opt/libhdfs3
 
 mkdir build
 pushd build

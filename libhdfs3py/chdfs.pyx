@@ -19,7 +19,26 @@ cdef class HDFSClient:
 
     print "NFiles:", numEntries
     for i in range(numEntries):
-      print "File:", files[i].mName
+      print "File:", files[i].mName, files[i].mSize, files[i].mKind
+
+    libhdfs3.hdfsFreeFileInfo(files, numEntries)
+
+  def blocks(self, path, start=0, length=10):
+    cdef int numOfBlocks = 0
+    cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)
+
+    print "NBlocks:", numOfBlocks
+    for i in range(numOfBlocks):
+      print "Block", i, "length:", blocks[i].length
+      print "Block", i, "offset:", blocks[i].offset
+      print "Block", i, "N Hosts:", blocks[i].numOfNodes
+
+      for j in range(blocks[i].numOfNodes):
+        print "  Host", j, "host:", blocks[i].hosts[j]
+        print "  Host", j, "name:", blocks[i].names[j]
+        print "  Host", j, "topologyPath:", blocks[i].topologyPaths[j]
+
+    libhdfs3.hdfsFreeFileBlockLocations(blocks, numOfBlocks)
 
   def read(self, path, length=100):
     print "Path to read:", path
@@ -60,4 +79,5 @@ cdef class HDFSClient:
     libhdfs3.hdfsCloseFile(self.fs, fout)
 
   def __dealloc__(self):
+    libhdfs3.hdfsDisconnect(self.fs)
     libhdfs3.hdfsFreeBuilder(self.builder)

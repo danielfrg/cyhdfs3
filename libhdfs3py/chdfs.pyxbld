@@ -3,7 +3,7 @@ def make_ext(modname, pyxfilename):
     return Extension(name = modname,
                      sources=[pyxfilename],
                      include_dirs=['/usr/local/include/hdfs'],
-                     library_dirs=['/usr/local/lib/', '/usr/local/lib/libhdfs3.so'],
+                     library_dirs=['/usr/local/lib/'],
                      libraries=['hdfs3'],
                     )
 

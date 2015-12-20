@@ -34,5 +34,5 @@ EXPOSE 50070
 VOLUME /libhdfs3py
 WORKDIR /libhdfs3py
 
-ADD start.sh /tmp/start.sh
+ADD files/start.sh /tmp/start.sh
 CMD ["bash", "/tmp/start.sh"]

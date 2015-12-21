@@ -4,9 +4,9 @@ import os
 os.environ["LIBHDFS3_CONF"] = "/etc/hadoop/conf/hdfs-site.xml"
 os.environ["LD_LIBRARY_PATH"] = "/usr/local/lib"
 
-from libhdfs3py.chdfs import *
+from libhdfs3 import chdfs
 
-client = HDFSClient()
+client = chdfs.HDFSClient()
 
 client.ls("/tmp")
 

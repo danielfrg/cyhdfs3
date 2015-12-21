@@ -5,8 +5,8 @@ from distutils.extension import Extension
 import versioneer
 
 ext_modules = [
-    Extension(name="libhdfs3py.chdfs",
-              sources=["libhdfs3py/chdfs.c"],
+    Extension(name="libhdfs3.chdfs",
+              sources=["libhdfs3/chdfs.c"],
               include_dirs=["/usr/local/include/hdfs"],
               library_dirs=["/usr/local/lib/"],
               libraries=["hdfs3"],

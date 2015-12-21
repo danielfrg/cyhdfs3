@@ -1,2 +1,2 @@
 include versioneer.py
-include libhdfs3py/_version.py
+include libhdfs3/_version.py

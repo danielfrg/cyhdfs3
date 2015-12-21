@@ -37,8 +37,8 @@ def get_config():
     cfg.VCS = "git"
     cfg.style = "pep440"
     cfg.tag_prefix = ""
-    cfg.parentdir_prefix = "libhdfs3py-"
-    cfg.versionfile_source = "libhdfs3py/_version.py"
+    cfg.parentdir_prefix = "libhdfs3-"
+    cfg.versionfile_source = "libhdfs3/_version.py"
     cfg.verbose = False
     return cfg
 

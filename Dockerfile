@@ -32,8 +32,8 @@ RUN /opt/conda/bin/pip install versioneer
 
 EXPOSE 8020
 EXPOSE 50070
-VOLUME /libhdfs3py
-WORKDIR /libhdfs3py
+VOLUME /libhdfs3.py
+WORKDIR /libhdfs3.py
 
 ADD files/start.sh /tmp/start.sh
 CMD ["bash", "/tmp/start.sh"]

@@ -13,5 +13,5 @@ for x in `cd /etc/init.d ; ls hadoop-hdfs-*` ; do sudo service $x start ; done
 bash /usr/lib/hadoop/libexec/init-hdfs.sh
 
 # Step 6: Create User Directories
-sudo -u hdfs hdfs dfs -mkdir -p /user/hadoop
-sudo -u hdfs hdfs dfs -chown hadoop /user/hadoop
+# sudo -u hdfs hdfs dfs -mkdir -p /user/hadoop
+# sudo -u hdfs hdfs dfs -chown hadoop /user/hadoop

@@ -10,21 +10,21 @@ RUN echo 'deb-src http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh trust
 ADD files/cloudera.pref /etc/apt/preferences.d/cloudera.pref
 
 # Install CDH5 in a single node: Pseudo Distributed
-ADD files/install.sh /tmp/install.sh
-RUN bash /tmp/install.sh
-
-# Conda
-RUN curl http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -o /tmp/miniconda.sh
-RUN /bin/bash /tmp/miniconda.sh -b -p /opt/conda
-RUN rm /tmp/miniconda.sh
-RUN /opt/conda/bin/conda install -y -q conda-build
-ENV PATH /opt/conda/bin:$PATH
+ADD files/cdh5-install.sh /tmp/cdh5-install.sh
+RUN bash /tmp/cdh5-install.sh
 
 # Libhdfs
 RUN apt-get install -y -q git build-essential cmake libxml2 libxml2-dev uuid-dev protobuf-compiler libprotobuf-dev libgsasl7-dev libkrb5-dev libboost1.54-all-dev
 RUN git clone https://github.com/PivotalRD/libhdfs3.git /opt/libhdfs3
 ADD files/libhdfs-build.sh /tmp/libhdfs-build.sh
 RUN bash /tmp/libhdfs-build.sh
+ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
+
+# Conda
+RUN curl http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -o /tmp/miniconda.sh
+RUN /bin/bash /tmp/miniconda.sh -b -p /opt/conda
+RUN rm /tmp/miniconda.sh
+ENV PATH /opt/conda/bin:$PATH
 
 # libhdfs3.py
 RUN /opt/conda/bin/conda install -y -q cython

@@ -28,6 +28,7 @@ ENV PATH /opt/conda/bin:$PATH
 
 # libhdfs3.py
 RUN /opt/conda/bin/conda install -y -q cython
+RUN /opt/conda/bin/pip install versioneer
 
 EXPOSE 8020
 EXPOSE 50070

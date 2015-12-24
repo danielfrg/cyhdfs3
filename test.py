@@ -16,26 +16,36 @@ client = chdfs.HDFSClient()
 # print client.exists('/fake')
 
 # print client.rename('/tmp/hadoop-yarn', '/tmp/hhh')
-# print client.rename('/tmp/test2', '/tmp/test3')
+# print client.rename('/tmp/test', '/tmp/test2')
 
 # print client.createDirectory('/tmp/mydir')
 
-# print client.delete('/tmp/test3')
+# print client.delete('/tmp/test2')
 # print client.delete('/tmp/mydir', recursive=True)
 
 # l = client.ls("/tmp")
 # print l[0]
 # print l[1]
 
-# msg = b"IF THIS WORKS I CAN SLEEP!"
-# client.write("/tmp/test2", msg)
-# client.read("/tmp/test2", len(msg))
-bl = client.get_blocks('/tmp/test2')
-print bl[0]
+# FILE OPERATIONS
 
-# Bigger file
-# msg = b"A" * 1000000000
-# client.write("/tmp/testbig", msg)
-# client.get_blocks('/tmp/testbig', length=1000000000)
+# f = client.open('/tmp/test', 'w')
+# msg = b"a" * 100
+# f.write(msg)
+# f.close()
+
+f = client.open('/tmp/test', 'r')
+print f.read()
+f.close()
+
+# print client.delete('/tmp/test')
+
+# f = client.open('/tmp/test', 'a')
+# print client.getLastError()
+# msg = b"b" * 100
+# f.write(msg)
+# msg = b"c" * 100
+# f.write(msg)
+# f.close()
 
 print client.getLastError()

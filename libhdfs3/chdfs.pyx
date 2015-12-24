@@ -82,43 +82,65 @@ cdef class HDFSClient:
     libhdfs3.hdfsFreeFileBlockLocations(blocks, numOfBlocks)
     return ret
 
-  def read(self, path, length=100):
-    print "Path to read:", path
-    O_RDONLY = 0
+  def open(self, path, mode='r',  *args, **kwargs):
+    return File(self, path, mode)
+
+cdef class File:
+  cdef HDFSClient client
+  cdef char* path
+  cdef char* mode
+  cdef libhdfs3.hdfsFile _file
+
+  def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0):
+    self.client = client
+    self.path = path
+    self.mode = mode
     flags = O_RDONLY
-    cdef libhdfs3.hdfsFile fin = libhdfs3.hdfsOpenFile(self.fs, path, flags, 0, 0, 0)
-    cdef isopen = libhdfs3.hdfsFileIsOpenForRead(fin)
-    print "IsOpen:", isopen
+    flags = O_WRONLY if mode == 'w' else flags
+    flags = O_WRONLY | O_APPEND if mode == 'a' else flags
+    self._file = libhdfs3.hdfsOpenFile(self.client.fs, path, flags, buffer_size, replication, block_size)
 
-    cdef void* buffer = malloc(length * sizeof(char))
-    cdef int nbytes = libhdfs3.hdfsRead(self.fs, fin, buffer, length)
-    print "Read:", nbytes, "bytes"
+    # print(self._file)
+    # if self._file == 0:
+    #   raise IOError("File open failed: " + self.client.getLastError())
 
-    if(nbytes < 0):
-      print libhdfs3.hdfsGetLastError()
-    else:
-      print <char*> buffer
+  def close(self):
+    self.flush()
+    libhdfs3.hdfsCloseFile(self.client.fs, self._file)
 
-    libhdfs3.hdfsCloseFile(self.fs, fin)
-
-  def write(self, path, char* content):
-    print "Path to write:", path
-    O_WRONLY = 1
-    flags = O_WRONLY
-    cdef libhdfs3.hdfsFile fout = libhdfs3.hdfsOpenFile(self.fs, path, flags, 0, 0, 0)
-    cdef isopen = libhdfs3.hdfsFileIsOpenForWrite(fout)
-    print "IsOpen:", isopen
+  def write(self, char* content):
+    cdef isopen = libhdfs3.hdfsFileIsOpenForWrite(self._file)
+    if isopen != 1:
+      raise IOError("File not open for write:", self.client.getLastError())
 
     length = len(content)
-    cdef int nbytes = libhdfs3.hdfsWrite(self.fs, fout, <void*> content, length)
-    cdef int flushed = libhdfs3.hdfsFlush(self.fs, fout)
-    print 'Flush:', flushed
-    print "Wrote:", nbytes, "bytes"
+    cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> content, length)
 
-    if(nbytes < 0):
-      print libhdfs3.hdfsGetLastError()
+    if nbytes < 0:
+      raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
 
-    libhdfs3.hdfsCloseFile(self.fs, fout)
+  def flush(self):
+    cdef int flushed = 0
+    if self.mode == b'w':
+      flushed = libhdfs3.hdfsFlush(self.client.fs, self._file)
+      if flushed != 0:
+        raise IOError("Could not flush file:", libhdfs3.hdfsGetLastError())
+    return True
+
+  def read(self, length=2**16):
+    cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
+    if isopen != 1:
+      raise IOError("File not open for read:", self.client.getLastError())
+
+    cdef void* buffer = malloc(length * sizeof(char))
+    cdef int nbytes = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, length)
+    print "Read:", nbytes, "bytes"
+
+    if nbytes < 0:
+      raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+
+    ret = <char*> buffer
+    return ret[:nbytes]
 
 class FileInfo(object):
 
@@ -163,7 +185,7 @@ class BlockLocation(object):
     self.topology_paths = []
 
   def append_host(self, hostname, datanode, topology_path):
-    self.hostanames.append(host)
+    self.hostanames.append(hostname)
     self.names.append(datanode)
     self.topology_paths.append(topology_path)
 

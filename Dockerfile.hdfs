@@ -1,6 +1,9 @@
 FROM ubuntu:trusty
 MAINTAINER Daniel Rodriguez
 
+FROM ubuntu:trusty
+MAINTAINER Daniel Rodriguez
+
 # Conda
 RUN apt-get update && apt-get install -y -q curl bzip2
 RUN curl http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -o /tmp/miniconda.sh
@@ -19,5 +22,20 @@ ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 RUN /opt/conda/bin/conda install -y -q ipython cython
 RUN /opt/conda/bin/pip install versioneer
 
+# Cloudera repositories
+RUN curl -s http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh/archive.key | apt-key add -
+RUN echo 'deb [arch=amd64] http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh trusty-cdh5 contrib' > /etc/apt/sources.list.d/cloudera.list
+RUN echo 'deb-src http://archive.cloudera.com/cdh5/ubuntu/trusty/amd64/cdh trusty-cdh5 contrib' >> /etc/apt/sources.list.d/cloudera.list
+ADD files/cloudera.pref /etc/apt/preferences.d/cloudera.pref
+
+# Install CDH5 in a single node: Pseudo Distributed
+ADD files/cdh5-install.sh /tmp/cdh5-install.sh
+RUN bash /tmp/cdh5-install.sh
+
+EXPOSE 8020
+EXPOSE 50070
 VOLUME /libhdfs3.py
 WORKDIR /libhdfs3.py
+
+ADD files/start.sh /tmp/start.sh
+CMD ["bash", "/tmp/start.sh"]

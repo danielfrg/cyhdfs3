@@ -1,25 +1,45 @@
+cdef extern from *:
+  cdef int O_RDONLY
+  cdef int O_WRONLY
+  cdef int O_APPEND
+  cdef int O_SYNC
+  cdef int O_RDWR
+  cdef int O_CREAT
+  cdef int O_EXCL
+
 cdef extern from "hdfs.h":
   ctypedef int tSize
   ctypedef int tTime
   ctypedef int tOffset
   ctypedef unsigned int tPort
 
+  struct hdfsBuilder:
+    pass
+  hdfsBuilder *hdfsNewBuilder()
+  void hdfsFreeBuilder(hdfsBuilder *bld)
+
+  char* hdfsGetLastError()
+
+  void hdfsBuilderSetNameNode(hdfsBuilder *bld, char *nn)
+  void hdfsBuilderSetNameNodePort(hdfsBuilder *bld, tPort port)
+
   ctypedef struct HdfsFileSystemInternalWrapper:
     pass
   ctypedef HdfsFileSystemInternalWrapper hdfsFS
 
-  ctypedef struct HdfsFileInternalWrapper:
-    pass
-  ctypedef HdfsFileInternalWrapper hdfsFile
+  hdfsFS hdfsBuilderConnect(hdfsBuilder *bld)
+  int hdfsDisconnect(hdfsFS fs)
 
-  ctypedef struct BlockLocation:
-    int numOfNodes
-    char **hosts
-    char **names
-    char **topologyPaths
-    tOffset length
-    tOffset offset
-    int corrupt
+  int hdfsExists(hdfsFS fs, char *path)
+  int hdfsCopy(hdfsFS srcFS, char *src, hdfsFS dstFS, char *dst)
+  int hdfsMove(hdfsFS srcFS, char *src, hdfsFS dstFS, char *dst)
+  int hdfsRename(hdfsFS fs, char *oldPath, char *newPath)
+  int hdfsDelete(hdfsFS fs, char *path, int recursive)
+  int hdfsCreateDirectory(hdfsFS fs, char *path)
+
+  cdef enum tObjectKind:
+    kObjectKindFile = 0
+    kObjectKindDirectory = 1
 
   ctypedef struct hdfsFileInfo:
       tObjectKind mKind
@@ -33,27 +53,14 @@ cdef extern from "hdfs.h":
       tTime mLastMod
       tTime mLastAccess
 
-  cdef enum tObjectKind:
-    kObjectKindFile = 0
-    kObjectKindDirectory = 1
-
-  struct hdfsBuilder:
-    pass
-  hdfsBuilder *hdfsNewBuilder()
-  void hdfsFreeBuilder(hdfsBuilder *bld)
-
-  char* hdfsGetLastError()
-
-  void hdfsBuilderSetNameNode(hdfsBuilder *bld, char *nn)
-  void hdfsBuilderSetNameNodePort(hdfsBuilder *bld, tPort port)
-
-  hdfsFS hdfsBuilderConnect(hdfsBuilder *bld)
-  int hdfsDisconnect(hdfsFS fs)
-
   hdfsFileInfo *hdfsListDirectory(hdfsFS fs, char *path, int *numEntries)
   void hdfsFreeFileInfo(hdfsFileInfo *infos, int numEntries)
 
-  hdfsFile hdfsOpenFile(hdfsFS fs, const char *path, int flags, int bufferSize,
+  ctypedef struct HdfsFileInternalWrapper:
+    pass
+  ctypedef HdfsFileInternalWrapper hdfsFile
+
+  hdfsFile hdfsOpenFile(hdfsFS fs, char *path, int flags, int bufferSize,
                         short replication, tOffset blocksize)
   int hdfsCloseFile(hdfsFS fs, hdfsFile file)
 
@@ -66,6 +73,15 @@ cdef extern from "hdfs.h":
   int hdfsHFlush(hdfsFS fs, hdfsFile file)
   int hdfsSync(hdfsFS fs, hdfsFile file)
 
+  ctypedef struct BlockLocation:
+    int numOfNodes
+    char **hosts
+    char **names
+    char **topologyPaths
+    tOffset length
+    tOffset offset
+    int corrupt
+
   BlockLocation *hdfsGetFileBlockLocations(hdfsFS fs, char *path,
-                                           int start, int length, int *numOfBlock);
-  void hdfsFreeFileBlockLocations(BlockLocation *locations, int numOfBlock);
+                                           int start, int length, int *numOfBlock)
+  void hdfsFreeFileBlockLocations(BlockLocation *locations, int numOfBlock)

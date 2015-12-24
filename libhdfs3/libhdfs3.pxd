@@ -13,12 +13,13 @@ cdef extern from "hdfs.h":
   ctypedef int tOffset
   ctypedef unsigned int tPort
 
+  char* hdfsGetLastError()
+
   struct hdfsBuilder:
     pass
+
   hdfsBuilder *hdfsNewBuilder()
   void hdfsFreeBuilder(hdfsBuilder *bld)
-
-  char* hdfsGetLastError()
 
   void hdfsBuilderSetNameNode(hdfsBuilder *bld, char *nn)
   void hdfsBuilderSetNameNodePort(hdfsBuilder *bld, tPort port)
@@ -37,10 +38,6 @@ cdef extern from "hdfs.h":
   int hdfsDelete(hdfsFS fs, char *path, int recursive)
   int hdfsCreateDirectory(hdfsFS fs, char *path)
 
-  cdef enum tObjectKind:
-    kObjectKindFile = 0
-    kObjectKindDirectory = 1
-
   ctypedef struct hdfsFileInfo:
       tObjectKind mKind
       char *mName
@@ -52,6 +49,10 @@ cdef extern from "hdfs.h":
       short mPermissions
       tTime mLastMod
       tTime mLastAccess
+
+  cdef enum tObjectKind:
+    kObjectKindFile = 0
+    kObjectKindDirectory = 1
 
   hdfsFileInfo *hdfsListDirectory(hdfsFS fs, char *path, int *numEntries)
   void hdfsFreeFileInfo(hdfsFileInfo *infos, int numEntries)

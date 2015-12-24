@@ -71,8 +71,8 @@ cdef extern from "hdfs.h":
   int hdfsRead(hdfsFS fs, hdfsFile file, void *buffer, tSize length)
   int hdfsWrite(hdfsFS fs, hdfsFile file, void *buffer, tSize length)
   int hdfsFlush(hdfsFS fs, hdfsFile file)
-  int hdfsHFlush(hdfsFS fs, hdfsFile file)
-  int hdfsSync(hdfsFS fs, hdfsFile file)
+  int hdfsSeek(hdfsFS fs, hdfsFile file, tOffset desiredPos)
+  tOffset hdfsTell(hdfsFS fs, hdfsFile file)
 
   ctypedef struct BlockLocation:
     int numOfNodes

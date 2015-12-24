@@ -119,6 +119,19 @@ cdef class File:
     if nbytes < 0:
       raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
 
+  def read(self, length=2**16):
+    cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
+    if isopen != 1:
+      raise IOError("File not open for read:", self.client.getLastError())
+
+    cdef void* buffer = malloc(length * sizeof(char))
+    cdef int nbytes = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, length)
+    if nbytes < 0:
+      raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+
+    ret = <char*> buffer
+    return ret[:nbytes]
+
   def flush(self):
     cdef int flushed = 0
     if self.mode == b'w':
@@ -127,20 +140,18 @@ cdef class File:
         raise IOError("Could not flush file:", libhdfs3.hdfsGetLastError())
     return True
 
-  def read(self, length=2**16):
-    cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
-    if isopen != 1:
-      raise IOError("File not open for read:", self.client.getLastError())
+  def seek(self, pos):
+    out = libhdfs3.hdfsSeek(self.client.fs, self._file, pos)
+    if out != 0:
+      raise IOError('Seek Failed:', self.client.getLastError())
+    return True
 
-    cdef void* buffer = malloc(length * sizeof(char))
-    cdef int nbytes = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, length)
-    print "Read:", nbytes, "bytes"
+  def tell(self):
+    out = libhdfs3.hdfsTell(self.client.fs, self._file)
+    if out == -1:
+      raise IOError('Tell Failed:', self.client.getLastError())
+    return out
 
-    if nbytes < 0:
-      raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
-
-    ret = <char*> buffer
-    return ret[:nbytes]
 
 class FileInfo(object):
 

@@ -34,11 +34,42 @@ client = chdfs.HDFSClient()
 # f.write(msg)
 # f.close()
 
-f = client.open('/tmp/test', 'r')
-print f.read()
-f.close()
+# f = client.open('/tmp/test', 'r')
+# print f.read()
+# f.close()
 
-# print client.delete('/tmp/test')
+# f = client.open('/tmp/test', 'r')
+# print f.tell()
+# print f.seek(10)
+# print f.tell()
+# f.close()
+
+# f = client.open('/tmp/test2', 'w')
+# msg = b"a" * 10
+# f.write(msg)
+# msg = b"b" * 10
+# f.write(msg)
+# msg = b"c" * 10
+# f.write(msg)
+# f.close()
+
+# f = client.open('/tmp/test2', 'r')
+# print f.read(10)
+# print f.read(10)
+# print f.read(10)
+# f.close()
+
+# f = client.open('/tmp/test2', 'r')
+# print f.seek(10)
+# print f.tell()
+# print f.read(10)
+# f.close()
+
+# f = client.open('/tmp/test2', 'r')
+# print f.seek(20)
+# print f.tell()
+# print f.read(10)
+# f.close()
 
 # f = client.open('/tmp/test', 'a')
 # print client.getLastError()

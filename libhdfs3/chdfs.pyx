@@ -46,10 +46,10 @@ cdef class HDFSClient:
     _recursive = 0 if recursive is False else 1
     return libhdfs3.hdfsDelete(self.fs, path, _recursive) == 0
 
-  def createDirectory(self, path):
+  def create_dir(self, path):
     return libhdfs3.hdfsCreateDirectory(self.fs, path) == 0
 
-  def ls(self, path='/'):
+  def list_dir(self, path='/'):
     cdef int numEntries = 0
     cdef libhdfs3.hdfsFileInfo* files = libhdfs3.hdfsListDirectory(self.fs, path, &numEntries)
 

@@ -115,7 +115,6 @@ cdef class File:
 
     length = len(content)
     cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> content, length)
-
     if nbytes < 0:
       raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
 

@@ -191,12 +191,12 @@ class BlockLocation(object):
     self.length = length
     self.offset = offset
     self.corrupt = corrupt
-    self.hostanames = []
+    self.hostnames = []
     self.names = []
     self.topology_paths = []
 
   def append_host(self, hostname, datanode, topology_path):
-    self.hostanames.append(hostname)
+    self.hostnames.append(hostname)
     self.names.append(datanode)
     self.topology_paths.append(topology_path)
 
@@ -205,7 +205,7 @@ class BlockLocation(object):
     dic['length'] = self.length
     dic['offset'] = self.offset
     dic['corrupt'] = self.corrupt
-    dic['hosts'] = self.hosts
+    dic['hosts'] = self.hostnames
     dic['names'] = self.names
     dic['topology_paths'] = self.topology_paths
     return dic

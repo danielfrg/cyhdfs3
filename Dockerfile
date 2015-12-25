@@ -17,7 +17,7 @@ ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 # libhdfs3.py
 RUN /opt/conda/bin/conda install -y -q ipython cython
-RUN /opt/conda/bin/pip install versioneer
+RUN /opt/conda/bin/pip install versioneer pywebhdfs
 
 VOLUME /libhdfs3.py
 WORKDIR /libhdfs3.py

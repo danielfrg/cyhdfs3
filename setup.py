@@ -22,4 +22,8 @@ setup(
     license='Apache License Version 2.0, January 2004',
     packages=find_packages(),
     ext_modules=ext_modules,
+    entry_points='''
+        [console_scripts]
+        hdfs3=libhdfs3.cli:main
+    '''
 )

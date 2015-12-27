@@ -66,7 +66,7 @@ cdef class HDFSClient:
                       size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
                       blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
       ret.append(new)
-      
+
       if new.kind == 'd' and depth > 1:
         path = new.name
         self.list_dir_recursive(path=path, ret=ret, depth=(depth - 1))
@@ -165,7 +165,7 @@ class FileInfo(object):
 
   def __init__(self, name, owner, group, replication,
                permissions, size, lastMod, lastAccess, blockSize, kind):
-    self.name = name
+    self.name = '/' + name.lstrip('/')
     self.owner = owner
     self.group = group
     self.replication = replication

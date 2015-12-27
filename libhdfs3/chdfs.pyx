@@ -49,11 +49,16 @@ cdef class HDFSClient:
   def create_dir(self, path):
     return libhdfs3.hdfsCreateDirectory(self.fs, path) == 0
 
-  def list_dir(self, path='/'):
+  def list_dir(self, path='/', recurse=False, max_depth=5):
+    ret = []
+    depth = 1 if recurse is False else max_depth
+    self.list_dir_recursive(path, ret=ret, depth=depth)
+    return ret
+
+  def list_dir_recursive(self, path='/', ret=None, depth=1):
     cdef int numEntries = 0
     cdef libhdfs3.hdfsFileInfo* files = libhdfs3.hdfsListDirectory(self.fs, path, &numEntries)
 
-    ret = []
     for i in range(numEntries):
       fInfo = files[i]
       new = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
@@ -61,6 +66,10 @@ cdef class HDFSClient:
                       size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
                       blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
       ret.append(new)
+      
+      if new.kind == 'd' and depth > 1:
+        path = new.name
+        self.list_dir_recursive(path=path, ret=ret, depth=(depth - 1))
 
     libhdfs3.hdfsFreeFileInfo(files, numEntries)
     return ret

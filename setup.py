@@ -16,7 +16,7 @@ ext_modules = [
 cmdclass = versioneer.get_cmdclass()
 
 setup(
-    name="libhdfs3",
+    name="cylibhdfs3",
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     license='Apache License Version 2.0, January 2004',

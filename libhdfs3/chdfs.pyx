@@ -92,7 +92,7 @@ cdef class HDFSClient:
         return ret
 
     def open(self, path, mode='r',  *args, **kwargs):
-        return File(self, path, mode)
+        return File(self, path, mode, *args, **kwargs)
 
 
 cdef class File:
@@ -108,11 +108,12 @@ cdef class File:
         flags = O_RDONLY
         flags = O_WRONLY if mode == 'w' else flags
         flags = O_WRONLY | O_APPEND if mode == 'a' else flags
-        self._file = libhdfs3.hdfsOpenFile(self.client.fs, path, flags, buffer_size, replication, block_size)
+        replication = 1 if mode == 'a' else replication  # Trust in the force Luke
+        self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, replication, block_size)
 
-        # print(self._file)
-        # if self._file == 0:
-          #   raise IOError("File open failed: " + self.client.getLastError())
+        is_ok = <int> self._file
+        if is_ok == 0:
+            raise IOError("File open failed: " + self.client.getLastError())
 
     def close(self):
         self.flush()

@@ -91,7 +91,7 @@ cdef class HDFSClient:
         libhdfs3.hdfsFreeFileBlockLocations(blocks, numOfBlocks)
         return ret
 
-      def open(self, path, mode='r',  *args, **kwargs):
+    def open(self, path, mode='r',  *args, **kwargs):
         return File(self, path, mode)
 
 

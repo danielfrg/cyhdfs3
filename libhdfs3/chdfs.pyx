@@ -1,4 +1,4 @@
-from libc.stdlib cimport malloc
+from libc.stdlib cimport malloc, free
 from cpython cimport array
 import array
 
@@ -140,6 +140,7 @@ cdef class File:
             raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
 
         ret = <char*> buffer
+        free(buffer)
         return ret[:nbytes]
 
     def flush(self):

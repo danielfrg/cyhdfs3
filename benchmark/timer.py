@@ -2,6 +2,10 @@
 Taken from: https://gist.github.com/acdha/4068406
 """
 
+import sys
+from timeit import default_timer
+
+
 class Timer(object):
     """Context Manager to simplify timing Python code
     Usage:
@@ -9,7 +13,6 @@ class Timer(object):
             ... do something ...
     """
     def __init__(self, context=None):
-        from timeit import default_timer
         self.timer = default_timer
 
         if context is None:
@@ -21,14 +24,15 @@ class Timer(object):
             context = '%s (%s:%s)' % (info.function, info.filename, info.lineno)
 
         self.context = context
+
+    @property
+    def elapsed(self):
+        end = self.timer()
+        return (end - self.start) * 1000
+
     def __enter__(self):
         self.start = self.timer()
         return self
 
     def __exit__(self, *args):
-        end = self.timer()
-
-        elapsed = (end - self.start) * 1000
-
-        import sys
-        print >>sys.stderr, '%s: %f ms' % (self.context, elapsed)
+        print >>sys.stderr, '%s: %f ms' % (self.context, self.elapsed)

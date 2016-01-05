@@ -54,6 +54,10 @@ cdef extern from "hdfs.h":
         kObjectKindFile = 0
         kObjectKindDirectory = 1
 
+    tOffset hdfsGetDefaultBlockSize(hdfsFS fs)
+    tOffset hdfsGetCapacity(hdfsFS fs)
+    tOffset hdfsGetUsed(hdfsFS fs)
+
     hdfsFileInfo *hdfsListDirectory(hdfsFS fs, char *path, int *numEntries)
     void hdfsFreeFileInfo(hdfsFileInfo *infos, int numEntries)
 

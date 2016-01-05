@@ -96,6 +96,15 @@ cdef class HDFSClient:
         libhdfs3.hdfsFreeFileBlockLocations(blocks, numOfBlocks)
         return ret
 
+    def get_default_block_size(self):
+        return libhdfs3.hdfsGetDefaultBlockSize(self.fs)
+
+    def get_capacity(self):
+        return libhdfs3.hdfsGetCapacity(self.fs)
+
+    def get_used(self):
+        return libhdfs3.hdfsGetUsed(self.fs)
+
     def open(self, path, mode='r',  *args, **kwargs):
         return File(self, path, mode, *args, **kwargs)
 
@@ -180,7 +189,7 @@ cdef class File:
 class FileInfo(object):
 
     def __init__(self, name, owner, group, replication,
-                             permissions, size, lastMod, lastAccess, blockSize, kind):
+                 permissions, size, lastMod, lastAccess, blockSize, kind):
         self.name = '/' + name.lstrip('/')
         self.owner = owner
         self.group = group

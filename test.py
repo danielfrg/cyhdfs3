@@ -9,6 +9,11 @@ print('-----------------')
 
 client = chdfs.HDFSClient()
 
+print client.host
+
+print client.get_capacity()
+print client.get_used()
+
 # print(client.list_dir('/', recurse=True))
 
 # print client.exists('/tmp')
@@ -39,7 +44,6 @@ client = chdfs.HDFSClient()
 # print f.read()
 # f.close()
 
-
 # f = client.open('/tmp/test', 'a')
 # msg = b"z" * 100
 # f.write(msg)
@@ -52,10 +56,10 @@ client = chdfs.HDFSClient()
 # print f.read(100)
 # f.close()
 
-with client.open('/tmp/test', 'r') as f:
-    print f.tell()
-    print f.seek(800)
-    print f.tell()
-    print f.read(100)
+# with client.open('/tmp/test', 'r') as f:
+#     print f.tell()
+#     print f.seek(800)
+#     print f.tell()
+#     print f.read(100)
 
 # print client.getLastError()

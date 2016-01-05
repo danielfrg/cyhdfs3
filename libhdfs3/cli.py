@@ -1,3 +1,4 @@
+from __future__ import division
 import sys
 import traceback
 
@@ -77,3 +78,31 @@ def octal_to_perm(octal):
     if octal & stat.S_IXOTH:
         perms[8] = "x"
     return "".join(perms)
+
+
+@cli.command(short_help='Display fs stats')
+@click.pass_context
+def df(ctx):
+    client = ctx.obj['client']
+
+    fs = "hdfs://{}:{}".format(client.host, client.port)
+    used = client.get_used()
+    capacity = client.get_capacity()
+    avalable = capacity - used
+    block_size = client.get_default_block_size()
+    use_p = "%.2f" % (used / capacity)
+
+    headers = ["Filesystem", "Block Size", "Size", "Used", "Available", "Use%"]
+    row1 = [fs, block_size, capacity, used, avalable, use_p]
+    cols_lenghts = []
+
+    for header, row in zip(headers, row1):
+        cols_lenghts.append(max([len(str(_)) for _ in [header, row]]) + 1)
+    for row in [headers, row1]:
+        lrow = []
+        for i, col in enumerate(row):
+            if i == 0:
+                lrow.append(str(col).ljust(cols_lenghts[i]))
+            else:
+                lrow.append(str(col).rjust(cols_lenghts[i]))
+        click.echo(" ".join(lrow))

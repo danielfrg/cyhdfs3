@@ -12,8 +12,13 @@ O_APPEND = libhdfs3.O_APPEND
 cdef class HDFSClient:
     cdef libhdfs3.hdfsBuilder* builder
     cdef libhdfs3.hdfsFS fs
+    cdef public char* host
+    cdef public int port
 
     def __cinit__(self, host='localhost', port=8020):
+        self.host = host
+        self.port = port
+
         self.builder = libhdfs3.hdfsNewBuilder()
 
         libhdfs3.hdfsBuilderSetNameNode(self.builder, host)

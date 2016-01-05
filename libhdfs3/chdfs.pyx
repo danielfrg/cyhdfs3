@@ -72,7 +72,7 @@ cdef class HDFSClient:
                                             blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
             ret.append(new)
 
-            if new.kind == 'd' and depth > 1:
+            if new.kind == b'd' and depth > 1:
                 path = new.name
                 self.list_dir_recursive(path=path, ret=ret, depth=(depth - 1))
 
@@ -123,6 +123,7 @@ cdef class File:
     cdef char* path
     cdef char* mode
     cdef libhdfs3.hdfsFile _file
+    cdef public FileInfo _info
 
     def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0):
         self.client = client
@@ -138,6 +139,7 @@ cdef class File:
         if is_ok == 0:
             raise IOError("File open failed: " + self.client.getLastError())
 
+        self._info = None
     def close(self):
         self.flush()
         libhdfs3.hdfsCloseFile(self.client.fs, self._file)
@@ -198,7 +200,9 @@ cdef class File:
     property info:
         "A `FileInfo` reference"
         def __get__(self):
-            return self.client.path_info(self.path)
+            if getattr(self, '_info', None) is None:
+                self._info = self.client.path_info(self.path)
+            return self._info
 
     property blocks:
         "A `FileInfo` reference"
@@ -206,11 +210,22 @@ cdef class File:
             return self.client.get_blocks(self.path)
 
 
-class FileInfo(object):
+cdef class FileInfo(object):
+    cdef public char* name
+    cdef public char* owner
+    cdef public char* group
+    cdef public short replication
+    cdef public short permissions
+    cdef public libhdfs3.tOffset size
+    cdef public libhdfs3.tTime lastMod
+    cdef public libhdfs3.tTime lastAccess
+    cdef public libhdfs3.tOffset blockSize
+    cdef public char* kind
 
     def __init__(self, name, owner, group, replication,
                  permissions, size, lastMod, lastAccess, blockSize, kind):
-        self.name = '/' + name.lstrip('/')
+        name = '/' + name.lstrip('/')
+        self.name = name
         self.owner = owner
         self.group = group
         self.replication = replication
@@ -219,7 +234,8 @@ class FileInfo(object):
         self.lastMod = lastMod
         self.lastAccess = lastAccess
         self.blockSize = blockSize
-        self.kind = 'f' if kind == 70 else 'd'
+        kind = 'f' if kind == 70 else 'd'
+        self.kind = kind
 
     def todict(self):
         dic = {}

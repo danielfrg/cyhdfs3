@@ -126,7 +126,7 @@ cdef class File:
     cdef public char* encoding
     cdef public short replication
     cdef public FileInfo _info
-    cdef char* linebuff
+    cdef bytes linebuff
 
     def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0,
                   encoding='utf-8'):
@@ -179,6 +179,22 @@ cdef class File:
         finally:
             stdlib.free(c_string)
         return py_bytes_string
+
+    def readline(self, buffersize=2**16):
+        index = self.linebuff.find("\n")
+        if index >= 0:
+            line = self.linebuff[:index]
+            linebuff = self.linebuff[index + 1:]
+            self.linebuff = linebuff
+            return line
+
+        while self.tell() < self.info.size:
+            lastbytesread = self.read_bytes(buffersize=buffersize)
+            linebuff = self.linebuff + lastbytesread
+            self.linebuff = linebuff
+            return self.readline(buffersize=buffersize)
+
+        return self.linebuff
 
     def flush(self):
         cdef int flushed = 0

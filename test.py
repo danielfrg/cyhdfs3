@@ -67,6 +67,30 @@ client = chdfs.HDFSClient()
 with client.open('/tmp/iris.csv', 'r') as f:
     # print f.info
     # print f.blocks
-    print f.info.size
+    # print f.info.size
+
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+    # print f.read_bytes(buffersize=2**4)
+
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
+    print f.readline(buffersize=2**4)
 
 # print client.getLastError()

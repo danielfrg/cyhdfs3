@@ -1,4 +1,4 @@
-from libc.stdlib cimport malloc, free
+from libc cimport stdlib
 from cpython cimport array
 import array
 
@@ -147,6 +147,7 @@ cdef class File:
 
         self.linebuff = b""
         self._info = None
+
     def close(self):
         self.flush()
         libhdfs3.hdfsCloseFile(self.client.fs, self._file)
@@ -161,19 +162,23 @@ cdef class File:
         if nbytes < 0:
             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
 
-    def read(self, length=2**16):
+    def read_bytes(self, buffersize=2**16):
         cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
         if isopen != 1:
             raise IOError("File not open for read:", self.client.getLastError())
 
-        cdef void* buffer = malloc(length * sizeof(char))
-        cdef int nbytes = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, length)
-        if nbytes < 0:
+        cdef void* buffer = stdlib.malloc(buffersize * sizeof(char))
+        cdef int nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, buffersize)
+        if nbytesread < 0:
             raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
 
-        ret = <char*> buffer
-        free(buffer)
-        return ret[:nbytes]
+        cdef bytes py_string
+        cdef char* c_string = <char*> buffer
+        try:
+            py_bytes_string = c_string[:nbytesread]
+        finally:
+            stdlib.free(c_string)
+        return py_bytes_string
 
     def flush(self):
         cdef int flushed = 0

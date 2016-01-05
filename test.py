@@ -64,7 +64,11 @@ client = chdfs.HDFSClient()
 
 # print client.path_info('/tmp/iris.csv')
 
-with client.open('/tmp/iris.csv', 'r') as f:
+# with client.open('/tmp/cylibhdfs3/500mb-0', 'r') as f:
+with client.open('/tmp/newtest', 'r') as f:
+    print len(f.read())
+
+# with client.open('/tmp/iris.csv', 'r') as f:
     # print f.info
     # print f.blocks
     # print f.info.size
@@ -81,16 +85,18 @@ with client.open('/tmp/iris.csv', 'r') as f:
     # print f.read_bytes(buffersize=2**4)
     # print f.read_bytes(buffersize=2**4)
 
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
-    print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+    # print f.readline(buffersize=2**4)
+
+    # print f.read()
 
 # print client.getLastError()

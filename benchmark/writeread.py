@@ -22,32 +22,44 @@ n = 1
 data = b'0' * 250 * 2 ** 20
 data += b'1' * 250 * 2 ** 20
 
-with Timer('cylibhdfs3 write 500mb x {}'.format(n)):
-    for i in range(n):
-        name = "/tmp/cylibhdfs3/500mb-{}".format(i)
-        f = client.open(name, 'w', replication=1)
-        f.write(data)
-        f.close()
+# with Timer('cylibhdfs3 write 500mb x {}'.format(n)):
+#     for i in range(n):
+#         name = "/tmp/cylibhdfs3/500mb-{}".format(i)
+#         f = client.open(name, 'w', replication=1)
+#         f.write(data)
+#         f.close()
 
-
-with Timer('pywebhdfs write 500mb x {}'.format(n)):
-    for i in range(n):
-        name = "/tmp/pywebhdfs/500mb-{}".format(i)
-        webhdfs.create_file(name, data, overwrite=True)
+# with Timer('pywebhdfs write 500mb x {}'.format(n)):
+#     for i in range(n):
+#         name = "/tmp/pywebhdfs/500mb-{}".format(i)
+#         webhdfs.create_file(name, data, overwrite=True)
 
 #####
 
-with Timer('cylibhdfs3 readfile 500mb x {}'.format(n)):
+# with Timer('cylibhdfs3 readfile 500mb x {}'.format(n)) as t:
+#     for i in range(n):
+#         name = '/tmp/cylibhdfs3/500mb-{}'.format(i)
+#         f = client.open(name, 'r')
+#
+#         content = f.readfile()
+#         print(len(content), content == data)
+#         f.close()
+
+# with Timer('pywebhdfs read 500mb x {}'.format(n)):
+#     for i in range(n):
+#         name = "/tmp/pywebhdfs/500mb-{}".format(i)
+#         content = webhdfs.read_file(name)
+#         print(len(content), content == data)
+
+######
+
+with Timer('Total') as t:
     for i in range(n):
         name = '/tmp/cylibhdfs3/500mb-{}'.format(i)
         f = client.open(name, 'r')
 
         content = f.readfile()
-        print(len(content), content == data)
+        s = t.elapsed / 1000
+        mb = len(content) / 2 ** 20
+        print 'Bandwidth (Mb/s):', (mb / s)
         f.close()
-
-with Timer('pywebhdfs read 500mb x {}'.format(n)):
-    for i in range(n):
-        name = "/tmp/pywebhdfs/500mb-{}".format(i)
-        content = webhdfs.read_file(name)
-        print(len(content), content == data)

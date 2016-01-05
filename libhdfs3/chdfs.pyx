@@ -120,25 +120,32 @@ cdef class HDFSClient:
 
 cdef class File:
     cdef HDFSClient client
-    cdef char* path
-    cdef char* mode
     cdef libhdfs3.hdfsFile _file
+    cdef public char* path
+    cdef public char* mode
+    cdef public char* encoding
+    cdef public short replication
     cdef public FileInfo _info
+    cdef char* linebuff
 
-    def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0):
+    def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0,
+                  encoding='utf-8'):
         self.client = client
         self.path = path
         self.mode = mode
+        self.encoding = encoding
+
         flags = O_RDONLY
         flags = O_WRONLY if mode == 'w' else flags
         flags = O_WRONLY | O_APPEND if mode == 'a' else flags
-        replication = 1 if mode == 'a' else replication  # Trust in the force Luke
-        self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, replication, block_size)
+        self.replication = 1 if mode == 'a' else self.replication  # Trust in the force Luke
+        self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, self.replication, block_size)
 
         is_ok = <int> self._file
         if is_ok == 0:
             raise IOError("File open failed: " + self.client.getLastError())
 
+        self.linebuff = b""
         self._info = None
     def close(self):
         self.flush()

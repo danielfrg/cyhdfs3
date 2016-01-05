@@ -108,6 +108,15 @@ cdef class HDFSClient:
     def open(self, path, mode='r',  *args, **kwargs):
         return File(self, path, mode, *args, **kwargs)
 
+    def path_info(self, path):
+        cdef libhdfs3.hdfsFileInfo* fInfo = libhdfs3.hdfsGetPathInfo(self.fs, path)
+        f = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
+                     replication=fInfo.mReplication, permissions=fInfo.mPermissions,
+                     size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
+                     blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
+        libhdfs3.hdfsFreeFileInfo(fInfo, 1)
+        return f
+
 
 cdef class File:
     cdef HDFSClient client
@@ -185,6 +194,17 @@ cdef class File:
 
     def __del__(self):
         self.close()
+
+    property info:
+        "A `FileInfo` reference"
+        def __get__(self):
+            return self.client.path_info(self.path)
+
+    property blocks:
+        "A `FileInfo` reference"
+        def __get__(self):
+            return self.client.get_blocks(self.path)
+
 
 class FileInfo(object):
 

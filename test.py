@@ -9,10 +9,10 @@ print('-----------------')
 
 client = chdfs.HDFSClient()
 
-print client.host
+# print client.host
 
-print client.get_capacity()
-print client.get_used()
+# print client.get_capacity()
+# print client.get_used()
 
 # print(client.list_dir('/', recurse=True))
 
@@ -61,5 +61,12 @@ print client.get_used()
 #     print f.seek(800)
 #     print f.tell()
 #     print f.read(100)
+
+# print client.path_info('/tmp/iris.csv')
+
+with client.open('/tmp/iris.csv', 'r') as f:
+    # print f.info
+    # print f.blocks
+    print f.info.size
 
 # print client.getLastError()

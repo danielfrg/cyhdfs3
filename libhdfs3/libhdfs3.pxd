@@ -59,6 +59,7 @@ cdef extern from "hdfs.h":
     tOffset hdfsGetUsed(hdfsFS fs)
 
     hdfsFileInfo *hdfsListDirectory(hdfsFS fs, char *path, int *numEntries)
+    hdfsFileInfo *hdfsGetPathInfo(hdfsFS fs, char *path)
     void hdfsFreeFileInfo(hdfsFileInfo *infos, int numEntries)
 
     ctypedef struct HdfsFileInternalWrapper:

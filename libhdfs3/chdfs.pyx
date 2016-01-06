@@ -163,47 +163,36 @@ cdef class File:
         if nbytes < 0:
             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
 
-    def read(self, buffersize=1*2**20):
-        cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
-        if isopen != 1:
-            raise IOError("File not open for read:", self.client.getLastError())
-
-        cdef void* buffer = stdlib.malloc(buffersize * sizeof(char))
-        cdef int nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, buffersize)
-        if nbytesread < 0:
-            raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
-
-        cdef bytes py_string
-        cdef char* c_string = <char*> buffer
-        try:
-            py_bytes_string = c_string[:nbytesread]
-        finally:
-            stdlib.free(c_string)
-        return py_bytes_string
-
-    def readfile(self, buffersize=1*2**20):
-        cdef void* buffer = stdlib.malloc(self.info.size * sizeof(char))
+    def read(self, length=None, buffersize=1*2**20):
+        length = self.info.size if length is None else length
+        cdef void* buffer = stdlib.malloc(length * sizeof(char))
         cdef void* bytesread = stdlib.malloc(buffersize * sizeof(char))
         cdef int nbytesread = 0
 
-        i = 0
-        while True:
-            nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, buffersize)
-            if nbytesread == 0:
+        remaining = length
+        pos = 0
+        while remaining > 0:
+            readbuffersize = min(buffersize, remaining)
+            nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, readbuffersize)
+            if nbytesread < 0:
+                raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+            elif nbytesread == 0:
                 break  # EOF
-            buffer[i:i + nbytesread] = bytesread
-            i = i + nbytesread
+            buffer[pos:pos + nbytesread] = bytesread
+            pos = pos + nbytesread
+            remaining = remaining - nbytesread
+
         stdlib.free(bytesread)
 
         cdef bytes py_string
         cdef char* c_string = <char*> buffer
         try:
-            py_bytes_string = c_string[:self.info.size]
+            py_bytes_string = c_string[:length]
         finally:
             stdlib.free(c_string)
         return py_bytes_string
 
-    def readline(self, buffersize=2**16):
+    def readline(self, step=1*2**20, buffersize=1*2**20):
         index = self.linebuff.find("\n")
         if index >= 0:
             line = self.linebuff[:index]
@@ -212,10 +201,10 @@ cdef class File:
             return line
 
         while self.tell() < self.info.size:
-            lastbytesread = self.read(buffersize=buffersize)
+            lastbytesread = self.read(length=step, buffersize=buffersize)
             linebuff = self.linebuff + lastbytesread
             self.linebuff = linebuff
-            return self.readline(buffersize=buffersize)
+            return self.readline(step=step, buffersize=buffersize)
 
         return self.linebuff
 

@@ -127,6 +127,7 @@ cdef class File:
     cdef public char* encoding
     cdef public short replication
     cdef public FileInfo _info
+    cdef public list _blocks
     cdef bytes linebuff
 
     def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0,
@@ -148,6 +149,7 @@ cdef class File:
 
         self.linebuff = b""
         self._info = None
+        self._blocks = []
 
     def close(self):
         self.flush()
@@ -249,7 +251,9 @@ cdef class File:
     property blocks:
         "A `FileInfo` reference"
         def __get__(self):
-            return self.client.get_blocks(self.path)
+            if getattr(self, '_info', None) is None:
+                self._blocks = self.client.get_blocks(self.path)
+            return self._blocks
 
 
 cdef class FileInfo(object):
@@ -297,7 +301,14 @@ cdef class FileInfo(object):
         return str(self.todict())
 
 
-class BlockLocation(object):
+cdef class BlockLocation(object):
+    cdef public int corrupt
+    cdef public int numOfNodes
+    cdef public list hostnames
+    cdef public list names
+    cdef public list topology_paths
+    cdef public libhdfs3.tOffset length
+    cdef public libhdfs3.tOffset offset
 
     def __init__(self, length, offset, corrupt):
         self.length = length

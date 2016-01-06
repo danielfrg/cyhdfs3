@@ -62,6 +62,19 @@ data += b'1' * 250 * 2 ** 20
 
 ######
 
+# with Timer('cylibhdfs3 iris readline') as t:
+#     name = '/tmp/iris.csv'
+#     f = client.open(name, 'r')
+#
+#     print f.readline()
+#     print f.readline()
+#     print f.readline()
+#     print f.readline()
+#     print f.readline()
+#     f.close()
+
+######
+
 # with Timer(summary=False) as t:
 #     for i in range(n):
 #         name = '/tmp/cylibhdfs3/500mb-{}'.format(i)

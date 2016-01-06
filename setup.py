@@ -41,6 +41,9 @@ cmdclass['sdist'] = sdist
 setup(
     name="cyhdfs3",
     version=versioneer.get_version(),
+    author='Daniel Rodriguez',
+    author_email='df.rodriguez143@gmail.com',
+    url='https://github.com/danielfrg/cyhdfs3',
     cmdclass=cmdclass,
     license='Apache License Version 2.0, January 2004',
     install_requires=required,

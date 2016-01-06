@@ -45,6 +45,15 @@ data += b'1' * 250 * 2 ** 20
 #         print(len(content), content == data)
 #         f.close()
 
+# with Timer('cylibhdfs3 readfile 500mb x {}'.format(n)) as t:
+#     for i in range(n):
+#         name = '/tmp/cylibhdfs3/500mb-{}'.format(i)
+#         f = client.open(name, 'r')
+#
+#         content = f.read(len(data))
+#         print(len(content), content == data)
+#         f.close()
+
 # with Timer('pywebhdfs read 500mb x {}'.format(n)):
 #     for i in range(n):
 #         name = "/tmp/pywebhdfs/500mb-{}".format(i)
@@ -53,13 +62,29 @@ data += b'1' * 250 * 2 ** 20
 
 ######
 
-with Timer('Total') as t:
-    for i in range(n):
-        name = '/tmp/cylibhdfs3/500mb-{}'.format(i)
-        f = client.open(name, 'r')
+# with Timer(summary=False) as t:
+#     for i in range(n):
+#         name = '/tmp/cylibhdfs3/500mb-{}'.format(i)
+#         f = client.open(name, 'r')
+#
+#         content = f.readfile()
+#         s = t.elapsed / 1000
+#         mb = len(content) / 2 ** 20
+#         print 'Bandwidth (Mb/s):', (mb / s)
+#         f.close()
 
-        content = f.readfile()
+with Timer(summary=False) as t:
+    f = client.open('/tmp/cylibhdfs3/500mb-0', 'r')
+    blocks = f.blocks
+
+    for block in f.blocks:
+        f.seek(block.offset)
+        block_content = f.read(length=block.length)
+        assert block.length == len(block_content)
+
         s = t.elapsed / 1000
-        mb = len(content) / 2 ** 20
-        print 'Bandwidth (Mb/s):', (mb / s)
-        f.close()
+        mb = len(block_content) / 2 ** 20
+        bw = (mb / s)
+        print 'Block %s (Mb/s):' % block, bw
+        t.restart()
+    f.close()

@@ -25,4 +25,5 @@ var/
 *.egg
 
 # Cython
+cyhdfs3.c
 *.pyxbldc

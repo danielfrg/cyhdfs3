@@ -30,6 +30,9 @@ class Timer(object):
         end = self.timer()
         return (end - self.start) * 1000
 
+    def restart(self):
+        self.start = self.timer()
+
     def __enter__(self):
         self.start = self.timer()
         return self

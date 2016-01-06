@@ -3,11 +3,11 @@ import pyximport; pyximport.install()
 import os
 os.environ["LIBHDFS3_CONF"] = "/etc/hadoop/conf/hdfs-site.xml"
 
-from cyhdfs3 import chdfs
+import cyhdfs3
 
 print('-----------------')
 
-client = chdfs.HDFSClient()
+client = cyhdfs3.HDFSClient()
 
 # print client.host
 
@@ -29,11 +29,6 @@ client = chdfs.HDFSClient()
 # print l[1]
 
 # FILE OPERATIONS
-
-# print(chdfs.O_RDONLY)
-# print(chdfs.O_WRONLY)
-# print(chdfs.O_APPEND)
-# print(chdfs.O_WRONLY | chdfs.O_APPEND)
 
 # f = client.open('/tmp/test', 'w')
 # msg = b"a" * 100

@@ -234,8 +234,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__libhdfs3__chdfs
-#define __PYX_HAVE_API__libhdfs3__chdfs
+#define __PYX_HAVE__cyhdfs3__cyhdfs3
+#define __PYX_HAVE_API__cyhdfs3__cyhdfs3
 #include "string.h"
 #include "stdlib.h"
 #include "stdio.h"
@@ -449,7 +449,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "libhdfs3/chdfs.pyx",
+  "cyhdfs3/cyhdfs3.pyx",
   "array.pxd",
   "type.pxd",
   "bool.pxd",
@@ -461,18 +461,19 @@ static const char *__pyx_f[] = {
 struct arrayobject;
 typedef struct arrayobject arrayobject;
 #endif
-struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient;
-struct __pyx_obj_8libhdfs3_5chdfs_File;
-struct __pyx_obj_8libhdfs3_5chdfs_FileInfo;
+struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient;
+struct __pyx_obj_7cyhdfs3_7cyhdfs3_File;
+struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo;
+struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation;
 
-/* "libhdfs3/chdfs.pyx":12
+/* "cyhdfs3/cyhdfs3.pyx":12
  * 
  * 
  * cdef class HDFSClient:             # <<<<<<<<<<<<<<
  *     cdef libhdfs3.hdfsBuilder* builder
  *     cdef libhdfs3.hdfsFS fs
  */
-struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient {
+struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient {
   PyObject_HEAD
   struct hdfsBuilder *builder;
   hdfsFS fs;
@@ -481,34 +482,35 @@ struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient {
 };
 
 
-/* "libhdfs3/chdfs.pyx":121
+/* "cyhdfs3/cyhdfs3.pyx":122
  * 
  * 
  * cdef class File:             # <<<<<<<<<<<<<<
  *     cdef HDFSClient client
  *     cdef libhdfs3.hdfsFile _file
  */
-struct __pyx_obj_8libhdfs3_5chdfs_File {
+struct __pyx_obj_7cyhdfs3_7cyhdfs3_File {
   PyObject_HEAD
-  struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *client;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *client;
   hdfsFile _file;
   char *path;
   char *mode;
   char *encoding;
   short replication;
-  struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *_info;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *_info;
+  PyObject *_blocks;
   PyObject *linebuff;
 };
 
 
-/* "libhdfs3/chdfs.pyx":263
+/* "cyhdfs3/cyhdfs3.pyx":259
  * 
  * 
  * cdef class FileInfo(object):             # <<<<<<<<<<<<<<
  *     cdef public char* name
  *     cdef public char* owner
  */
-struct __pyx_obj_8libhdfs3_5chdfs_FileInfo {
+struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo {
   PyObject_HEAD
   char *name;
   char *owner;
@@ -520,6 +522,25 @@ struct __pyx_obj_8libhdfs3_5chdfs_FileInfo {
   tTime lastAccess;
   tOffset blockSize;
   char *kind;
+};
+
+
+/* "cyhdfs3/cyhdfs3.pyx":304
+ * 
+ * 
+ * cdef class BlockLocation(object):             # <<<<<<<<<<<<<<
+ *     cdef public int corrupt
+ *     cdef public int numOfNodes
+ */
+struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation {
+  PyObject_HEAD
+  int corrupt;
+  int numOfNodes;
+  PyObject *hostnames;
+  PyObject *names;
+  PyObject *topology_paths;
+  tOffset length;
+  tOffset offset;
 };
 
 
@@ -655,9 +676,9 @@ static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, long int
     (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
 #endif
 
-static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
-
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
+
+static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
 
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals);
 
@@ -705,86 +726,7 @@ static PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, i
     PyObject_RichCompare(op1, op2, Py_EQ)
     #endif
 
-#if CYTHON_COMPILING_IN_CPYTHON
-#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o,n,NULL)
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_setattro))
-        return tp->tp_setattro(obj, attr_name, value);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_setattr))
-        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
-#endif
-    return PyObject_SetAttr(obj, attr_name, value);
-}
-#else
-#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
-#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
-#endif
-
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
-
-static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases);
-
-static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type);
-
-#define __Pyx_CyFunction_USED 1
-#include <structmember.h>
-#define __Pyx_CYFUNCTION_STATICMETHOD  0x01
-#define __Pyx_CYFUNCTION_CLASSMETHOD   0x02
-#define __Pyx_CYFUNCTION_CCLASS        0x04
-#define __Pyx_CyFunction_GetClosure(f)\
-    (((__pyx_CyFunctionObject *) (f))->func_closure)
-#define __Pyx_CyFunction_GetClassObj(f)\
-    (((__pyx_CyFunctionObject *) (f))->func_classobj)
-#define __Pyx_CyFunction_Defaults(type, f)\
-    ((type *)(((__pyx_CyFunctionObject *) (f))->defaults))
-#define __Pyx_CyFunction_SetDefaultsGetter(f, g)\
-    ((__pyx_CyFunctionObject *) (f))->defaults_getter = (g)
-typedef struct {
-    PyCFunctionObject func;
-#if PY_VERSION_HEX < 0x030500A0
-    PyObject *func_weakreflist;
-#endif
-    PyObject *func_dict;
-    PyObject *func_name;
-    PyObject *func_qualname;
-    PyObject *func_doc;
-    PyObject *func_globals;
-    PyObject *func_code;
-    PyObject *func_closure;
-    PyObject *func_classobj;
-    void *defaults;
-    int defaults_pyobjects;
-    int flags;
-    PyObject *defaults_tuple;
-    PyObject *defaults_kwdict;
-    PyObject *(*defaults_getter)(PyObject *);
-    PyObject *func_annotations;
-} __pyx_CyFunctionObject;
-static PyTypeObject *__pyx_CyFunctionType = 0;
-#define __Pyx_CyFunction_NewEx(ml, flags, qualname, self, module, globals, code)\
-    __Pyx_CyFunction_New(__pyx_CyFunctionType, ml, flags, qualname, self, module, globals, code)
-static PyObject *__Pyx_CyFunction_New(PyTypeObject *, PyMethodDef *ml,
-                                      int flags, PyObject* qualname,
-                                      PyObject *self,
-                                      PyObject *module, PyObject *globals,
-                                      PyObject* code);
-static CYTHON_INLINE void *__Pyx_CyFunction_InitDefaults(PyObject *m,
-                                                         size_t size,
-                                                         int pyobjects);
-static CYTHON_INLINE void __Pyx_CyFunction_SetDefaultsTuple(PyObject *m,
-                                                            PyObject *tuple);
-static CYTHON_INLINE void __Pyx_CyFunction_SetDefaultsKwDict(PyObject *m,
-                                                             PyObject *dict);
-static CYTHON_INLINE void __Pyx_CyFunction_SetAnnotationsDict(PyObject *m,
-                                                              PyObject *dict);
-static int __pyx_CyFunction_init(void);
-
-static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name, PyObject *qualname,
-                                           PyObject *mkw, PyObject *modname, PyObject *doc);
-static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases, PyObject *dict,
-                                      PyObject *mkw, int calculate_metaclass, int allow_py2_metaclass);
 
 typedef struct {
     int code_line;
@@ -1051,17 +993,17 @@ static PyTypeObject *__pyx_ptype_7cpython_7complex_complex = 0;
 static PyTypeObject *__pyx_ptype_7cpython_5array_array = 0;
 static CYTHON_INLINE int __pyx_f_7cpython_5array_extend_buffer(arrayobject *, char *, Py_ssize_t); /*proto*/
 
-/* Module declarations from 'libhdfs3.libhdfs3' */
+/* Module declarations from 'cyhdfs3.libhdfs3' */
 
-/* Module declarations from 'libhdfs3.chdfs' */
-static PyTypeObject *__pyx_ptype_8libhdfs3_5chdfs_HDFSClient = 0;
-static PyTypeObject *__pyx_ptype_8libhdfs3_5chdfs_File = 0;
-static PyTypeObject *__pyx_ptype_8libhdfs3_5chdfs_FileInfo = 0;
-#define __Pyx_MODULE_NAME "libhdfs3.chdfs"
-int __pyx_module_is_main_libhdfs3__chdfs = 0;
+/* Module declarations from 'cyhdfs3.cyhdfs3' */
+static PyTypeObject *__pyx_ptype_7cyhdfs3_7cyhdfs3_HDFSClient = 0;
+static PyTypeObject *__pyx_ptype_7cyhdfs3_7cyhdfs3_File = 0;
+static PyTypeObject *__pyx_ptype_7cyhdfs3_7cyhdfs3_FileInfo = 0;
+static PyTypeObject *__pyx_ptype_7cyhdfs3_7cyhdfs3_BlockLocation = 0;
+#define __Pyx_MODULE_NAME "cyhdfs3.cyhdfs3"
+int __pyx_module_is_main_cyhdfs3__cyhdfs3 = 0;
 
-/* Implementation of 'libhdfs3.chdfs' */
-static PyObject *__pyx_builtin_object;
+/* Implementation of 'cyhdfs3.cyhdfs3' */
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_IOError;
 static PyObject *__pyx_builtin_MemoryError;
@@ -1073,16 +1015,12 @@ static char __pyx_k_r[] = "r";
 static char __pyx_k_w[] = "w";
 static char __pyx_k__2[] = "";
 static char __pyx_k__3[] = "\n";
-static char __pyx_k_dic[] = "dic";
-static char __pyx_k_doc[] = "__doc__";
 static char __pyx_k_dst[] = "dst";
 static char __pyx_k_ret[] = "ret";
 static char __pyx_k_src[] = "src";
-static char __pyx_k_str[] = "__str__";
 static char __pyx_k_find[] = "find";
 static char __pyx_k_host[] = "host";
 static char __pyx_k_info[] = "info";
-static char __pyx_k_init[] = "__init__";
 static char __pyx_k_kind[] = "kind";
 static char __pyx_k_main[] = "__main__";
 static char __pyx_k_mode[] = "mode";
@@ -1090,8 +1028,8 @@ static char __pyx_k_name[] = "name";
 static char __pyx_k_path[] = "path";
 static char __pyx_k_port[] = "port";
 static char __pyx_k_read[] = "read";
-static char __pyx_k_self[] = "self";
 static char __pyx_k_size[] = "size";
+static char __pyx_k_step[] = "step";
 static char __pyx_k_tell[] = "tell";
 static char __pyx_k_test[] = "__test__";
 static char __pyx_k_array[] = "array";
@@ -1111,14 +1049,11 @@ static char __pyx_k_import[] = "__import__";
 static char __pyx_k_info_2[] = "_info";
 static char __pyx_k_length[] = "length";
 static char __pyx_k_lstrip[] = "lstrip";
-static char __pyx_k_module[] = "__module__";
-static char __pyx_k_object[] = "object";
 static char __pyx_k_offset[] = "offset";
 static char __pyx_k_todict[] = "todict";
 static char __pyx_k_IOError[] = "IOError";
 static char __pyx_k_corrupt[] = "corrupt";
 static char __pyx_k_lastMod[] = "lastMod";
-static char __pyx_k_prepare[] = "__prepare__";
 static char __pyx_k_recurse[] = "recurse";
 static char __pyx_k_O_APPEND[] = "O_APPEND";
 static char __pyx_k_O_RDONLY[] = "O_RDONLY";
@@ -1126,13 +1061,10 @@ static char __pyx_k_O_WRONLY[] = "O_WRONLY";
 static char __pyx_k_datanode[] = "datanode";
 static char __pyx_k_encoding[] = "encoding";
 static char __pyx_k_hostname[] = "hostname";
-static char __pyx_k_qualname[] = "__qualname__";
 static char __pyx_k_readline[] = "readline";
 static char __pyx_k_blockSize[] = "blockSize";
-static char __pyx_k_hostnames[] = "hostnames";
 static char __pyx_k_localhost[] = "localhost";
 static char __pyx_k_max_depth[] = "max_depth";
-static char __pyx_k_metaclass[] = "__metaclass__";
 static char __pyx_k_path_info[] = "path_info";
 static char __pyx_k_recursive[] = "recursive";
 static char __pyx_k_block_size[] = "block_size";
@@ -1147,33 +1079,19 @@ static char __pyx_k_buffer_size[] = "buffer_size";
 static char __pyx_k_permissions[] = "permissions";
 static char __pyx_k_replication[] = "replication";
 static char __pyx_k_getLastError[] = "getLastError";
-static char __pyx_k_BlockLocation[] = "BlockLocation";
 static char __pyx_k_topology_path[] = "topology_path";
-static char __pyx_k_libhdfs3_chdfs[] = "libhdfs3.chdfs";
 static char __pyx_k_topology_paths[] = "topology_paths";
 static char __pyx_k_File_open_failed[] = "File open failed: ";
 static char __pyx_k_list_dir_recursive[] = "list_dir_recursive";
-static char __pyx_k_BlockLocation___str[] = "BlockLocation.__str__";
 static char __pyx_k_Could_not_read_file[] = "Could not read file:";
 static char __pyx_k_A_FileInfo_reference[] = "A `FileInfo` reference";
-static char __pyx_k_BlockLocation___init[] = "BlockLocation.__init__";
-static char __pyx_k_BlockLocation_todict[] = "BlockLocation.todict";
 static char __pyx_k_Could_not_flush_file[] = "Could not flush file:";
-static char __pyx_k_File_not_open_for_read[] = "File not open for read:";
 static char __pyx_k_File_not_open_for_write[] = "File not open for write:";
-static char __pyx_k_BlockLocation_append_host[] = "BlockLocation.append_host";
-static char __pyx_k_cylibhdfs3_libhdfs3_chdfs_pyx[] = "/cylibhdfs3/libhdfs3/chdfs.pyx";
 static char __pyx_k_Could_not_write_contents_to_file[] = "Could not write contents to file:";
 static PyObject *__pyx_kp_s_;
-static PyObject *__pyx_n_s_BlockLocation;
-static PyObject *__pyx_n_s_BlockLocation___init;
-static PyObject *__pyx_n_s_BlockLocation___str;
-static PyObject *__pyx_n_s_BlockLocation_append_host;
-static PyObject *__pyx_n_s_BlockLocation_todict;
 static PyObject *__pyx_kp_s_Could_not_flush_file;
 static PyObject *__pyx_kp_s_Could_not_read_file;
 static PyObject *__pyx_kp_s_Could_not_write_contents_to_file;
-static PyObject *__pyx_kp_s_File_not_open_for_read;
 static PyObject *__pyx_kp_s_File_not_open_for_write;
 static PyObject *__pyx_kp_s_File_open_failed;
 static PyObject *__pyx_n_s_IOError;
@@ -1196,13 +1114,10 @@ static PyObject *__pyx_n_s_buffersize;
 static PyObject *__pyx_n_s_client;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_corrupt;
-static PyObject *__pyx_kp_s_cylibhdfs3_libhdfs3_chdfs_pyx;
 static PyObject *__pyx_n_b_d;
 static PyObject *__pyx_n_s_d;
 static PyObject *__pyx_n_s_datanode;
 static PyObject *__pyx_n_s_depth;
-static PyObject *__pyx_n_s_dic;
-static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_dst;
 static PyObject *__pyx_n_s_encoding;
 static PyObject *__pyx_n_s_f;
@@ -1213,36 +1128,28 @@ static PyObject *__pyx_n_s_get_blocks;
 static PyObject *__pyx_n_s_group;
 static PyObject *__pyx_n_s_host;
 static PyObject *__pyx_n_s_hostname;
-static PyObject *__pyx_n_s_hostnames;
 static PyObject *__pyx_n_s_hosts;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_info;
 static PyObject *__pyx_n_s_info_2;
-static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_kind;
 static PyObject *__pyx_n_s_lastAccess;
 static PyObject *__pyx_n_s_lastMod;
 static PyObject *__pyx_n_s_length;
-static PyObject *__pyx_n_s_libhdfs3_chdfs;
 static PyObject *__pyx_n_s_list_dir_recursive;
 static PyObject *__pyx_n_s_localhost;
 static PyObject *__pyx_n_s_lstrip;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_max_depth;
-static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_mode;
-static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_names;
-static PyObject *__pyx_n_s_object;
 static PyObject *__pyx_n_s_offset;
 static PyObject *__pyx_n_s_owner;
 static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_path_info;
 static PyObject *__pyx_n_s_permissions;
 static PyObject *__pyx_n_s_port;
-static PyObject *__pyx_n_s_prepare;
-static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_read;
@@ -1251,11 +1158,10 @@ static PyObject *__pyx_n_s_recurse;
 static PyObject *__pyx_n_s_recursive;
 static PyObject *__pyx_n_s_replication;
 static PyObject *__pyx_n_s_ret;
-static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_src;
 static PyObject *__pyx_n_s_start;
-static PyObject *__pyx_n_s_str;
+static PyObject *__pyx_n_s_step;
 static PyObject *__pyx_n_s_tell;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_todict;
@@ -1264,104 +1170,115 @@ static PyObject *__pyx_n_s_topology_paths;
 static PyObject *__pyx_kp_s_utf_8;
 static PyObject *__pyx_n_b_w;
 static PyObject *__pyx_n_s_w;
-static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_host, PyObject *__pyx_v_port); /* proto */
-static void __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_2__dealloc__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4getLastError(CYTHON_UNUSED struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_6exists(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_12rename(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_recursive); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_16create_dir(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_recurse, PyObject *__pyx_v_max_depth); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_ret, PyObject *__pyx_v_depth); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_22get_blocks(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_start, PyObject *__pyx_v_length); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_24get_default_block_size(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_26get_capacity(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_28get_used(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_mode, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host___get__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port___get__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_client, PyObject *__pyx_v_path, PyObject *__pyx_v_mode, PyObject *__pyx_v_buffer_size, CYTHON_UNUSED PyObject *__pyx_v_replication, PyObject *__pyx_v_block_size, PyObject *__pyx_v_encoding); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_2close(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, char *__pyx_v_content); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_6read(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_buffersize); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_8readfile(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_buffersize); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_buffersize); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_pos); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_18__enter__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_20__exit__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_22__del__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_6blocks___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4path___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_4File_4path_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4mode___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_4File_4mode_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_8encoding___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_4File_8encoding_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_11replication___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_4File_11replication_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_5_info___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_4__del__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo___init__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_owner, PyObject *__pyx_v_group, PyObject *__pyx_v_replication, PyObject *__pyx_v_permissions, PyObject *__pyx_v_size, PyObject *__pyx_v_lastMod, PyObject *__pyx_v_lastAccess, PyObject *__pyx_v_blockSize, PyObject *__pyx_v_kind); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_2todict(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self); /* proto */
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_length, PyObject *__pyx_v_offset, PyObject *__pyx_v_corrupt); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_2append_host(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_hostname, PyObject *__pyx_v_datanode, PyObject *__pyx_v_topology_path); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_4todict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_6__str__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient___cinit__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_host, PyObject *__pyx_v_port); /* proto */
+static void __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_2__dealloc__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4getLastError(CYTHON_UNUSED struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_6exists(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_8copy(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_10move(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_12rename(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_14delete(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_recursive); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_16create_dir(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_18list_dir(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_recurse, PyObject *__pyx_v_max_depth); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_20list_dir_recursive(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_ret, PyObject *__pyx_v_depth); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_22get_blocks(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_start, PyObject *__pyx_v_length); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_24get_default_block_size(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_26get_capacity(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_28get_used(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_30open(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_mode, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_32path_info(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4host___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4port___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File___cinit__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_client, PyObject *__pyx_v_path, PyObject *__pyx_v_mode, PyObject *__pyx_v_buffer_size, CYTHON_UNUSED PyObject *__pyx_v_replication, PyObject *__pyx_v_block_size, PyObject *__pyx_v_encoding); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_2close(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_4write(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, char *__pyx_v_content); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_6read(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_length, PyObject *__pyx_v_buffersize); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_8readline(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_step, PyObject *__pyx_v_buffersize); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_10flush(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_12seek(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_pos); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_14tell(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_16__enter__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_18__exit__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_20__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_4info___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_6blocks___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_4path___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4path_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_4mode___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4mode_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_8encoding___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_8encoding_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_11replication___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_11replication_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo___init__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_owner, PyObject *__pyx_v_group, PyObject *__pyx_v_replication, PyObject *__pyx_v_permissions, PyObject *__pyx_v_size, PyObject *__pyx_v_lastMod, PyObject *__pyx_v_lastAccess, PyObject *__pyx_v_blockSize, PyObject *__pyx_v_kind); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_2todict(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4__str__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4name___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4name_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5owner___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5group___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5group_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11replication___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4size___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4size_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4kind___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation___init__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_length, PyObject *__pyx_v_offset, PyObject *__pyx_v_corrupt); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_2append_host(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_hostname, PyObject *__pyx_v_datanode, PyObject *__pyx_v_topology_path); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_4todict(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6__str__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6length___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self); /* proto */
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_7cpython_5array_5array___getbuffer__(arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info, CYTHON_UNUSED int __pyx_v_flags); /* proto */
 static void __pyx_pf_7cpython_5array_5array_2__releasebuffer__(CYTHON_UNUSED arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
-static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_HDFSClient(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_File(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_FileInfo(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_7cyhdfs3_7cyhdfs3_HDFSClient(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_7cyhdfs3_7cyhdfs3_File(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_7cyhdfs3_7cyhdfs3_FileInfo(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_7cyhdfs3_7cyhdfs3_BlockLocation(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_5;
-static PyObject *__pyx_int_10;
 static PyObject *__pyx_int_70;
 static PyObject *__pyx_int_8020;
-static PyObject *__pyx_int_65536;
+static PyObject *__pyx_int_524288;
 static PyObject *__pyx_int_1048576;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
-static PyObject *__pyx_tuple__6;
-static PyObject *__pyx_tuple__8;
-static PyObject *__pyx_tuple__10;
-static PyObject *__pyx_tuple__12;
-static PyObject *__pyx_codeobj__7;
-static PyObject *__pyx_codeobj__9;
-static PyObject *__pyx_codeobj__11;
-static PyObject *__pyx_codeobj__13;
 
-/* "libhdfs3/chdfs.pyx":18
+/* "cyhdfs3/cyhdfs3.pyx":18
  *     cdef public int port
  * 
  *     def __cinit__(self, host='localhost', port=8020):             # <<<<<<<<<<<<<<
@@ -1370,8 +1287,8 @@ static PyObject *__pyx_codeobj__13;
  */
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_host = 0;
   PyObject *__pyx_v_port = 0;
   int __pyx_lineno = 0;
@@ -1425,18 +1342,18 @@ static int __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_1__cinit__(PyObject *__pyx_v_s
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_host, __pyx_v_port);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient___cinit__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_host, __pyx_v_port);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_host, PyObject *__pyx_v_port) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient___cinit__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_host, PyObject *__pyx_v_port) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -1447,7 +1364,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "libhdfs3/chdfs.pyx":19
+  /* "cyhdfs3/cyhdfs3.pyx":19
  * 
  *     def __cinit__(self, host='localhost', port=8020):
  *         self.host = host             # <<<<<<<<<<<<<<
@@ -1457,7 +1374,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
   __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_host); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->host = __pyx_t_1;
 
-  /* "libhdfs3/chdfs.pyx":20
+  /* "cyhdfs3/cyhdfs3.pyx":20
  *     def __cinit__(self, host='localhost', port=8020):
  *         self.host = host
  *         self.port = port             # <<<<<<<<<<<<<<
@@ -1467,7 +1384,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
   __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_port); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->port = __pyx_t_2;
 
-  /* "libhdfs3/chdfs.pyx":22
+  /* "cyhdfs3/cyhdfs3.pyx":22
  *         self.port = port
  * 
  *         self.builder = libhdfs3.hdfsNewBuilder()             # <<<<<<<<<<<<<<
@@ -1476,7 +1393,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
  */
   __pyx_v_self->builder = hdfsNewBuilder();
 
-  /* "libhdfs3/chdfs.pyx":24
+  /* "cyhdfs3/cyhdfs3.pyx":24
  *         self.builder = libhdfs3.hdfsNewBuilder()
  * 
  *         libhdfs3.hdfsBuilderSetNameNode(self.builder, host)             # <<<<<<<<<<<<<<
@@ -1486,7 +1403,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
   __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_host); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   hdfsBuilderSetNameNode(__pyx_v_self->builder, __pyx_t_1);
 
-  /* "libhdfs3/chdfs.pyx":25
+  /* "cyhdfs3/cyhdfs3.pyx":25
  * 
  *         libhdfs3.hdfsBuilderSetNameNode(self.builder, host)
  *         libhdfs3.hdfsBuilderSetNameNodePort(self.builder, port)             # <<<<<<<<<<<<<<
@@ -1496,7 +1413,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
   __pyx_t_3 = __Pyx_PyInt_As_tPort(__pyx_v_port); if (unlikely((__pyx_t_3 == (tPort)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   hdfsBuilderSetNameNodePort(__pyx_v_self->builder, __pyx_t_3);
 
-  /* "libhdfs3/chdfs.pyx":27
+  /* "cyhdfs3/cyhdfs3.pyx":27
  *         libhdfs3.hdfsBuilderSetNameNodePort(self.builder, port)
  * 
  *         self.fs = libhdfs3.hdfsBuilderConnect(self.builder)             # <<<<<<<<<<<<<<
@@ -1505,7 +1422,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
  */
   __pyx_v_self->fs = hdfsBuilderConnect(__pyx_v_self->builder);
 
-  /* "libhdfs3/chdfs.pyx":18
+  /* "cyhdfs3/cyhdfs3.pyx":18
  *     cdef public int port
  * 
  *     def __cinit__(self, host='localhost', port=8020):             # <<<<<<<<<<<<<<
@@ -1517,14 +1434,14 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":29
+/* "cyhdfs3/cyhdfs3.pyx":29
  *         self.fs = libhdfs3.hdfsBuilderConnect(self.builder)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -1533,21 +1450,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient___cinit__(struct __pyx_obj_8li
  */
 
 /* Python wrapper */
-static void __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
-static void __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_3__dealloc__(PyObject *__pyx_v_self) {
+static void __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_3__dealloc__(PyObject *__pyx_v_self); /*proto*/
+static void __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_3__dealloc__(PyObject *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__ (wrapper)", 0);
-  __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_2__dealloc__(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self));
+  __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_2__dealloc__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
 }
 
-static void __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_2__dealloc__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self) {
+static void __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_2__dealloc__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "libhdfs3/chdfs.pyx":30
+  /* "cyhdfs3/cyhdfs3.pyx":30
  * 
  *     def __dealloc__(self):
  *         libhdfs3.hdfsDisconnect(self.fs)             # <<<<<<<<<<<<<<
@@ -1556,7 +1473,7 @@ static void __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_2__dealloc__(struct __pyx_obj
  */
   hdfsDisconnect(__pyx_v_self->fs);
 
-  /* "libhdfs3/chdfs.pyx":31
+  /* "cyhdfs3/cyhdfs3.pyx":31
  *     def __dealloc__(self):
  *         libhdfs3.hdfsDisconnect(self.fs)
  *         libhdfs3.hdfsFreeBuilder(self.builder)             # <<<<<<<<<<<<<<
@@ -1565,7 +1482,7 @@ static void __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_2__dealloc__(struct __pyx_obj
  */
   hdfsFreeBuilder(__pyx_v_self->builder);
 
-  /* "libhdfs3/chdfs.pyx":29
+  /* "cyhdfs3/cyhdfs3.pyx":29
  *         self.fs = libhdfs3.hdfsBuilderConnect(self.builder)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -1577,7 +1494,7 @@ static void __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_2__dealloc__(struct __pyx_obj
   __Pyx_RefNannyFinishContext();
 }
 
-/* "libhdfs3/chdfs.pyx":33
+/* "cyhdfs3/cyhdfs3.pyx":33
  *         libhdfs3.hdfsFreeBuilder(self.builder)
  * 
  *     def getLastError(self):             # <<<<<<<<<<<<<<
@@ -1586,19 +1503,19 @@ static void __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_2__dealloc__(struct __pyx_obj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_5getLastError(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_5getLastError(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_5getLastError(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_5getLastError(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("getLastError (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4getLastError(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4getLastError(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4getLastError(CYTHON_UNUSED struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4getLastError(CYTHON_UNUSED struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -1607,7 +1524,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4getLastError(CYTHON_UNU
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("getLastError", 0);
 
-  /* "libhdfs3/chdfs.pyx":34
+  /* "cyhdfs3/cyhdfs3.pyx":34
  * 
  *     def getLastError(self):
  *         return libhdfs3.hdfsGetLastError()             # <<<<<<<<<<<<<<
@@ -1621,7 +1538,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4getLastError(CYTHON_UNU
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":33
+  /* "cyhdfs3/cyhdfs3.pyx":33
  *         libhdfs3.hdfsFreeBuilder(self.builder)
  * 
  *     def getLastError(self):             # <<<<<<<<<<<<<<
@@ -1632,7 +1549,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4getLastError(CYTHON_UNU
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.getLastError", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.getLastError", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1640,7 +1557,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4getLastError(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":36
+/* "cyhdfs3/cyhdfs3.pyx":36
  *         return libhdfs3.hdfsGetLastError()
  * 
  *     def exists(self, path):             # <<<<<<<<<<<<<<
@@ -1649,19 +1566,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4getLastError(CYTHON_UNU
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_7exists(PyObject *__pyx_v_self, PyObject *__pyx_v_path); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_7exists(PyObject *__pyx_v_self, PyObject *__pyx_v_path) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_7exists(PyObject *__pyx_v_self, PyObject *__pyx_v_path); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_7exists(PyObject *__pyx_v_self, PyObject *__pyx_v_path) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("exists (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_6exists(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_path));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_6exists(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_path));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_6exists(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_6exists(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -1671,7 +1588,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_6exists(struct __pyx_obj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("exists", 0);
 
-  /* "libhdfs3/chdfs.pyx":37
+  /* "cyhdfs3/cyhdfs3.pyx":37
  * 
  *     def exists(self, path):
  *         return libhdfs3.hdfsExists(self.fs, path) == 0             # <<<<<<<<<<<<<<
@@ -1686,7 +1603,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_6exists(struct __pyx_obj
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":36
+  /* "cyhdfs3/cyhdfs3.pyx":36
  *         return libhdfs3.hdfsGetLastError()
  * 
  *     def exists(self, path):             # <<<<<<<<<<<<<<
@@ -1697,7 +1614,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_6exists(struct __pyx_obj
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.exists", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.exists", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1705,7 +1622,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_6exists(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":39
+/* "cyhdfs3/cyhdfs3.pyx":39
  *         return libhdfs3.hdfsExists(self.fs, path) == 0
  * 
  *     def copy(self, src, dst):             # <<<<<<<<<<<<<<
@@ -1714,8 +1631,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_6exists(struct __pyx_obj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_9copy(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_9copy(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_9copy(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_9copy(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_src = 0;
   PyObject *__pyx_v_dst = 0;
   int __pyx_lineno = 0;
@@ -1763,18 +1680,18 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_9copy(PyObject *__pyx_v_
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("copy", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.copy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.copy", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_src, __pyx_v_dst);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_8copy(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_src, __pyx_v_dst);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_8copy(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst) {
   hdfsFS __pyx_v_srcFS;
   hdfsFS __pyx_v_dstFS;
   PyObject *__pyx_r = NULL;
@@ -1789,7 +1706,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(struct __pyx_obj_8
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy", 0);
 
-  /* "libhdfs3/chdfs.pyx":40
+  /* "cyhdfs3/cyhdfs3.pyx":40
  * 
  *     def copy(self, src, dst):
  *         srcFS, dstFS = self.fs, self.fs             # <<<<<<<<<<<<<<
@@ -1801,7 +1718,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(struct __pyx_obj_8
   __pyx_v_srcFS = __pyx_t_1;
   __pyx_v_dstFS = __pyx_t_2;
 
-  /* "libhdfs3/chdfs.pyx":41
+  /* "cyhdfs3/cyhdfs3.pyx":41
  *     def copy(self, src, dst):
  *         srcFS, dstFS = self.fs, self.fs
  *         return libhdfs3.hdfsCopy(srcFS, src, dstFS, dst) == 0             # <<<<<<<<<<<<<<
@@ -1817,7 +1734,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(struct __pyx_obj_8
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":39
+  /* "cyhdfs3/cyhdfs3.pyx":39
  *         return libhdfs3.hdfsExists(self.fs, path) == 0
  * 
  *     def copy(self, src, dst):             # <<<<<<<<<<<<<<
@@ -1828,7 +1745,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(struct __pyx_obj_8
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.copy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.copy", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1836,7 +1753,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(struct __pyx_obj_8
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":43
+/* "cyhdfs3/cyhdfs3.pyx":43
  *         return libhdfs3.hdfsCopy(srcFS, src, dstFS, dst) == 0
  * 
  *     def move(self, src, dst):             # <<<<<<<<<<<<<<
@@ -1845,8 +1762,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_8copy(struct __pyx_obj_8
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_11move(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_11move(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_11move(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_11move(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_src = 0;
   PyObject *__pyx_v_dst = 0;
   int __pyx_lineno = 0;
@@ -1894,18 +1811,18 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_11move(PyObject *__pyx_v
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("move", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.move", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.move", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_src, __pyx_v_dst);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_10move(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_src, __pyx_v_dst);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_10move(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst) {
   hdfsFS __pyx_v_srcFS;
   hdfsFS __pyx_v_dstFS;
   PyObject *__pyx_r = NULL;
@@ -1920,7 +1837,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("move", 0);
 
-  /* "libhdfs3/chdfs.pyx":44
+  /* "cyhdfs3/cyhdfs3.pyx":44
  * 
  *     def move(self, src, dst):
  *         srcFS, dstFS = self.fs, self.fs             # <<<<<<<<<<<<<<
@@ -1932,7 +1849,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(struct __pyx_obj_
   __pyx_v_srcFS = __pyx_t_1;
   __pyx_v_dstFS = __pyx_t_2;
 
-  /* "libhdfs3/chdfs.pyx":45
+  /* "cyhdfs3/cyhdfs3.pyx":45
  *     def move(self, src, dst):
  *         srcFS, dstFS = self.fs, self.fs
  *         return libhdfs3.hdfsMove(srcFS, src, dstFS, dst) == 0             # <<<<<<<<<<<<<<
@@ -1948,7 +1865,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(struct __pyx_obj_
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":43
+  /* "cyhdfs3/cyhdfs3.pyx":43
  *         return libhdfs3.hdfsCopy(srcFS, src, dstFS, dst) == 0
  * 
  *     def move(self, src, dst):             # <<<<<<<<<<<<<<
@@ -1959,7 +1876,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(struct __pyx_obj_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.move", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.move", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1967,7 +1884,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":47
+/* "cyhdfs3/cyhdfs3.pyx":47
  *         return libhdfs3.hdfsMove(srcFS, src, dstFS, dst) == 0
  * 
  *     def rename(self, src, dst):             # <<<<<<<<<<<<<<
@@ -1976,8 +1893,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_10move(struct __pyx_obj_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_13rename(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_13rename(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_13rename(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_13rename(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_src = 0;
   PyObject *__pyx_v_dst = 0;
   int __pyx_lineno = 0;
@@ -2025,18 +1942,18 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_13rename(PyObject *__pyx
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("rename", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.rename", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.rename", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_12rename(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_src, __pyx_v_dst);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_12rename(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_src, __pyx_v_dst);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_12rename(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_12rename(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_src, PyObject *__pyx_v_dst) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -2047,7 +1964,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_12rename(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rename", 0);
 
-  /* "libhdfs3/chdfs.pyx":48
+  /* "cyhdfs3/cyhdfs3.pyx":48
  * 
  *     def rename(self, src, dst):
  *         return libhdfs3.hdfsRename(self.fs, src, dst) == 0             # <<<<<<<<<<<<<<
@@ -2063,7 +1980,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_12rename(struct __pyx_ob
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":47
+  /* "cyhdfs3/cyhdfs3.pyx":47
  *         return libhdfs3.hdfsMove(srcFS, src, dstFS, dst) == 0
  * 
  *     def rename(self, src, dst):             # <<<<<<<<<<<<<<
@@ -2074,7 +1991,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_12rename(struct __pyx_ob
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.rename", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.rename", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2082,7 +1999,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_12rename(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":50
+/* "cyhdfs3/cyhdfs3.pyx":50
  *         return libhdfs3.hdfsRename(self.fs, src, dst) == 0
  * 
  *     def delete(self, path, recursive=False):             # <<<<<<<<<<<<<<
@@ -2091,8 +2008,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_12rename(struct __pyx_ob
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_15delete(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_15delete(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_15delete(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_15delete(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_path = 0;
   PyObject *__pyx_v_recursive = 0;
   int __pyx_lineno = 0;
@@ -2143,18 +2060,18 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_15delete(PyObject *__pyx
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("delete", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.delete", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.delete", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_recursive);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_14delete(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_recursive);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_recursive) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_14delete(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_recursive) {
   long __pyx_v__recursive;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2167,7 +2084,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(struct __pyx_ob
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("delete", 0);
 
-  /* "libhdfs3/chdfs.pyx":51
+  /* "cyhdfs3/cyhdfs3.pyx":51
  * 
  *     def delete(self, path, recursive=False):
  *         _recursive = 0 if recursive is False else 1             # <<<<<<<<<<<<<<
@@ -2182,7 +2099,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(struct __pyx_ob
   }
   __pyx_v__recursive = __pyx_t_1;
 
-  /* "libhdfs3/chdfs.pyx":52
+  /* "cyhdfs3/cyhdfs3.pyx":52
  *     def delete(self, path, recursive=False):
  *         _recursive = 0 if recursive is False else 1
  *         return libhdfs3.hdfsDelete(self.fs, path, _recursive) == 0             # <<<<<<<<<<<<<<
@@ -2197,7 +2114,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(struct __pyx_ob
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":50
+  /* "cyhdfs3/cyhdfs3.pyx":50
  *         return libhdfs3.hdfsRename(self.fs, src, dst) == 0
  * 
  *     def delete(self, path, recursive=False):             # <<<<<<<<<<<<<<
@@ -2208,7 +2125,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(struct __pyx_ob
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.delete", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.delete", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2216,7 +2133,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":54
+/* "cyhdfs3/cyhdfs3.pyx":54
  *         return libhdfs3.hdfsDelete(self.fs, path, _recursive) == 0
  * 
  *     def create_dir(self, path):             # <<<<<<<<<<<<<<
@@ -2225,19 +2142,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_14delete(struct __pyx_ob
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_17create_dir(PyObject *__pyx_v_self, PyObject *__pyx_v_path); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_17create_dir(PyObject *__pyx_v_self, PyObject *__pyx_v_path) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_17create_dir(PyObject *__pyx_v_self, PyObject *__pyx_v_path); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_17create_dir(PyObject *__pyx_v_self, PyObject *__pyx_v_path) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("create_dir (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_16create_dir(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_path));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_16create_dir(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_path));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_16create_dir(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_16create_dir(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -2247,7 +2164,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_16create_dir(struct __py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("create_dir", 0);
 
-  /* "libhdfs3/chdfs.pyx":55
+  /* "cyhdfs3/cyhdfs3.pyx":55
  * 
  *     def create_dir(self, path):
  *         return libhdfs3.hdfsCreateDirectory(self.fs, path) == 0             # <<<<<<<<<<<<<<
@@ -2262,7 +2179,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_16create_dir(struct __py
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":54
+  /* "cyhdfs3/cyhdfs3.pyx":54
  *         return libhdfs3.hdfsDelete(self.fs, path, _recursive) == 0
  * 
  *     def create_dir(self, path):             # <<<<<<<<<<<<<<
@@ -2273,7 +2190,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_16create_dir(struct __py
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.create_dir", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.create_dir", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2281,7 +2198,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_16create_dir(struct __py
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":57
+/* "cyhdfs3/cyhdfs3.pyx":57
  *         return libhdfs3.hdfsCreateDirectory(self.fs, path) == 0
  * 
  *     def list_dir(self, path='/', recurse=False, max_depth=5):             # <<<<<<<<<<<<<<
@@ -2290,8 +2207,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_16create_dir(struct __py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_19list_dir(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_19list_dir(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_19list_dir(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_19list_dir(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_path = 0;
   PyObject *__pyx_v_recurse = 0;
   PyObject *__pyx_v_max_depth = 0;
@@ -2355,18 +2272,18 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_19list_dir(PyObject *__p
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("list_dir", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.list_dir", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.list_dir", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_recurse, __pyx_v_max_depth);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_18list_dir(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_recurse, __pyx_v_max_depth);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_recurse, PyObject *__pyx_v_max_depth) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_18list_dir(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_recurse, PyObject *__pyx_v_max_depth) {
   PyObject *__pyx_v_ret = NULL;
   PyObject *__pyx_v_depth = NULL;
   PyObject *__pyx_r = NULL;
@@ -2381,7 +2298,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("list_dir", 0);
 
-  /* "libhdfs3/chdfs.pyx":58
+  /* "cyhdfs3/cyhdfs3.pyx":58
  * 
  *     def list_dir(self, path='/', recurse=False, max_depth=5):
  *         ret = []             # <<<<<<<<<<<<<<
@@ -2393,7 +2310,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_
   __pyx_v_ret = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":59
+  /* "cyhdfs3/cyhdfs3.pyx":59
  *     def list_dir(self, path='/', recurse=False, max_depth=5):
  *         ret = []
  *         depth = 1 if recurse is False else max_depth             # <<<<<<<<<<<<<<
@@ -2411,7 +2328,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_
   __pyx_v_depth = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":60
+  /* "cyhdfs3/cyhdfs3.pyx":60
  *         ret = []
  *         depth = 1 if recurse is False else max_depth
  *         self.list_dir_recursive(path, ret=ret, depth=depth)             # <<<<<<<<<<<<<<
@@ -2436,7 +2353,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "libhdfs3/chdfs.pyx":61
+  /* "cyhdfs3/cyhdfs3.pyx":61
  *         depth = 1 if recurse is False else max_depth
  *         self.list_dir_recursive(path, ret=ret, depth=depth)
  *         return ret             # <<<<<<<<<<<<<<
@@ -2448,7 +2365,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":57
+  /* "cyhdfs3/cyhdfs3.pyx":57
  *         return libhdfs3.hdfsCreateDirectory(self.fs, path) == 0
  * 
  *     def list_dir(self, path='/', recurse=False, max_depth=5):             # <<<<<<<<<<<<<<
@@ -2462,7 +2379,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.list_dir", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.list_dir", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_ret);
@@ -2472,7 +2389,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":63
+/* "cyhdfs3/cyhdfs3.pyx":63
  *         return ret
  * 
  *     def list_dir_recursive(self, path='/', ret=None, depth=1):             # <<<<<<<<<<<<<<
@@ -2481,8 +2398,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_18list_dir(struct __pyx_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_21list_dir_recursive(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_21list_dir_recursive(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_21list_dir_recursive(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_21list_dir_recursive(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_path = 0;
   PyObject *__pyx_v_ret = 0;
   PyObject *__pyx_v_depth = 0;
@@ -2546,23 +2463,23 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_21list_dir_recursive(PyO
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("list_dir_recursive", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.list_dir_recursive", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.list_dir_recursive", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_ret, __pyx_v_depth);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_20list_dir_recursive(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_ret, __pyx_v_depth);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_ret, PyObject *__pyx_v_depth) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_20list_dir_recursive(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_ret, PyObject *__pyx_v_depth) {
   int __pyx_v_numEntries;
   hdfsFileInfo *__pyx_v_files;
   int __pyx_v_i;
   hdfsFileInfo __pyx_v_fInfo;
-  struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_new = NULL;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_new = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -2580,7 +2497,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
   __Pyx_RefNannySetupContext("list_dir_recursive", 0);
   __Pyx_INCREF(__pyx_v_path);
 
-  /* "libhdfs3/chdfs.pyx":64
+  /* "cyhdfs3/cyhdfs3.pyx":64
  * 
  *     def list_dir_recursive(self, path='/', ret=None, depth=1):
  *         cdef int numEntries = 0             # <<<<<<<<<<<<<<
@@ -2589,7 +2506,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
  */
   __pyx_v_numEntries = 0;
 
-  /* "libhdfs3/chdfs.pyx":65
+  /* "cyhdfs3/cyhdfs3.pyx":65
  *     def list_dir_recursive(self, path='/', ret=None, depth=1):
  *         cdef int numEntries = 0
  *         cdef libhdfs3.hdfsFileInfo* files = libhdfs3.hdfsListDirectory(self.fs, path, &numEntries)             # <<<<<<<<<<<<<<
@@ -2599,7 +2516,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
   __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_path); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_files = hdfsListDirectory(__pyx_v_self->fs, __pyx_t_1, (&__pyx_v_numEntries));
 
-  /* "libhdfs3/chdfs.pyx":67
+  /* "cyhdfs3/cyhdfs3.pyx":67
  *         cdef libhdfs3.hdfsFileInfo* files = libhdfs3.hdfsListDirectory(self.fs, path, &numEntries)
  * 
  *         for i in range(numEntries):             # <<<<<<<<<<<<<<
@@ -2610,7 +2527,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "libhdfs3/chdfs.pyx":68
+    /* "cyhdfs3/cyhdfs3.pyx":68
  * 
  *         for i in range(numEntries):
  *             fInfo = files[i]             # <<<<<<<<<<<<<<
@@ -2619,7 +2536,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
  */
     __pyx_v_fInfo = (__pyx_v_files[__pyx_v_i]);
 
-    /* "libhdfs3/chdfs.pyx":69
+    /* "cyhdfs3/cyhdfs3.pyx":69
  *         for i in range(numEntries):
  *             fInfo = files[i]
  *             new = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,             # <<<<<<<<<<<<<<
@@ -2641,7 +2558,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
     if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_group, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "libhdfs3/chdfs.pyx":70
+    /* "cyhdfs3/cyhdfs3.pyx":70
  *             fInfo = files[i]
  *             new = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
  *                                             replication=fInfo.mReplication, permissions=fInfo.mPermissions,             # <<<<<<<<<<<<<<
@@ -2657,7 +2574,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
     if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_permissions, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "libhdfs3/chdfs.pyx":71
+    /* "cyhdfs3/cyhdfs3.pyx":71
  *             new = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
  *                                             replication=fInfo.mReplication, permissions=fInfo.mPermissions,
  *                                             size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,             # <<<<<<<<<<<<<<
@@ -2677,7 +2594,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
     if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_lastAccess, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "libhdfs3/chdfs.pyx":72
+    /* "cyhdfs3/cyhdfs3.pyx":72
  *                                             replication=fInfo.mReplication, permissions=fInfo.mPermissions,
  *                                             size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
  *                                             blockSize=fInfo.mBlockSize, kind=fInfo.mKind)             # <<<<<<<<<<<<<<
@@ -2693,20 +2610,20 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
     if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_kind, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "libhdfs3/chdfs.pyx":69
+    /* "cyhdfs3/cyhdfs3.pyx":69
  *         for i in range(numEntries):
  *             fInfo = files[i]
  *             new = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,             # <<<<<<<<<<<<<<
  *                                             replication=fInfo.mReplication, permissions=fInfo.mPermissions,
  *                                             size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
  */
-    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_8libhdfs3_5chdfs_FileInfo), __pyx_empty_tuple, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7cyhdfs3_7cyhdfs3_FileInfo), __pyx_empty_tuple, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_new, ((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_t_5));
+    __Pyx_XDECREF_SET(__pyx_v_new, ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "libhdfs3/chdfs.pyx":73
+    /* "cyhdfs3/cyhdfs3.pyx":73
  *                                             size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
  *                                             blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
  *             ret.append(new)             # <<<<<<<<<<<<<<
@@ -2715,7 +2632,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
  */
     __pyx_t_6 = __Pyx_PyObject_Append(__pyx_v_ret, ((PyObject *)__pyx_v_new)); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "libhdfs3/chdfs.pyx":75
+    /* "cyhdfs3/cyhdfs3.pyx":75
  *             ret.append(new)
  * 
  *             if new.kind == b'd' and depth > 1:             # <<<<<<<<<<<<<<
@@ -2738,7 +2655,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_7) {
 
-      /* "libhdfs3/chdfs.pyx":76
+      /* "cyhdfs3/cyhdfs3.pyx":76
  * 
  *             if new.kind == b'd' and depth > 1:
  *                 path = new.name             # <<<<<<<<<<<<<<
@@ -2750,7 +2667,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
       __Pyx_DECREF_SET(__pyx_v_path, __pyx_t_5);
       __pyx_t_5 = 0;
 
-      /* "libhdfs3/chdfs.pyx":77
+      /* "cyhdfs3/cyhdfs3.pyx":77
  *             if new.kind == b'd' and depth > 1:
  *                 path = new.name
  *                 self.list_dir_recursive(path=path, ret=ret, depth=(depth - 1))             # <<<<<<<<<<<<<<
@@ -2773,7 +2690,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-      /* "libhdfs3/chdfs.pyx":75
+      /* "cyhdfs3/cyhdfs3.pyx":75
  *             ret.append(new)
  * 
  *             if new.kind == b'd' and depth > 1:             # <<<<<<<<<<<<<<
@@ -2783,7 +2700,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
     }
   }
 
-  /* "libhdfs3/chdfs.pyx":79
+  /* "cyhdfs3/cyhdfs3.pyx":79
  *                 self.list_dir_recursive(path=path, ret=ret, depth=(depth - 1))
  * 
  *         libhdfs3.hdfsFreeFileInfo(files, numEntries)             # <<<<<<<<<<<<<<
@@ -2792,19 +2709,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
  */
   hdfsFreeFileInfo(__pyx_v_files, __pyx_v_numEntries);
 
-  /* "libhdfs3/chdfs.pyx":80
+  /* "cyhdfs3/cyhdfs3.pyx":80
  * 
  *         libhdfs3.hdfsFreeFileInfo(files, numEntries)
  *         return ret             # <<<<<<<<<<<<<<
  * 
- *     def get_blocks(self, path, start=0, length=10):
+ *     def get_blocks(self, path, start=0, length=None):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_ret);
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":63
+  /* "cyhdfs3/cyhdfs3.pyx":63
  *         return ret
  * 
  *     def list_dir_recursive(self, path='/', ret=None, depth=1):             # <<<<<<<<<<<<<<
@@ -2817,7 +2734,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.list_dir_recursive", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.list_dir_recursive", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_new);
@@ -2827,17 +2744,17 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_20list_dir_recursive(str
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":82
+/* "cyhdfs3/cyhdfs3.pyx":82
  *         return ret
  * 
- *     def get_blocks(self, path, start=0, length=10):             # <<<<<<<<<<<<<<
+ *     def get_blocks(self, path, start=0, length=None):             # <<<<<<<<<<<<<<
  *         cdef int numOfBlocks = 0
- *         cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)
+ *         length = self.path_info(path).size if length is None  else length
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_23get_blocks(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_23get_blocks(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_23get_blocks(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_23get_blocks(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_path = 0;
   PyObject *__pyx_v_start = 0;
   PyObject *__pyx_v_length = 0;
@@ -2851,7 +2768,7 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_23get_blocks(PyObject *_
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_path,&__pyx_n_s_start,&__pyx_n_s_length,0};
     PyObject* values[3] = {0,0,0};
     values[1] = ((PyObject *)__pyx_int_0);
-    values[2] = ((PyObject *)__pyx_int_10);
+    values[2] = ((PyObject *)Py_None);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
@@ -2898,86 +2815,138 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_23get_blocks(PyObject *_
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("get_blocks", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.get_blocks", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.get_blocks", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_22get_blocks(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_start, __pyx_v_length);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_22get_blocks(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_start, __pyx_v_length);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_22get_blocks(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_start, PyObject *__pyx_v_length) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_22get_blocks(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_start, PyObject *__pyx_v_length) {
   int __pyx_v_numOfBlocks;
   BlockLocation *__pyx_v_blocks;
   PyObject *__pyx_v_ret = NULL;
   int __pyx_v_i;
   BlockLocation __pyx_v_block;
-  PyObject *__pyx_v_new = NULL;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_new = NULL;
   int __pyx_v_j;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  char *__pyx_t_1;
+  PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
-  int __pyx_t_3;
+  PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
-  int __pyx_t_7;
+  char *__pyx_t_7;
   int __pyx_t_8;
   int __pyx_t_9;
+  int __pyx_t_10;
+  int __pyx_t_11;
+  int __pyx_t_12;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_blocks", 0);
+  __Pyx_INCREF(__pyx_v_length);
 
-  /* "libhdfs3/chdfs.pyx":83
+  /* "cyhdfs3/cyhdfs3.pyx":83
  * 
- *     def get_blocks(self, path, start=0, length=10):
+ *     def get_blocks(self, path, start=0, length=None):
  *         cdef int numOfBlocks = 0             # <<<<<<<<<<<<<<
+ *         length = self.path_info(path).size if length is None  else length
  *         cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)
- * 
  */
   __pyx_v_numOfBlocks = 0;
 
-  /* "libhdfs3/chdfs.pyx":84
- *     def get_blocks(self, path, start=0, length=10):
+  /* "cyhdfs3/cyhdfs3.pyx":84
+ *     def get_blocks(self, path, start=0, length=None):
  *         cdef int numOfBlocks = 0
+ *         length = self.path_info(path).size if length is None  else length             # <<<<<<<<<<<<<<
+ *         cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)
+ * 
+ */
+  __pyx_t_2 = (__pyx_v_length == Py_None);
+  if ((__pyx_t_2 != 0)) {
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_path_info); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_4, function);
+      }
+    }
+    if (!__pyx_t_5) {
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_path); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+    } else {
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __Pyx_INCREF(__pyx_v_path);
+      __Pyx_GIVEREF(__pyx_v_path);
+      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_path);
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_size); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_1 = __pyx_t_4;
+    __pyx_t_4 = 0;
+  } else {
+    __Pyx_INCREF(__pyx_v_length);
+    __pyx_t_1 = __pyx_v_length;
+  }
+  __Pyx_DECREF_SET(__pyx_v_length, __pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "cyhdfs3/cyhdfs3.pyx":85
+ *         cdef int numOfBlocks = 0
+ *         length = self.path_info(path).size if length is None  else length
  *         cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)             # <<<<<<<<<<<<<<
  * 
  *         ret = []
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_path); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_start); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_length); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_blocks = hdfsGetFileBlockLocations(__pyx_v_self->fs, __pyx_t_1, __pyx_t_2, __pyx_t_3, (&__pyx_v_numOfBlocks));
+  __pyx_t_7 = __Pyx_PyObject_AsString(__pyx_v_path); if (unlikely((!__pyx_t_7) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_v_start); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_length); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_blocks = hdfsGetFileBlockLocations(__pyx_v_self->fs, __pyx_t_7, __pyx_t_8, __pyx_t_9, (&__pyx_v_numOfBlocks));
 
-  /* "libhdfs3/chdfs.pyx":86
+  /* "cyhdfs3/cyhdfs3.pyx":87
  *         cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)
  * 
  *         ret = []             # <<<<<<<<<<<<<<
  *         for i in range(numOfBlocks):
  *             block = blocks[i]
  */
-  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_v_ret = ((PyObject*)__pyx_t_4);
-  __pyx_t_4 = 0;
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_ret = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":87
+  /* "cyhdfs3/cyhdfs3.pyx":88
  * 
  *         ret = []
  *         for i in range(numOfBlocks):             # <<<<<<<<<<<<<<
  *             block = blocks[i]
  *             new = BlockLocation(length=block.length, offset=block.offset, corrupt=block.corrupt)
  */
-  __pyx_t_3 = __pyx_v_numOfBlocks;
-  for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_3; __pyx_t_2+=1) {
-    __pyx_v_i = __pyx_t_2;
+  __pyx_t_9 = __pyx_v_numOfBlocks;
+  for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_9; __pyx_t_8+=1) {
+    __pyx_v_i = __pyx_t_8;
 
-    /* "libhdfs3/chdfs.pyx":88
+    /* "cyhdfs3/cyhdfs3.pyx":89
  *         ret = []
  *         for i in range(numOfBlocks):
  *             block = blocks[i]             # <<<<<<<<<<<<<<
@@ -2986,104 +2955,101 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_22get_blocks(struct __py
  */
     __pyx_v_block = (__pyx_v_blocks[__pyx_v_i]);
 
-    /* "libhdfs3/chdfs.pyx":89
+    /* "cyhdfs3/cyhdfs3.pyx":90
  *         for i in range(numOfBlocks):
  *             block = blocks[i]
  *             new = BlockLocation(length=block.length, offset=block.offset, corrupt=block.corrupt)             # <<<<<<<<<<<<<<
  * 
  *             for j in range(block.numOfNodes):
  */
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlockLocation); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = __Pyx_PyInt_From_tOffset(__pyx_v_block.length); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyInt_From_tOffset(__pyx_v_block.length); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_length, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_tOffset(__pyx_v_block.offset); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_offset, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_block.corrupt); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_corrupt, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_length, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_XDECREF_SET(__pyx_v_new, __pyx_t_6);
-    __pyx_t_6 = 0;
+    __pyx_t_4 = __Pyx_PyInt_From_tOffset(__pyx_v_block.offset); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_offset, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_block.corrupt); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_corrupt, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7cyhdfs3_7cyhdfs3_BlockLocation), __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_new, ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_t_4));
+    __pyx_t_4 = 0;
 
-    /* "libhdfs3/chdfs.pyx":91
+    /* "cyhdfs3/cyhdfs3.pyx":92
  *             new = BlockLocation(length=block.length, offset=block.offset, corrupt=block.corrupt)
  * 
  *             for j in range(block.numOfNodes):             # <<<<<<<<<<<<<<
  *                 new.append_host(hostname=block.hosts[j], datanode=block.names[j],
  *                                                 topology_path=block.topologyPaths[j])
  */
-    __pyx_t_7 = __pyx_v_block.numOfNodes;
-    for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_7; __pyx_t_8+=1) {
-      __pyx_v_j = __pyx_t_8;
+    __pyx_t_10 = __pyx_v_block.numOfNodes;
+    for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
+      __pyx_v_j = __pyx_t_11;
 
-      /* "libhdfs3/chdfs.pyx":92
+      /* "cyhdfs3/cyhdfs3.pyx":93
  * 
  *             for j in range(block.numOfNodes):
  *                 new.append_host(hostname=block.hosts[j], datanode=block.names[j],             # <<<<<<<<<<<<<<
  *                                                 topology_path=block.topologyPaths[j])
  *             ret.append(new)
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_new, __pyx_n_s_append_host); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_PyBytes_FromString((__pyx_v_block.hosts[__pyx_v_j])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_new), __pyx_n_s_append_host); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_hostname, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_PyBytes_FromString((__pyx_v_block.names[__pyx_v_j])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_datanode, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_3 = __Pyx_PyBytes_FromString((__pyx_v_block.hosts[__pyx_v_j])); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_hostname, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_3 = __Pyx_PyBytes_FromString((__pyx_v_block.names[__pyx_v_j])); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_datanode, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "libhdfs3/chdfs.pyx":93
+      /* "cyhdfs3/cyhdfs3.pyx":94
  *             for j in range(block.numOfNodes):
  *                 new.append_host(hostname=block.hosts[j], datanode=block.names[j],
  *                                                 topology_path=block.topologyPaths[j])             # <<<<<<<<<<<<<<
  *             ret.append(new)
  * 
  */
-      __pyx_t_4 = __Pyx_PyBytes_FromString((__pyx_v_block.topologyPaths[__pyx_v_j])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_topology_path, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_3 = __Pyx_PyBytes_FromString((__pyx_v_block.topologyPaths[__pyx_v_j])); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_topology_path, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "libhdfs3/chdfs.pyx":92
+      /* "cyhdfs3/cyhdfs3.pyx":93
  * 
  *             for j in range(block.numOfNodes):
  *                 new.append_host(hostname=block.hosts[j], datanode=block.names[j],             # <<<<<<<<<<<<<<
  *                                                 topology_path=block.topologyPaths[j])
  *             ret.append(new)
  */
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_empty_tuple, __pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
 
-    /* "libhdfs3/chdfs.pyx":94
+    /* "cyhdfs3/cyhdfs3.pyx":95
  *                 new.append_host(hostname=block.hosts[j], datanode=block.names[j],
  *                                                 topology_path=block.topologyPaths[j])
  *             ret.append(new)             # <<<<<<<<<<<<<<
  * 
  *         libhdfs3.hdfsFreeFileBlockLocations(blocks, numOfBlocks)
  */
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_ret, __pyx_v_new); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_ret, ((PyObject *)__pyx_v_new)); if (unlikely(__pyx_t_12 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "libhdfs3/chdfs.pyx":96
+  /* "cyhdfs3/cyhdfs3.pyx":97
  *             ret.append(new)
  * 
  *         libhdfs3.hdfsFreeFileBlockLocations(blocks, numOfBlocks)             # <<<<<<<<<<<<<<
@@ -3092,7 +3058,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_22get_blocks(struct __py
  */
   hdfsFreeFileBlockLocations(__pyx_v_blocks, __pyx_v_numOfBlocks);
 
-  /* "libhdfs3/chdfs.pyx":97
+  /* "cyhdfs3/cyhdfs3.pyx":98
  * 
  *         libhdfs3.hdfsFreeFileBlockLocations(blocks, numOfBlocks)
  *         return ret             # <<<<<<<<<<<<<<
@@ -3104,30 +3070,33 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_22get_blocks(struct __py
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":82
+  /* "cyhdfs3/cyhdfs3.pyx":82
  *         return ret
  * 
- *     def get_blocks(self, path, start=0, length=10):             # <<<<<<<<<<<<<<
+ *     def get_blocks(self, path, start=0, length=None):             # <<<<<<<<<<<<<<
  *         cdef int numOfBlocks = 0
- *         cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)
+ *         length = self.path_info(path).size if length is None  else length
  */
 
   /* function exit code */
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.get_blocks", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.get_blocks", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_ret);
-  __Pyx_XDECREF(__pyx_v_new);
+  __Pyx_XDECREF((PyObject *)__pyx_v_new);
+  __Pyx_XDECREF(__pyx_v_length);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":99
+/* "cyhdfs3/cyhdfs3.pyx":100
  *         return ret
  * 
  *     def get_default_block_size(self):             # <<<<<<<<<<<<<<
@@ -3136,19 +3105,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_22get_blocks(struct __py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_25get_default_block_size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_25get_default_block_size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_25get_default_block_size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_25get_default_block_size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_default_block_size (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_24get_default_block_size(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_24get_default_block_size(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_24get_default_block_size(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_24get_default_block_size(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3157,7 +3126,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_24get_default_block_size
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_default_block_size", 0);
 
-  /* "libhdfs3/chdfs.pyx":100
+  /* "cyhdfs3/cyhdfs3.pyx":101
  * 
  *     def get_default_block_size(self):
  *         return libhdfs3.hdfsGetDefaultBlockSize(self.fs)             # <<<<<<<<<<<<<<
@@ -3165,13 +3134,13 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_24get_default_block_size
  *     def get_capacity(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_tOffset(hdfsGetDefaultBlockSize(__pyx_v_self->fs)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(hdfsGetDefaultBlockSize(__pyx_v_self->fs)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":99
+  /* "cyhdfs3/cyhdfs3.pyx":100
  *         return ret
  * 
  *     def get_default_block_size(self):             # <<<<<<<<<<<<<<
@@ -3182,7 +3151,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_24get_default_block_size
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.get_default_block_size", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.get_default_block_size", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3190,7 +3159,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_24get_default_block_size
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":102
+/* "cyhdfs3/cyhdfs3.pyx":103
  *         return libhdfs3.hdfsGetDefaultBlockSize(self.fs)
  * 
  *     def get_capacity(self):             # <<<<<<<<<<<<<<
@@ -3199,19 +3168,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_24get_default_block_size
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_27get_capacity(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_27get_capacity(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_27get_capacity(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_27get_capacity(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_capacity (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_26get_capacity(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_26get_capacity(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_26get_capacity(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_26get_capacity(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3220,7 +3189,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_26get_capacity(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_capacity", 0);
 
-  /* "libhdfs3/chdfs.pyx":103
+  /* "cyhdfs3/cyhdfs3.pyx":104
  * 
  *     def get_capacity(self):
  *         return libhdfs3.hdfsGetCapacity(self.fs)             # <<<<<<<<<<<<<<
@@ -3228,13 +3197,13 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_26get_capacity(struct __
  *     def get_used(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_tOffset(hdfsGetCapacity(__pyx_v_self->fs)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(hdfsGetCapacity(__pyx_v_self->fs)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":102
+  /* "cyhdfs3/cyhdfs3.pyx":103
  *         return libhdfs3.hdfsGetDefaultBlockSize(self.fs)
  * 
  *     def get_capacity(self):             # <<<<<<<<<<<<<<
@@ -3245,7 +3214,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_26get_capacity(struct __
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.get_capacity", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.get_capacity", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3253,7 +3222,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_26get_capacity(struct __
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":105
+/* "cyhdfs3/cyhdfs3.pyx":106
  *         return libhdfs3.hdfsGetCapacity(self.fs)
  * 
  *     def get_used(self):             # <<<<<<<<<<<<<<
@@ -3262,19 +3231,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_26get_capacity(struct __
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_29get_used(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_29get_used(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_29get_used(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_29get_used(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_used (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_28get_used(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_28get_used(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_28get_used(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_28get_used(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3283,7 +3252,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_28get_used(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_used", 0);
 
-  /* "libhdfs3/chdfs.pyx":106
+  /* "cyhdfs3/cyhdfs3.pyx":107
  * 
  *     def get_used(self):
  *         return libhdfs3.hdfsGetUsed(self.fs)             # <<<<<<<<<<<<<<
@@ -3291,13 +3260,13 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_28get_used(struct __pyx_
  *     def open(self, path, mode='r',  *args, **kwargs):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_tOffset(hdfsGetUsed(__pyx_v_self->fs)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(hdfsGetUsed(__pyx_v_self->fs)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":105
+  /* "cyhdfs3/cyhdfs3.pyx":106
  *         return libhdfs3.hdfsGetCapacity(self.fs)
  * 
  *     def get_used(self):             # <<<<<<<<<<<<<<
@@ -3308,7 +3277,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_28get_used(struct __pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.get_used", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.get_used", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3316,7 +3285,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_28get_used(struct __pyx_
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":108
+/* "cyhdfs3/cyhdfs3.pyx":109
  *         return libhdfs3.hdfsGetUsed(self.fs)
  * 
  *     def open(self, path, mode='r',  *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -3325,8 +3294,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_28get_used(struct __pyx_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_31open(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_31open(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_31open(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_31open(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_path = 0;
   PyObject *__pyx_v_mode = 0;
   PyObject *__pyx_v_args = 0;
@@ -3376,7 +3345,7 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_31open(PyObject *__pyx_v
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 2) ? pos_args : 2;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "open") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "open") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3393,15 +3362,15 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_31open(PyObject *__pyx_v
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("open", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("open", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.open", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.open", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_mode, __pyx_v_args, __pyx_v_kwargs);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_30open(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), __pyx_v_path, __pyx_v_mode, __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_args);
@@ -3410,7 +3379,7 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_31open(PyObject *__pyx_v
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_mode, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_30open(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path, PyObject *__pyx_v_mode, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3420,7 +3389,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("open", 0);
 
-  /* "libhdfs3/chdfs.pyx":109
+  /* "cyhdfs3/cyhdfs3.pyx":110
  * 
  *     def open(self, path, mode='r',  *args, **kwargs):
  *         return File(self, path, mode, *args, **kwargs)             # <<<<<<<<<<<<<<
@@ -3428,7 +3397,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(struct __pyx_obj_
  *     def path_info(self, path):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
@@ -3439,17 +3408,17 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(struct __pyx_obj_
   __Pyx_INCREF(__pyx_v_mode);
   __Pyx_GIVEREF(__pyx_v_mode);
   PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_mode);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_v_args); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyNumber_Add(__pyx_t_1, __pyx_v_args); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_8libhdfs3_5chdfs_File), __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7cyhdfs3_7cyhdfs3_File), __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":108
+  /* "cyhdfs3/cyhdfs3.pyx":109
  *         return libhdfs3.hdfsGetUsed(self.fs)
  * 
  *     def open(self, path, mode='r',  *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -3461,7 +3430,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(struct __pyx_obj_
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.open", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.open", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3469,7 +3438,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":111
+/* "cyhdfs3/cyhdfs3.pyx":112
  *         return File(self, path, mode, *args, **kwargs)
  * 
  *     def path_info(self, path):             # <<<<<<<<<<<<<<
@@ -3478,21 +3447,21 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_30open(struct __pyx_obj_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_33path_info(PyObject *__pyx_v_self, PyObject *__pyx_v_path); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_33path_info(PyObject *__pyx_v_self, PyObject *__pyx_v_path) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_33path_info(PyObject *__pyx_v_self, PyObject *__pyx_v_path); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_33path_info(PyObject *__pyx_v_self, PyObject *__pyx_v_path) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("path_info (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_path));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_32path_info(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_path));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_32path_info(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_path) {
   hdfsFileInfo *__pyx_v_fInfo;
-  struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_f = NULL;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_f = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -3503,104 +3472,104 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("path_info", 0);
 
-  /* "libhdfs3/chdfs.pyx":112
+  /* "cyhdfs3/cyhdfs3.pyx":113
  * 
  *     def path_info(self, path):
  *         cdef libhdfs3.hdfsFileInfo* fInfo = libhdfs3.hdfsGetPathInfo(self.fs, path)             # <<<<<<<<<<<<<<
  *         f = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
  *                      replication=fInfo.mReplication, permissions=fInfo.mPermissions,
  */
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_path); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_path); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_fInfo = hdfsGetPathInfo(__pyx_v_self->fs, __pyx_t_1);
 
-  /* "libhdfs3/chdfs.pyx":113
+  /* "cyhdfs3/cyhdfs3.pyx":114
  *     def path_info(self, path):
  *         cdef libhdfs3.hdfsFileInfo* fInfo = libhdfs3.hdfsGetPathInfo(self.fs, path)
  *         f = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,             # <<<<<<<<<<<<<<
  *                      replication=fInfo.mReplication, permissions=fInfo.mPermissions,
  *                      size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
  */
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_fInfo->mName); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_fInfo->mName); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_name, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_fInfo->mOwner); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_fInfo->mOwner); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_owner, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_owner, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_fInfo->mGroup); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_fInfo->mGroup); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_group, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_group, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "libhdfs3/chdfs.pyx":114
+  /* "cyhdfs3/cyhdfs3.pyx":115
  *         cdef libhdfs3.hdfsFileInfo* fInfo = libhdfs3.hdfsGetPathInfo(self.fs, path)
  *         f = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
  *                      replication=fInfo.mReplication, permissions=fInfo.mPermissions,             # <<<<<<<<<<<<<<
  *                      size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
  *                      blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
  */
-  __pyx_t_3 = __Pyx_PyInt_From_short(__pyx_v_fInfo->mReplication); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_short(__pyx_v_fInfo->mReplication); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_replication, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_replication, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_short(__pyx_v_fInfo->mPermissions); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_short(__pyx_v_fInfo->mPermissions); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_permissions, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_permissions, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "libhdfs3/chdfs.pyx":115
+  /* "cyhdfs3/cyhdfs3.pyx":116
  *         f = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
  *                      replication=fInfo.mReplication, permissions=fInfo.mPermissions,
  *                      size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,             # <<<<<<<<<<<<<<
  *                      blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
  *         libhdfs3.hdfsFreeFileInfo(fInfo, 1)
  */
-  __pyx_t_3 = __Pyx_PyInt_From_tOffset(__pyx_v_fInfo->mSize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_tOffset(__pyx_v_fInfo->mSize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_size, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_size, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_tTime(__pyx_v_fInfo->mLastMod); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_tTime(__pyx_v_fInfo->mLastMod); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_lastMod, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_lastMod, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_tTime(__pyx_v_fInfo->mLastAccess); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_tTime(__pyx_v_fInfo->mLastAccess); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_lastAccess, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_lastAccess, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "libhdfs3/chdfs.pyx":116
+  /* "cyhdfs3/cyhdfs3.pyx":117
  *                      replication=fInfo.mReplication, permissions=fInfo.mPermissions,
  *                      size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
  *                      blockSize=fInfo.mBlockSize, kind=fInfo.mKind)             # <<<<<<<<<<<<<<
  *         libhdfs3.hdfsFreeFileInfo(fInfo, 1)
  *         return f
  */
-  __pyx_t_3 = __Pyx_PyInt_From_tOffset(__pyx_v_fInfo->mBlockSize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_tOffset(__pyx_v_fInfo->mBlockSize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_blockSize, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_blockSize, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_enum__tObjectKind(__pyx_v_fInfo->mKind); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_enum__tObjectKind(__pyx_v_fInfo->mKind); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_kind, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_kind, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "libhdfs3/chdfs.pyx":113
+  /* "cyhdfs3/cyhdfs3.pyx":114
  *     def path_info(self, path):
  *         cdef libhdfs3.hdfsFileInfo* fInfo = libhdfs3.hdfsGetPathInfo(self.fs, path)
  *         f = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,             # <<<<<<<<<<<<<<
  *                      replication=fInfo.mReplication, permissions=fInfo.mPermissions,
  *                      size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_8libhdfs3_5chdfs_FileInfo), __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_7cyhdfs3_7cyhdfs3_FileInfo), __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_v_f = ((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_t_3);
+  __pyx_v_f = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "libhdfs3/chdfs.pyx":117
+  /* "cyhdfs3/cyhdfs3.pyx":118
  *                      size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
  *                      blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
  *         libhdfs3.hdfsFreeFileInfo(fInfo, 1)             # <<<<<<<<<<<<<<
@@ -3609,7 +3578,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(struct __pyx
  */
   hdfsFreeFileInfo(__pyx_v_fInfo, 1);
 
-  /* "libhdfs3/chdfs.pyx":118
+  /* "cyhdfs3/cyhdfs3.pyx":119
  *                      blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
  *         libhdfs3.hdfsFreeFileInfo(fInfo, 1)
  *         return f             # <<<<<<<<<<<<<<
@@ -3621,7 +3590,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(struct __pyx
   __pyx_r = ((PyObject *)__pyx_v_f);
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":111
+  /* "cyhdfs3/cyhdfs3.pyx":112
  *         return File(self, path, mode, *args, **kwargs)
  * 
  *     def path_info(self, path):             # <<<<<<<<<<<<<<
@@ -3633,7 +3602,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(struct __pyx
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.path_info", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.path_info", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_f);
@@ -3642,7 +3611,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(struct __pyx
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":15
+/* "cyhdfs3/cyhdfs3.pyx":15
  *     cdef libhdfs3.hdfsBuilder* builder
  *     cdef libhdfs3.hdfsFS fs
  *     cdef public char* host             # <<<<<<<<<<<<<<
@@ -3651,19 +3620,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_32path_info(struct __pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4host_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4host_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host___get__(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4host___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host___get__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4host___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3681,7 +3650,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host___get__(struct __p
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.host.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.host.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3690,19 +3659,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host___get__(struct __p
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4host_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4host_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -3717,14 +3686,14 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host_2__set__(struct __pyx_ob
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.host.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.host.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":16
+/* "cyhdfs3/cyhdfs3.pyx":16
  *     cdef libhdfs3.hdfsFS fs
  *     cdef public char* host
  *     cdef public int port             # <<<<<<<<<<<<<<
@@ -3733,19 +3702,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4host_2__set__(struct __pyx_ob
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4port_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4port_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port___get__(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4port___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port___get__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4port___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3763,7 +3732,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port___get__(struct __p
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.port.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.port.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3772,19 +3741,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port___get__(struct __p
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4port_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4port_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -3799,14 +3768,14 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port_2__set__(struct __pyx_ob
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.HDFSClient.port.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.HDFSClient.port.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":131
+/* "cyhdfs3/cyhdfs3.pyx":133
  *     cdef bytes linebuff
  * 
  *     def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0,             # <<<<<<<<<<<<<<
@@ -3815,8 +3784,8 @@ static int __pyx_pf_8libhdfs3_5chdfs_10HDFSClient_4port_2__set__(struct __pyx_ob
  */
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_4File_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_4File_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_client = 0;
   PyObject *__pyx_v_path = 0;
   PyObject *__pyx_v_mode = 0;
@@ -3859,12 +3828,12 @@ static int __pyx_pw_8libhdfs3_5chdfs_4File_1__cinit__(PyObject *__pyx_v_self, Py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_path)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 7, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 7, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mode)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 7, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 7, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (kw_args > 0) {
@@ -3888,7 +3857,7 @@ static int __pyx_pw_8libhdfs3_5chdfs_4File_1__cinit__(PyObject *__pyx_v_self, Py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3913,20 +3882,20 @@ static int __pyx_pw_8libhdfs3_5chdfs_4File_1__cinit__(PyObject *__pyx_v_self, Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 7, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 7, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), __pyx_v_client, __pyx_v_path, __pyx_v_mode, __pyx_v_buffer_size, __pyx_v_replication, __pyx_v_block_size, __pyx_v_encoding);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File___cinit__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), __pyx_v_client, __pyx_v_path, __pyx_v_mode, __pyx_v_buffer_size, __pyx_v_replication, __pyx_v_block_size, __pyx_v_encoding);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_client, PyObject *__pyx_v_path, PyObject *__pyx_v_mode, PyObject *__pyx_v_buffer_size, CYTHON_UNUSED PyObject *__pyx_v_replication, PyObject *__pyx_v_block_size, PyObject *__pyx_v_encoding) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File___cinit__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_client, PyObject *__pyx_v_path, PyObject *__pyx_v_mode, PyObject *__pyx_v_buffer_size, CYTHON_UNUSED PyObject *__pyx_v_replication, PyObject *__pyx_v_block_size, PyObject *__pyx_v_encoding) {
   PyObject *__pyx_v_flags = NULL;
   int __pyx_v_is_ok;
   int __pyx_r;
@@ -3946,74 +3915,74 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "libhdfs3/chdfs.pyx":133
+  /* "cyhdfs3/cyhdfs3.pyx":135
  *     def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0,
  *                   encoding='utf-8'):
  *         self.client = client             # <<<<<<<<<<<<<<
  *         self.path = path
  *         self.mode = mode
  */
-  if (!(likely(((__pyx_v_client) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_client, __pyx_ptype_8libhdfs3_5chdfs_HDFSClient))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_v_client) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_client, __pyx_ptype_7cyhdfs3_7cyhdfs3_HDFSClient))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_1 = __pyx_v_client;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->client);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->client));
-  __pyx_v_self->client = ((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)__pyx_t_1);
+  __pyx_v_self->client = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":134
+  /* "cyhdfs3/cyhdfs3.pyx":136
  *                   encoding='utf-8'):
  *         self.client = client
  *         self.path = path             # <<<<<<<<<<<<<<
  *         self.mode = mode
  *         self.encoding = encoding
  */
-  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_path); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_path); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->path = __pyx_t_2;
 
-  /* "libhdfs3/chdfs.pyx":135
+  /* "cyhdfs3/cyhdfs3.pyx":137
  *         self.client = client
  *         self.path = path
  *         self.mode = mode             # <<<<<<<<<<<<<<
  *         self.encoding = encoding
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_mode); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_mode); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->mode = __pyx_t_2;
 
-  /* "libhdfs3/chdfs.pyx":136
+  /* "cyhdfs3/cyhdfs3.pyx":138
  *         self.path = path
  *         self.mode = mode
  *         self.encoding = encoding             # <<<<<<<<<<<<<<
  * 
  *         flags = O_RDONLY
  */
-  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_encoding); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_encoding); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->encoding = __pyx_t_2;
 
-  /* "libhdfs3/chdfs.pyx":138
+  /* "cyhdfs3/cyhdfs3.pyx":140
  *         self.encoding = encoding
  * 
  *         flags = O_RDONLY             # <<<<<<<<<<<<<<
  *         flags = O_WRONLY if mode == 'w' else flags
  *         flags = O_WRONLY | O_APPEND if mode == 'a' else flags
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_O_RDONLY); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_O_RDONLY); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_flags = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":139
+  /* "cyhdfs3/cyhdfs3.pyx":141
  * 
  *         flags = O_RDONLY
  *         flags = O_WRONLY if mode == 'w' else flags             # <<<<<<<<<<<<<<
  *         flags = O_WRONLY | O_APPEND if mode == 'a' else flags
  *         self.replication = 1 if mode == 'a' else self.replication  # Trust in the force Luke
  */
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_w, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_w, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_3) {
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_O_WRONLY); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_O_WRONLY); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_1 = __pyx_t_4;
     __pyx_t_4 = 0;
@@ -4024,20 +3993,20 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
   __Pyx_DECREF_SET(__pyx_v_flags, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":140
+  /* "cyhdfs3/cyhdfs3.pyx":142
  *         flags = O_RDONLY
  *         flags = O_WRONLY if mode == 'w' else flags
  *         flags = O_WRONLY | O_APPEND if mode == 'a' else flags             # <<<<<<<<<<<<<<
  *         self.replication = 1 if mode == 'a' else self.replication  # Trust in the force Luke
  *         self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, self.replication, block_size)
  */
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_a, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_a, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_3) {
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_O_WRONLY); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_O_WRONLY); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_O_APPEND); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_O_APPEND); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Or(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = PyNumber_Or(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -4050,14 +4019,14 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
   __Pyx_DECREF_SET(__pyx_v_flags, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":141
+  /* "cyhdfs3/cyhdfs3.pyx":143
  *         flags = O_WRONLY if mode == 'w' else flags
  *         flags = O_WRONLY | O_APPEND if mode == 'a' else flags
  *         self.replication = 1 if mode == 'a' else self.replication  # Trust in the force Luke             # <<<<<<<<<<<<<<
  *         self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, self.replication, block_size)
  * 
  */
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_a, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 141; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_a, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 143; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_3) {
     __pyx_t_7 = 1;
   } else {
@@ -4065,19 +4034,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
   }
   __pyx_v_self->replication = __pyx_t_7;
 
-  /* "libhdfs3/chdfs.pyx":142
+  /* "cyhdfs3/cyhdfs3.pyx":144
  *         flags = O_WRONLY | O_APPEND if mode == 'a' else flags
  *         self.replication = 1 if mode == 'a' else self.replication  # Trust in the force Luke
  *         self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, self.replication, block_size)             # <<<<<<<<<<<<<<
  * 
  *         is_ok = <int> self._file
  */
-  __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_v_flags); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_buffer_size); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_10 = __Pyx_PyInt_As_tOffset(__pyx_v_block_size); if (unlikely((__pyx_t_10 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_v_flags); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_v_buffer_size); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_10 = __Pyx_PyInt_As_tOffset(__pyx_v_block_size); if (unlikely((__pyx_t_10 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->_file = hdfsOpenFile(__pyx_v_self->client->fs, __pyx_v_self->path, __pyx_t_8, __pyx_t_9, __pyx_v_self->replication, __pyx_t_10);
 
-  /* "libhdfs3/chdfs.pyx":144
+  /* "cyhdfs3/cyhdfs3.pyx":146
  *         self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, self.replication, block_size)
  * 
  *         is_ok = <int> self._file             # <<<<<<<<<<<<<<
@@ -4086,7 +4055,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
  */
   __pyx_v_is_ok = ((int)__pyx_v_self->_file);
 
-  /* "libhdfs3/chdfs.pyx":145
+  /* "cyhdfs3/cyhdfs3.pyx":147
  * 
  *         is_ok = <int> self._file
  *         if is_ok == 0:             # <<<<<<<<<<<<<<
@@ -4096,14 +4065,14 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
   __pyx_t_3 = ((__pyx_v_is_ok == 0) != 0);
   if (__pyx_t_3) {
 
-    /* "libhdfs3/chdfs.pyx":146
+    /* "cyhdfs3/cyhdfs3.pyx":148
  *         is_ok = <int> self._file
  *         if is_ok == 0:
  *             raise IOError("File open failed: " + self.client.getLastError())             # <<<<<<<<<<<<<<
  * 
  *         self.linebuff = b""
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
@@ -4116,29 +4085,29 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
       }
     }
     if (__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_Add(__pyx_kp_s_File_open_failed, __pyx_t_1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = PyNumber_Add(__pyx_kp_s_File_open_failed, __pyx_t_1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_Raise(__pyx_t_6, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "libhdfs3/chdfs.pyx":145
+    /* "cyhdfs3/cyhdfs3.pyx":147
  * 
  *         is_ok = <int> self._file
  *         if is_ok == 0:             # <<<<<<<<<<<<<<
@@ -4147,12 +4116,12 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
  */
   }
 
-  /* "libhdfs3/chdfs.pyx":148
+  /* "cyhdfs3/cyhdfs3.pyx":150
  *             raise IOError("File open failed: " + self.client.getLastError())
  * 
  *         self.linebuff = b""             # <<<<<<<<<<<<<<
  *         self._info = None
- * 
+ *         self._blocks = []
  */
   __Pyx_INCREF(__pyx_kp_b__2);
   __Pyx_GIVEREF(__pyx_kp_b__2);
@@ -4160,20 +4129,35 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
   __Pyx_DECREF(__pyx_v_self->linebuff);
   __pyx_v_self->linebuff = __pyx_kp_b__2;
 
-  /* "libhdfs3/chdfs.pyx":149
+  /* "cyhdfs3/cyhdfs3.pyx":151
  * 
  *         self.linebuff = b""
  *         self._info = None             # <<<<<<<<<<<<<<
+ *         self._blocks = []
  * 
- *     def close(self):
  */
   __Pyx_INCREF(Py_None);
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->_info);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->_info));
-  __pyx_v_self->_info = ((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)Py_None);
+  __pyx_v_self->_info = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)Py_None);
 
-  /* "libhdfs3/chdfs.pyx":131
+  /* "cyhdfs3/cyhdfs3.pyx":152
+ *         self.linebuff = b""
+ *         self._info = None
+ *         self._blocks = []             # <<<<<<<<<<<<<<
+ * 
+ *     def close(self):
+ */
+  __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
+  __Pyx_GOTREF(__pyx_v_self->_blocks);
+  __Pyx_DECREF(__pyx_v_self->_blocks);
+  __pyx_v_self->_blocks = ((PyObject*)__pyx_t_6);
+  __pyx_t_6 = 0;
+
+  /* "cyhdfs3/cyhdfs3.pyx":133
  *     cdef bytes linebuff
  * 
  *     def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0,             # <<<<<<<<<<<<<<
@@ -4189,7 +4173,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_flags);
@@ -4197,8 +4181,8 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":151
- *         self._info = None
+/* "cyhdfs3/cyhdfs3.pyx":154
+ *         self._blocks = []
  * 
  *     def close(self):             # <<<<<<<<<<<<<<
  *         self.flush()
@@ -4206,19 +4190,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File___cinit__(struct __pyx_obj_8libhdfs3_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_3close(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_3close(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_3close(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_3close(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("close (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_2close(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_2close(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_2close(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_2close(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4229,14 +4213,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_2close(struct __pyx_obj_8libhdf
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("close", 0);
 
-  /* "libhdfs3/chdfs.pyx":152
+  /* "cyhdfs3/cyhdfs3.pyx":155
  * 
  *     def close(self):
  *         self.flush()             # <<<<<<<<<<<<<<
  *         libhdfs3.hdfsCloseFile(self.client.fs, self._file)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_flush); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_flush); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -4249,16 +4233,16 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_2close(struct __pyx_obj_8libhdf
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":153
+  /* "cyhdfs3/cyhdfs3.pyx":156
  *     def close(self):
  *         self.flush()
  *         libhdfs3.hdfsCloseFile(self.client.fs, self._file)             # <<<<<<<<<<<<<<
@@ -4267,8 +4251,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_2close(struct __pyx_obj_8libhdf
  */
   hdfsCloseFile(__pyx_v_self->client->fs, __pyx_v_self->_file);
 
-  /* "libhdfs3/chdfs.pyx":151
- *         self._info = None
+  /* "cyhdfs3/cyhdfs3.pyx":154
+ *         self._blocks = []
  * 
  *     def close(self):             # <<<<<<<<<<<<<<
  *         self.flush()
@@ -4282,7 +4266,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_2close(struct __pyx_obj_8libhdf
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.close", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.close", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4290,7 +4274,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_2close(struct __pyx_obj_8libhdf
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":155
+/* "cyhdfs3/cyhdfs3.pyx":158
  *         libhdfs3.hdfsCloseFile(self.client.fs, self._file)
  * 
  *     def write(self, char* content):             # <<<<<<<<<<<<<<
@@ -4299,8 +4283,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_2close(struct __pyx_obj_8libhdf
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_5write(PyObject *__pyx_v_self, PyObject *__pyx_arg_content); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_5write(PyObject *__pyx_v_self, PyObject *__pyx_arg_content) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_5write(PyObject *__pyx_v_self, PyObject *__pyx_arg_content); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_5write(PyObject *__pyx_v_self, PyObject *__pyx_arg_content) {
   char *__pyx_v_content;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -4309,22 +4293,22 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_5write(PyObject *__pyx_v_self, 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("write (wrapper)", 0);
   assert(__pyx_arg_content); {
-    __pyx_v_content = __Pyx_PyObject_AsString(__pyx_arg_content); if (unlikely((!__pyx_v_content) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_content = __Pyx_PyObject_AsString(__pyx_arg_content); if (unlikely((!__pyx_v_content) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.write", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.write", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_4write(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), ((char *)__pyx_v_content));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4write(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), ((char *)__pyx_v_content));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, char *__pyx_v_content) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_4write(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, char *__pyx_v_content) {
   PyObject *__pyx_v_isopen = 0;
   Py_ssize_t __pyx_v_length;
   int __pyx_v_nbytes;
@@ -4340,38 +4324,38 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("write", 0);
 
-  /* "libhdfs3/chdfs.pyx":156
+  /* "cyhdfs3/cyhdfs3.pyx":159
  * 
  *     def write(self, char* content):
  *         cdef isopen = libhdfs3.hdfsFileIsOpenForWrite(self._file)             # <<<<<<<<<<<<<<
  *         if isopen != 1:
  *             raise IOError("File not open for write:", self.client.getLastError())
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(hdfsFileIsOpenForWrite(__pyx_v_self->_file)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(hdfsFileIsOpenForWrite(__pyx_v_self->_file)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_isopen = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":157
+  /* "cyhdfs3/cyhdfs3.pyx":160
  *     def write(self, char* content):
  *         cdef isopen = libhdfs3.hdfsFileIsOpenForWrite(self._file)
  *         if isopen != 1:             # <<<<<<<<<<<<<<
  *             raise IOError("File not open for write:", self.client.getLastError())
  * 
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_isopen, __pyx_int_1, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_isopen, __pyx_int_1, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "libhdfs3/chdfs.pyx":158
+    /* "cyhdfs3/cyhdfs3.pyx":161
  *         cdef isopen = libhdfs3.hdfsFileIsOpenForWrite(self._file)
  *         if isopen != 1:
  *             raise IOError("File not open for write:", self.client.getLastError())             # <<<<<<<<<<<<<<
  * 
  *         length = len(content)
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -4384,14 +4368,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
       }
     }
     if (__pyx_t_4) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else {
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_kp_s_File_not_open_for_write);
     __Pyx_GIVEREF(__pyx_kp_s_File_not_open_for_write);
@@ -4399,14 +4383,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "libhdfs3/chdfs.pyx":157
+    /* "cyhdfs3/cyhdfs3.pyx":160
  *     def write(self, char* content):
  *         cdef isopen = libhdfs3.hdfsFileIsOpenForWrite(self._file)
  *         if isopen != 1:             # <<<<<<<<<<<<<<
@@ -4415,7 +4399,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
  */
   }
 
-  /* "libhdfs3/chdfs.pyx":160
+  /* "cyhdfs3/cyhdfs3.pyx":163
  *             raise IOError("File not open for write:", self.client.getLastError())
  * 
  *         length = len(content)             # <<<<<<<<<<<<<<
@@ -4425,7 +4409,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
   __pyx_t_5 = strlen(__pyx_v_content); 
   __pyx_v_length = __pyx_t_5;
 
-  /* "libhdfs3/chdfs.pyx":161
+  /* "cyhdfs3/cyhdfs3.pyx":164
  * 
  *         length = len(content)
  *         cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> content, length)             # <<<<<<<<<<<<<<
@@ -4434,7 +4418,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
  */
   __pyx_v_nbytes = hdfsWrite(__pyx_v_self->client->fs, __pyx_v_self->_file, ((void *)__pyx_v_content), __pyx_v_length);
 
-  /* "libhdfs3/chdfs.pyx":162
+  /* "cyhdfs3/cyhdfs3.pyx":165
  *         length = len(content)
  *         cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> content, length)
  *         if nbytes < 0:             # <<<<<<<<<<<<<<
@@ -4444,16 +4428,16 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
   __pyx_t_2 = ((__pyx_v_nbytes < 0) != 0);
   if (__pyx_t_2) {
 
-    /* "libhdfs3/chdfs.pyx":163
+    /* "cyhdfs3/cyhdfs3.pyx":166
  *         cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> content, length)
  *         if nbytes < 0:
  *             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())             # <<<<<<<<<<<<<<
  * 
- *     def read(self, buffersize=1*2**20):
+ *     def read(self, length=None, buffersize=1*2**20):
  */
-    __pyx_t_1 = __Pyx_PyBytes_FromString(hdfsGetLastError()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyBytes_FromString(hdfsGetLastError()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_kp_s_Could_not_write_contents_to_file);
     __Pyx_GIVEREF(__pyx_kp_s_Could_not_write_contents_to_file);
@@ -4461,14 +4445,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "libhdfs3/chdfs.pyx":162
+    /* "cyhdfs3/cyhdfs3.pyx":165
  *         length = len(content)
  *         cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> content, length)
  *         if nbytes < 0:             # <<<<<<<<<<<<<<
@@ -4477,7 +4461,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
  */
   }
 
-  /* "libhdfs3/chdfs.pyx":155
+  /* "cyhdfs3/cyhdfs3.pyx":158
  *         libhdfs3.hdfsCloseFile(self.client.fs, self._file)
  * 
  *     def write(self, char* content):             # <<<<<<<<<<<<<<
@@ -4492,7 +4476,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.write", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.write", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_isopen);
@@ -4501,17 +4485,18 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4write(struct __pyx_obj_8libhdf
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":165
+/* "cyhdfs3/cyhdfs3.pyx":168
  *             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
  * 
- *     def read(self, buffersize=1*2**20):             # <<<<<<<<<<<<<<
- *         cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
- *         if isopen != 1:
+ *     def read(self, length=None, buffersize=1*2**20):             # <<<<<<<<<<<<<<
+ *         length = self.info.size if length is None else length
+ *         cdef void* buffer = stdlib.malloc(length * sizeof(char))
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_7read(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_7read(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_7read(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_7read(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_length = 0;
   PyObject *__pyx_v_buffersize = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -4520,13 +4505,15 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_7read(PyObject *__pyx_v_self, P
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("read (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_buffersize,0};
-    PyObject* values[1] = {0};
-    values[0] = ((PyObject *)__pyx_int_1048576);
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_length,&__pyx_n_s_buffersize,0};
+    PyObject* values[2] = {0,0};
+    values[0] = ((PyObject *)Py_None);
+    values[1] = ((PyObject *)__pyx_int_1048576);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
@@ -4535,41 +4522,51 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_7read(PyObject *__pyx_v_self, P
       switch (pos_args) {
         case  0:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_buffersize);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_length);
           if (value) { values[0] = value; kw_args--; }
+        }
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_buffersize);
+          if (value) { values[1] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "read") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "read") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_buffersize = values[0];
+    __pyx_v_length = values[0];
+    __pyx_v_buffersize = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("read", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("read", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.read", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_6read(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), __pyx_v_buffersize);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_6read(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), __pyx_v_length, __pyx_v_buffersize);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_6read(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_buffersize) {
-  PyObject *__pyx_v_isopen = 0;
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_6read(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_length, PyObject *__pyx_v_buffersize) {
   void *__pyx_v_buffer;
+  void *__pyx_v_bytesread;
   int __pyx_v_nbytesread;
+  PyObject *__pyx_v_remaining = NULL;
+  PyObject *__pyx_v_pos = NULL;
+  PyObject *__pyx_v_readbuffersize = NULL;
   char *__pyx_v_c_string;
   PyObject *__pyx_v_py_bytes_string = NULL;
   PyObject *__pyx_r = NULL;
@@ -4579,561 +4576,354 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_6read(struct __pyx_obj_8libhdfs
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   size_t __pyx_t_5;
-  tSize __pyx_t_6;
-  int __pyx_t_7;
-  int __pyx_t_8;
-  char const *__pyx_t_9;
-  PyObject *__pyx_t_10 = NULL;
-  PyObject *__pyx_t_11 = NULL;
-  PyObject *__pyx_t_12 = NULL;
-  PyObject *__pyx_t_13 = NULL;
-  PyObject *__pyx_t_14 = NULL;
-  PyObject *__pyx_t_15 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("read", 0);
-
-  /* "libhdfs3/chdfs.pyx":166
- * 
- *     def read(self, buffersize=1*2**20):
- *         cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)             # <<<<<<<<<<<<<<
- *         if isopen != 1:
- *             raise IOError("File not open for read:", self.client.getLastError())
- */
-  __pyx_t_1 = __Pyx_PyInt_From_int(hdfsFileIsOpenForRead(__pyx_v_self->_file)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_isopen = __pyx_t_1;
-  __pyx_t_1 = 0;
-
-  /* "libhdfs3/chdfs.pyx":167
- *     def read(self, buffersize=1*2**20):
- *         cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
- *         if isopen != 1:             # <<<<<<<<<<<<<<
- *             raise IOError("File not open for read:", self.client.getLastError())
- * 
- */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_isopen, __pyx_int_1, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_2) {
-
-    /* "libhdfs3/chdfs.pyx":168
- *         cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
- *         if isopen != 1:
- *             raise IOError("File not open for read:", self.client.getLastError())             # <<<<<<<<<<<<<<
- * 
- *         cdef void* buffer = stdlib.malloc(buffersize * sizeof(char))
- */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    if (__pyx_t_4) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    } else {
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_INCREF(__pyx_kp_s_File_not_open_for_read);
-    __Pyx_GIVEREF(__pyx_kp_s_File_not_open_for_read);
-    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_kp_s_File_not_open_for_read);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
-    __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "libhdfs3/chdfs.pyx":167
- *     def read(self, buffersize=1*2**20):
- *         cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
- *         if isopen != 1:             # <<<<<<<<<<<<<<
- *             raise IOError("File not open for read:", self.client.getLastError())
- * 
- */
-  }
-
-  /* "libhdfs3/chdfs.pyx":170
- *             raise IOError("File not open for read:", self.client.getLastError())
- * 
- *         cdef void* buffer = stdlib.malloc(buffersize * sizeof(char))             # <<<<<<<<<<<<<<
- *         cdef int nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, buffersize)
- *         if nbytesread < 0:
- */
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(char))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyNumber_Multiply(__pyx_v_buffersize, __pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_5 = __Pyx_PyInt_As_size_t(__pyx_t_3); if (unlikely((__pyx_t_5 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_buffer = malloc(__pyx_t_5);
-
-  /* "libhdfs3/chdfs.pyx":171
- * 
- *         cdef void* buffer = stdlib.malloc(buffersize * sizeof(char))
- *         cdef int nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, buffersize)             # <<<<<<<<<<<<<<
- *         if nbytesread < 0:
- *             raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
- */
-  __pyx_t_6 = __Pyx_PyInt_As_tSize(__pyx_v_buffersize); if (unlikely((__pyx_t_6 == (tSize)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_nbytesread = hdfsRead(__pyx_v_self->client->fs, __pyx_v_self->_file, __pyx_v_buffer, __pyx_t_6);
-
-  /* "libhdfs3/chdfs.pyx":172
- *         cdef void* buffer = stdlib.malloc(buffersize * sizeof(char))
- *         cdef int nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, buffersize)
- *         if nbytesread < 0:             # <<<<<<<<<<<<<<
- *             raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
- * 
- */
-  __pyx_t_2 = ((__pyx_v_nbytesread < 0) != 0);
-  if (__pyx_t_2) {
-
-    /* "libhdfs3/chdfs.pyx":173
- *         cdef int nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, buffersize)
- *         if nbytesread < 0:
- *             raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())             # <<<<<<<<<<<<<<
- * 
- *         cdef bytes py_string
- */
-    __pyx_t_3 = __Pyx_PyBytes_FromString(hdfsGetLastError()); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(__pyx_kp_s_Could_not_read_file);
-    __Pyx_GIVEREF(__pyx_kp_s_Could_not_read_file);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s_Could_not_read_file);
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_3);
-    __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "libhdfs3/chdfs.pyx":172
- *         cdef void* buffer = stdlib.malloc(buffersize * sizeof(char))
- *         cdef int nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, buffer, buffersize)
- *         if nbytesread < 0:             # <<<<<<<<<<<<<<
- *             raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
- * 
- */
-  }
-
-  /* "libhdfs3/chdfs.pyx":176
- * 
- *         cdef bytes py_string
- *         cdef char* c_string = <char*> buffer             # <<<<<<<<<<<<<<
- *         try:
- *             py_bytes_string = c_string[:nbytesread]
- */
-  __pyx_v_c_string = ((char *)__pyx_v_buffer);
-
-  /* "libhdfs3/chdfs.pyx":177
- *         cdef bytes py_string
- *         cdef char* c_string = <char*> buffer
- *         try:             # <<<<<<<<<<<<<<
- *             py_bytes_string = c_string[:nbytesread]
- *         finally:
- */
-  /*try:*/ {
-
-    /* "libhdfs3/chdfs.pyx":178
- *         cdef char* c_string = <char*> buffer
- *         try:
- *             py_bytes_string = c_string[:nbytesread]             # <<<<<<<<<<<<<<
- *         finally:
- *             stdlib.free(c_string)
- */
-    __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_c_string + 0, __pyx_v_nbytesread - 0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_v_py_bytes_string = ((PyObject*)__pyx_t_3);
-    __pyx_t_3 = 0;
-  }
-
-  /* "libhdfs3/chdfs.pyx":180
- *             py_bytes_string = c_string[:nbytesread]
- *         finally:
- *             stdlib.free(c_string)             # <<<<<<<<<<<<<<
- *         return py_bytes_string
- * 
- */
-  /*finally:*/ {
-    /*normal exit:*/{
-      free(__pyx_v_c_string);
-      goto __pyx_L7;
-    }
-    /*exception exit:*/{
-      __pyx_L6_error:;
-      __pyx_t_10 = 0; __pyx_t_11 = 0; __pyx_t_12 = 0; __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0;
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15);
-      if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_10, &__pyx_t_11, &__pyx_t_12) < 0)) __Pyx_ErrFetch(&__pyx_t_10, &__pyx_t_11, &__pyx_t_12);
-      __Pyx_XGOTREF(__pyx_t_10);
-      __Pyx_XGOTREF(__pyx_t_11);
-      __Pyx_XGOTREF(__pyx_t_12);
-      __Pyx_XGOTREF(__pyx_t_13);
-      __Pyx_XGOTREF(__pyx_t_14);
-      __Pyx_XGOTREF(__pyx_t_15);
-      __pyx_t_7 = __pyx_lineno; __pyx_t_8 = __pyx_clineno; __pyx_t_9 = __pyx_filename;
-      {
-        free(__pyx_v_c_string);
-      }
-      if (PY_MAJOR_VERSION >= 3) {
-        __Pyx_XGIVEREF(__pyx_t_13);
-        __Pyx_XGIVEREF(__pyx_t_14);
-        __Pyx_XGIVEREF(__pyx_t_15);
-        __Pyx_ExceptionReset(__pyx_t_13, __pyx_t_14, __pyx_t_15);
-      }
-      __Pyx_XGIVEREF(__pyx_t_10);
-      __Pyx_XGIVEREF(__pyx_t_11);
-      __Pyx_XGIVEREF(__pyx_t_12);
-      __Pyx_ErrRestore(__pyx_t_10, __pyx_t_11, __pyx_t_12);
-      __pyx_t_10 = 0; __pyx_t_11 = 0; __pyx_t_12 = 0; __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0;
-      __pyx_lineno = __pyx_t_7; __pyx_clineno = __pyx_t_8; __pyx_filename = __pyx_t_9;
-      goto __pyx_L1_error;
-    }
-    __pyx_L7:;
-  }
-
-  /* "libhdfs3/chdfs.pyx":181
- *         finally:
- *             stdlib.free(c_string)
- *         return py_bytes_string             # <<<<<<<<<<<<<<
- * 
- *     def readfile(self, buffersize=1*2**20):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_py_bytes_string);
-  __pyx_r = __pyx_v_py_bytes_string;
-  goto __pyx_L0;
-
-  /* "libhdfs3/chdfs.pyx":165
- *             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
- * 
- *     def read(self, buffersize=1*2**20):             # <<<<<<<<<<<<<<
- *         cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
- *         if isopen != 1:
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.read", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_isopen);
-  __Pyx_XDECREF(__pyx_v_py_bytes_string);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "libhdfs3/chdfs.pyx":183
- *         return py_bytes_string
- * 
- *     def readfile(self, buffersize=1*2**20):             # <<<<<<<<<<<<<<
- *         cdef void* buffer = stdlib.malloc(self.info.size * sizeof(char))
- *         cdef void* bytesread = stdlib.malloc(buffersize * sizeof(char))
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_9readfile(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_9readfile(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_buffersize = 0;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("readfile (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_buffersize,0};
-    PyObject* values[1] = {0};
-    values[0] = ((PyObject *)__pyx_int_1048576);
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_buffersize);
-          if (value) { values[0] = value; kw_args--; }
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "readfile") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-      }
-    } else {
-      switch (PyTuple_GET_SIZE(__pyx_args)) {
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-    }
-    __pyx_v_buffersize = values[0];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("readfile", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.readfile", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_8readfile(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), __pyx_v_buffersize);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_8readfile(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_buffersize) {
-  void *__pyx_v_buffer;
-  void *__pyx_v_bytesread;
-  int __pyx_v_nbytesread;
-  PyObject *__pyx_v_i = NULL;
-  char *__pyx_v_c_string;
-  PyObject *__pyx_v_py_bytes_string = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  size_t __pyx_t_4;
-  tSize __pyx_t_5;
-  int __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
+  PyObject *__pyx_t_6 = NULL;
+  tSize __pyx_t_7;
   Py_ssize_t __pyx_t_8;
-  int __pyx_t_9;
+  Py_ssize_t __pyx_t_9;
   int __pyx_t_10;
-  char const *__pyx_t_11;
-  PyObject *__pyx_t_12 = NULL;
+  int __pyx_t_11;
+  char const *__pyx_t_12;
   PyObject *__pyx_t_13 = NULL;
   PyObject *__pyx_t_14 = NULL;
   PyObject *__pyx_t_15 = NULL;
   PyObject *__pyx_t_16 = NULL;
   PyObject *__pyx_t_17 = NULL;
+  PyObject *__pyx_t_18 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("readfile", 0);
+  __Pyx_RefNannySetupContext("read", 0);
+  __Pyx_INCREF(__pyx_v_length);
+  __Pyx_INCREF(__pyx_v_buffersize);
 
-  /* "libhdfs3/chdfs.pyx":184
+  /* "cyhdfs3/cyhdfs3.pyx":169
  * 
- *     def readfile(self, buffersize=1*2**20):
- *         cdef void* buffer = stdlib.malloc(self.info.size * sizeof(char))             # <<<<<<<<<<<<<<
+ *     def read(self, length=None, buffersize=1*2**20):
+ *         length = self.info.size if length is None else length             # <<<<<<<<<<<<<<
+ *         cdef void* buffer = stdlib.malloc(length * sizeof(char))
+ * 
+ */
+  __pyx_t_2 = (__pyx_v_length == Py_None);
+  if ((__pyx_t_2 != 0)) {
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_info); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_size); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_1 = __pyx_t_4;
+    __pyx_t_4 = 0;
+  } else {
+    __Pyx_INCREF(__pyx_v_length);
+    __pyx_t_1 = __pyx_v_length;
+  }
+  __Pyx_DECREF_SET(__pyx_v_length, __pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "cyhdfs3/cyhdfs3.pyx":170
+ *     def read(self, length=None, buffersize=1*2**20):
+ *         length = self.info.size if length is None else length
+ *         cdef void* buffer = stdlib.malloc(length * sizeof(char))             # <<<<<<<<<<<<<<
+ * 
+ *         buffersize = min(length, buffersize)
+ */
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(char))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = PyNumber_Multiply(__pyx_v_length, __pyx_t_1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = __Pyx_PyInt_As_size_t(__pyx_t_4); if (unlikely((__pyx_t_5 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_buffer = malloc(__pyx_t_5);
+
+  /* "cyhdfs3/cyhdfs3.pyx":172
+ *         cdef void* buffer = stdlib.malloc(length * sizeof(char))
+ * 
+ *         buffersize = min(length, buffersize)             # <<<<<<<<<<<<<<
  *         cdef void* bytesread = stdlib.malloc(buffersize * sizeof(char))
  *         cdef int nbytesread = 0
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_info); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_size); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_v_buffersize);
+  __pyx_t_4 = __pyx_v_buffersize;
+  __Pyx_INCREF(__pyx_v_length);
+  __pyx_t_1 = __pyx_v_length;
+  __pyx_t_6 = PyObject_RichCompare(__pyx_t_4, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (__pyx_t_2) {
+    __Pyx_INCREF(__pyx_t_4);
+    __pyx_t_3 = __pyx_t_4;
+  } else {
+    __Pyx_INCREF(__pyx_t_1);
+    __pyx_t_3 = __pyx_t_1;
+  }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t((sizeof(char))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyNumber_Multiply(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_PyInt_As_size_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __pyx_t_3;
+  __Pyx_INCREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_buffer = malloc(__pyx_t_4);
+  __Pyx_DECREF_SET(__pyx_v_buffersize, __pyx_t_4);
+  __pyx_t_4 = 0;
 
-  /* "libhdfs3/chdfs.pyx":185
- *     def readfile(self, buffersize=1*2**20):
- *         cdef void* buffer = stdlib.malloc(self.info.size * sizeof(char))
+  /* "cyhdfs3/cyhdfs3.pyx":173
+ * 
+ *         buffersize = min(length, buffersize)
  *         cdef void* bytesread = stdlib.malloc(buffersize * sizeof(char))             # <<<<<<<<<<<<<<
  *         cdef int nbytesread = 0
  * 
  */
-  __pyx_t_3 = __Pyx_PyInt_FromSize_t((sizeof(char))); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyInt_FromSize_t((sizeof(char))); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyNumber_Multiply(__pyx_v_buffersize, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyNumber_Multiply(__pyx_v_buffersize, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_5 = __Pyx_PyInt_As_size_t(__pyx_t_3); if (unlikely((__pyx_t_5 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __Pyx_PyInt_As_size_t(__pyx_t_1); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_bytesread = malloc(__pyx_t_4);
+  __pyx_v_bytesread = malloc(__pyx_t_5);
 
-  /* "libhdfs3/chdfs.pyx":186
- *         cdef void* buffer = stdlib.malloc(self.info.size * sizeof(char))
+  /* "cyhdfs3/cyhdfs3.pyx":174
+ *         buffersize = min(length, buffersize)
  *         cdef void* bytesread = stdlib.malloc(buffersize * sizeof(char))
  *         cdef int nbytesread = 0             # <<<<<<<<<<<<<<
  * 
- *         i = 0
+ *         remaining = length
  */
   __pyx_v_nbytesread = 0;
 
-  /* "libhdfs3/chdfs.pyx":188
+  /* "cyhdfs3/cyhdfs3.pyx":176
  *         cdef int nbytesread = 0
  * 
- *         i = 0             # <<<<<<<<<<<<<<
- *         while True:
- *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, buffersize)
+ *         remaining = length             # <<<<<<<<<<<<<<
+ *         pos = 0
+ *         while remaining > 0:
+ */
+  __Pyx_INCREF(__pyx_v_length);
+  __pyx_v_remaining = __pyx_v_length;
+
+  /* "cyhdfs3/cyhdfs3.pyx":177
+ * 
+ *         remaining = length
+ *         pos = 0             # <<<<<<<<<<<<<<
+ *         while remaining > 0:
+ *             readbuffersize = min(buffersize, remaining)
  */
   __Pyx_INCREF(__pyx_int_0);
-  __pyx_v_i = __pyx_int_0;
+  __pyx_v_pos = __pyx_int_0;
 
-  /* "libhdfs3/chdfs.pyx":189
- * 
- *         i = 0
- *         while True:             # <<<<<<<<<<<<<<
- *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, buffersize)
- *             if nbytesread == 0:
+  /* "cyhdfs3/cyhdfs3.pyx":178
+ *         remaining = length
+ *         pos = 0
+ *         while remaining > 0:             # <<<<<<<<<<<<<<
+ *             readbuffersize = min(buffersize, remaining)
+ *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, readbuffersize)
  */
   while (1) {
+    __pyx_t_3 = PyObject_RichCompare(__pyx_v_remaining, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (!__pyx_t_2) break;
 
-    /* "libhdfs3/chdfs.pyx":190
- *         i = 0
- *         while True:
- *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, buffersize)             # <<<<<<<<<<<<<<
- *             if nbytesread == 0:
+    /* "cyhdfs3/cyhdfs3.pyx":179
+ *         pos = 0
+ *         while remaining > 0:
+ *             readbuffersize = min(buffersize, remaining)             # <<<<<<<<<<<<<<
+ *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, readbuffersize)
+ *             if nbytesread < 0:
+ */
+    __Pyx_INCREF(__pyx_v_remaining);
+    __pyx_t_3 = __pyx_v_remaining;
+    __Pyx_INCREF(__pyx_v_buffersize);
+    __pyx_t_4 = __pyx_v_buffersize;
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_3, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (__pyx_t_2) {
+      __Pyx_INCREF(__pyx_t_3);
+      __pyx_t_1 = __pyx_t_3;
+    } else {
+      __Pyx_INCREF(__pyx_t_4);
+      __pyx_t_1 = __pyx_t_4;
+    }
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = __pyx_t_1;
+    __Pyx_INCREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_readbuffersize, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "cyhdfs3/cyhdfs3.pyx":180
+ *         while remaining > 0:
+ *             readbuffersize = min(buffersize, remaining)
+ *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, readbuffersize)             # <<<<<<<<<<<<<<
+ *             if nbytesread < 0:
+ *                 raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+ */
+    __pyx_t_7 = __Pyx_PyInt_As_tSize(__pyx_v_readbuffersize); if (unlikely((__pyx_t_7 == (tSize)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 180; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_v_nbytesread = hdfsRead(__pyx_v_self->client->fs, __pyx_v_self->_file, __pyx_v_bytesread, __pyx_t_7);
+
+    /* "cyhdfs3/cyhdfs3.pyx":181
+ *             readbuffersize = min(buffersize, remaining)
+ *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, readbuffersize)
+ *             if nbytesread < 0:             # <<<<<<<<<<<<<<
+ *                 raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+ *             elif nbytesread == 0:
+ */
+    __pyx_t_2 = ((__pyx_v_nbytesread < 0) != 0);
+    if (__pyx_t_2) {
+
+      /* "cyhdfs3/cyhdfs3.pyx":182
+ *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, readbuffersize)
+ *             if nbytesread < 0:
+ *                 raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())             # <<<<<<<<<<<<<<
+ *             elif nbytesread == 0:
  *                 break  # EOF
  */
-    __pyx_t_5 = __Pyx_PyInt_As_tSize(__pyx_v_buffersize); if (unlikely((__pyx_t_5 == (tSize)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_v_nbytesread = hdfsRead(__pyx_v_self->client->fs, __pyx_v_self->_file, __pyx_v_bytesread, __pyx_t_5);
+      __pyx_t_3 = __Pyx_PyBytes_FromString(hdfsGetLastError()); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_INCREF(__pyx_kp_s_Could_not_read_file);
+      __Pyx_GIVEREF(__pyx_kp_s_Could_not_read_file);
+      PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_kp_s_Could_not_read_file);
+      __Pyx_GIVEREF(__pyx_t_3);
+      PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_3);
+      __pyx_t_3 = 0;
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "libhdfs3/chdfs.pyx":191
- *         while True:
- *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, buffersize)
- *             if nbytesread == 0:             # <<<<<<<<<<<<<<
- *                 break  # EOF
- *             buffer[i:i + nbytesread] = bytesread
- */
-    __pyx_t_6 = ((__pyx_v_nbytesread == 0) != 0);
-    if (__pyx_t_6) {
-
-      /* "libhdfs3/chdfs.pyx":192
- *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, buffersize)
- *             if nbytesread == 0:
- *                 break  # EOF             # <<<<<<<<<<<<<<
- *             buffer[i:i + nbytesread] = bytesread
- *             i = i + nbytesread
- */
-      goto __pyx_L4_break;
-
-      /* "libhdfs3/chdfs.pyx":191
- *         while True:
- *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, buffersize)
- *             if nbytesread == 0:             # <<<<<<<<<<<<<<
- *                 break  # EOF
- *             buffer[i:i + nbytesread] = bytesread
+      /* "cyhdfs3/cyhdfs3.pyx":181
+ *             readbuffersize = min(buffersize, remaining)
+ *             nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, readbuffersize)
+ *             if nbytesread < 0:             # <<<<<<<<<<<<<<
+ *                 raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+ *             elif nbytesread == 0:
  */
     }
 
-    /* "libhdfs3/chdfs.pyx":193
- *             if nbytesread == 0:
+    /* "cyhdfs3/cyhdfs3.pyx":183
+ *             if nbytesread < 0:
+ *                 raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+ *             elif nbytesread == 0:             # <<<<<<<<<<<<<<
  *                 break  # EOF
- *             buffer[i:i + nbytesread] = bytesread             # <<<<<<<<<<<<<<
- *             i = i + nbytesread
- *         stdlib.free(bytesread)
+ *             buffer[pos:pos + nbytesread] = bytesread
  */
-    __pyx_t_7 = __Pyx_PyIndex_AsSsize_t(__pyx_v_i); if (unlikely((__pyx_t_7 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_nbytesread); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyNumber_Add(__pyx_v_i, __pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_8 = __Pyx_PyIndex_AsSsize_t(__pyx_t_3); if (unlikely((__pyx_t_8 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    memcpy(&(__pyx_v_buffer[__pyx_t_7]), __pyx_v_bytesread, sizeof(__pyx_v_buffer[0]) * (__pyx_t_8 - __pyx_t_7));
+    __pyx_t_2 = ((__pyx_v_nbytesread == 0) != 0);
+    if (__pyx_t_2) {
 
-    /* "libhdfs3/chdfs.pyx":194
+      /* "cyhdfs3/cyhdfs3.pyx":184
+ *                 raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+ *             elif nbytesread == 0:
+ *                 break  # EOF             # <<<<<<<<<<<<<<
+ *             buffer[pos:pos + nbytesread] = bytesread
+ *             pos = pos + nbytesread
+ */
+      goto __pyx_L4_break;
+
+      /* "cyhdfs3/cyhdfs3.pyx":183
+ *             if nbytesread < 0:
+ *                 raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+ *             elif nbytesread == 0:             # <<<<<<<<<<<<<<
  *                 break  # EOF
- *             buffer[i:i + nbytesread] = bytesread
- *             i = i + nbytesread             # <<<<<<<<<<<<<<
- *         stdlib.free(bytesread)
+ *             buffer[pos:pos + nbytesread] = bytesread
+ */
+    }
+
+    /* "cyhdfs3/cyhdfs3.pyx":185
+ *             elif nbytesread == 0:
+ *                 break  # EOF
+ *             buffer[pos:pos + nbytesread] = bytesread             # <<<<<<<<<<<<<<
+ *             pos = pos + nbytesread
+ *             remaining = remaining - nbytesread
+ */
+    __pyx_t_8 = __Pyx_PyIndex_AsSsize_t(__pyx_v_pos); if (unlikely((__pyx_t_8 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_nbytesread); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = PyNumber_Add(__pyx_v_pos, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    memcpy(&(__pyx_v_buffer[__pyx_t_8]), __pyx_v_bytesread, sizeof(__pyx_v_buffer[0]) * (__pyx_t_9 - __pyx_t_8));
+
+    /* "cyhdfs3/cyhdfs3.pyx":186
+ *                 break  # EOF
+ *             buffer[pos:pos + nbytesread] = bytesread
+ *             pos = pos + nbytesread             # <<<<<<<<<<<<<<
+ *             remaining = remaining - nbytesread
  * 
  */
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_nbytesread); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_nbytesread); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_3 = PyNumber_Add(__pyx_v_pos, __pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = PyNumber_Add(__pyx_v_i, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF_SET(__pyx_v_pos, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "cyhdfs3/cyhdfs3.pyx":187
+ *             buffer[pos:pos + nbytesread] = bytesread
+ *             pos = pos + nbytesread
+ *             remaining = remaining - nbytesread             # <<<<<<<<<<<<<<
+ * 
+ *         stdlib.free(bytesread)
+ */
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_nbytesread); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_1 = PyNumber_Subtract(__pyx_v_remaining, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF_SET(__pyx_v_i, __pyx_t_1);
+    __Pyx_DECREF_SET(__pyx_v_remaining, __pyx_t_1);
     __pyx_t_1 = 0;
   }
   __pyx_L4_break:;
 
-  /* "libhdfs3/chdfs.pyx":195
- *             buffer[i:i + nbytesread] = bytesread
- *             i = i + nbytesread
+  /* "cyhdfs3/cyhdfs3.pyx":189
+ *             remaining = remaining - nbytesread
+ * 
  *         stdlib.free(bytesread)             # <<<<<<<<<<<<<<
  * 
  *         cdef bytes py_string
  */
   free(__pyx_v_bytesread);
 
-  /* "libhdfs3/chdfs.pyx":198
+  /* "cyhdfs3/cyhdfs3.pyx":192
  * 
  *         cdef bytes py_string
  *         cdef char* c_string = <char*> buffer             # <<<<<<<<<<<<<<
  *         try:
- *             py_bytes_string = c_string[:self.info.size]
+ *             py_bytes_string = c_string[:length]
  */
   __pyx_v_c_string = ((char *)__pyx_v_buffer);
 
-  /* "libhdfs3/chdfs.pyx":199
+  /* "cyhdfs3/cyhdfs3.pyx":193
  *         cdef bytes py_string
  *         cdef char* c_string = <char*> buffer
  *         try:             # <<<<<<<<<<<<<<
- *             py_bytes_string = c_string[:self.info.size]
+ *             py_bytes_string = c_string[:length]
  *         finally:
  */
   /*try:*/ {
 
-    /* "libhdfs3/chdfs.pyx":200
+    /* "cyhdfs3/cyhdfs3.pyx":194
  *         cdef char* c_string = <char*> buffer
  *         try:
- *             py_bytes_string = c_string[:self.info.size]             # <<<<<<<<<<<<<<
+ *             py_bytes_string = c_string[:length]             # <<<<<<<<<<<<<<
  *         finally:
  *             stdlib.free(c_string)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_info); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+    __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_v_length); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+    __pyx_t_1 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_c_string + 0, __pyx_t_9 - 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_size); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_8 = __Pyx_PyIndex_AsSsize_t(__pyx_t_3); if (unlikely((__pyx_t_8 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_c_string + 0, __pyx_t_8 - 0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_v_py_bytes_string = ((PyObject*)__pyx_t_3);
-    __pyx_t_3 = 0;
+    __pyx_v_py_bytes_string = ((PyObject*)__pyx_t_1);
+    __pyx_t_1 = 0;
   }
 
-  /* "libhdfs3/chdfs.pyx":202
- *             py_bytes_string = c_string[:self.info.size]
+  /* "cyhdfs3/cyhdfs3.pyx":196
+ *             py_bytes_string = c_string[:length]
  *         finally:
  *             stdlib.free(c_string)             # <<<<<<<<<<<<<<
  *         return py_bytes_string
@@ -5146,85 +4936,92 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_8readfile(struct __pyx_obj_8lib
     }
     /*exception exit:*/{
       __pyx_L7_error:;
-      __pyx_t_12 = 0; __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0;
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0;
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_15, &__pyx_t_16, &__pyx_t_17);
-      if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_12, &__pyx_t_13, &__pyx_t_14) < 0)) __Pyx_ErrFetch(&__pyx_t_12, &__pyx_t_13, &__pyx_t_14);
-      __Pyx_XGOTREF(__pyx_t_12);
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (PY_MAJOR_VERSION >= 3) __Pyx_ExceptionSwap(&__pyx_t_16, &__pyx_t_17, &__pyx_t_18);
+      if ((PY_MAJOR_VERSION < 3) || unlikely(__Pyx_GetException(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15) < 0)) __Pyx_ErrFetch(&__pyx_t_13, &__pyx_t_14, &__pyx_t_15);
       __Pyx_XGOTREF(__pyx_t_13);
       __Pyx_XGOTREF(__pyx_t_14);
       __Pyx_XGOTREF(__pyx_t_15);
       __Pyx_XGOTREF(__pyx_t_16);
       __Pyx_XGOTREF(__pyx_t_17);
-      __pyx_t_9 = __pyx_lineno; __pyx_t_10 = __pyx_clineno; __pyx_t_11 = __pyx_filename;
+      __Pyx_XGOTREF(__pyx_t_18);
+      __pyx_t_10 = __pyx_lineno; __pyx_t_11 = __pyx_clineno; __pyx_t_12 = __pyx_filename;
       {
         free(__pyx_v_c_string);
       }
       if (PY_MAJOR_VERSION >= 3) {
-        __Pyx_XGIVEREF(__pyx_t_15);
         __Pyx_XGIVEREF(__pyx_t_16);
         __Pyx_XGIVEREF(__pyx_t_17);
-        __Pyx_ExceptionReset(__pyx_t_15, __pyx_t_16, __pyx_t_17);
+        __Pyx_XGIVEREF(__pyx_t_18);
+        __Pyx_ExceptionReset(__pyx_t_16, __pyx_t_17, __pyx_t_18);
       }
-      __Pyx_XGIVEREF(__pyx_t_12);
       __Pyx_XGIVEREF(__pyx_t_13);
       __Pyx_XGIVEREF(__pyx_t_14);
-      __Pyx_ErrRestore(__pyx_t_12, __pyx_t_13, __pyx_t_14);
-      __pyx_t_12 = 0; __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0;
-      __pyx_lineno = __pyx_t_9; __pyx_clineno = __pyx_t_10; __pyx_filename = __pyx_t_11;
+      __Pyx_XGIVEREF(__pyx_t_15);
+      __Pyx_ErrRestore(__pyx_t_13, __pyx_t_14, __pyx_t_15);
+      __pyx_t_13 = 0; __pyx_t_14 = 0; __pyx_t_15 = 0; __pyx_t_16 = 0; __pyx_t_17 = 0; __pyx_t_18 = 0;
+      __pyx_lineno = __pyx_t_10; __pyx_clineno = __pyx_t_11; __pyx_filename = __pyx_t_12;
       goto __pyx_L1_error;
     }
     __pyx_L8:;
   }
 
-  /* "libhdfs3/chdfs.pyx":203
+  /* "cyhdfs3/cyhdfs3.pyx":197
  *         finally:
  *             stdlib.free(c_string)
  *         return py_bytes_string             # <<<<<<<<<<<<<<
  * 
- *     def readline(self, buffersize=2**16):
+ *     def readline(self, step=1*2**19, buffersize=1*2**19):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_py_bytes_string);
   __pyx_r = __pyx_v_py_bytes_string;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":183
- *         return py_bytes_string
+  /* "cyhdfs3/cyhdfs3.pyx":168
+ *             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
  * 
- *     def readfile(self, buffersize=1*2**20):             # <<<<<<<<<<<<<<
- *         cdef void* buffer = stdlib.malloc(self.info.size * sizeof(char))
- *         cdef void* bytesread = stdlib.malloc(buffersize * sizeof(char))
+ *     def read(self, length=None, buffersize=1*2**20):             # <<<<<<<<<<<<<<
+ *         length = self.info.size if length is None else length
+ *         cdef void* buffer = stdlib.malloc(length * sizeof(char))
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.readfile", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_i);
+  __Pyx_XDECREF(__pyx_v_remaining);
+  __Pyx_XDECREF(__pyx_v_pos);
+  __Pyx_XDECREF(__pyx_v_readbuffersize);
   __Pyx_XDECREF(__pyx_v_py_bytes_string);
+  __Pyx_XDECREF(__pyx_v_length);
+  __Pyx_XDECREF(__pyx_v_buffersize);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":205
+/* "cyhdfs3/cyhdfs3.pyx":199
  *         return py_bytes_string
  * 
- *     def readline(self, buffersize=2**16):             # <<<<<<<<<<<<<<
+ *     def readline(self, step=1*2**19, buffersize=1*2**19):             # <<<<<<<<<<<<<<
  *         index = self.linebuff.find("\n")
  *         if index >= 0:
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_11readline(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_11readline(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_9readline(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_9readline(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_step = 0;
   PyObject *__pyx_v_buffersize = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -5233,13 +5030,15 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_11readline(PyObject *__pyx_v_se
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("readline (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_buffersize,0};
-    PyObject* values[1] = {0};
-    values[0] = ((PyObject *)__pyx_int_65536);
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_step,&__pyx_n_s_buffersize,0};
+    PyObject* values[2] = {0,0};
+    values[0] = ((PyObject *)__pyx_int_524288);
+    values[1] = ((PyObject *)__pyx_int_524288);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
@@ -5248,38 +5047,45 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_11readline(PyObject *__pyx_v_se
       switch (pos_args) {
         case  0:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_buffersize);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_step);
           if (value) { values[0] = value; kw_args--; }
+        }
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_buffersize);
+          if (value) { values[1] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "readline") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 205; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "readline") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_buffersize = values[0];
+    __pyx_v_step = values[0];
+    __pyx_v_buffersize = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("readline", 0, 0, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 205; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("readline", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.readline", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.readline", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_10readline(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), __pyx_v_buffersize);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_8readline(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), __pyx_v_step, __pyx_v_buffersize);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_buffersize) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_8readline(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_step, PyObject *__pyx_v_buffersize) {
   PyObject *__pyx_v_index = NULL;
   PyObject *__pyx_v_line = NULL;
   PyObject *__pyx_v_linebuff = NULL;
@@ -5296,34 +5102,34 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("readline", 0);
 
-  /* "libhdfs3/chdfs.pyx":206
+  /* "cyhdfs3/cyhdfs3.pyx":200
  * 
- *     def readline(self, buffersize=2**16):
+ *     def readline(self, step=1*2**19, buffersize=1*2**19):
  *         index = self.linebuff.find("\n")             # <<<<<<<<<<<<<<
  *         if index >= 0:
  *             line = self.linebuff[:index]
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->linebuff, __pyx_n_s_find); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->linebuff, __pyx_n_s_find); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_index = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "libhdfs3/chdfs.pyx":207
- *     def readline(self, buffersize=2**16):
+  /* "cyhdfs3/cyhdfs3.pyx":201
+ *     def readline(self, step=1*2**19, buffersize=1*2**19):
  *         index = self.linebuff.find("\n")
  *         if index >= 0:             # <<<<<<<<<<<<<<
  *             line = self.linebuff[:index]
  *             linebuff = self.linebuff[index + 1:]
  */
-  __pyx_t_2 = PyObject_RichCompare(__pyx_v_index, __pyx_int_0, Py_GE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_RichCompare(__pyx_v_index, __pyx_int_0, Py_GE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
 
-    /* "libhdfs3/chdfs.pyx":208
+    /* "cyhdfs3/cyhdfs3.pyx":202
  *         index = self.linebuff.find("\n")
  *         if index >= 0:
  *             line = self.linebuff[:index]             # <<<<<<<<<<<<<<
@@ -5332,15 +5138,15 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
  */
     if (unlikely(__pyx_v_self->linebuff == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_v_index); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_2 = PySequence_GetSlice(__pyx_v_self->linebuff, 0, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_v_index); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PySequence_GetSlice(__pyx_v_self->linebuff, 0, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_line = ((PyObject*)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "libhdfs3/chdfs.pyx":209
+    /* "cyhdfs3/cyhdfs3.pyx":203
  *         if index >= 0:
  *             line = self.linebuff[:index]
  *             linebuff = self.linebuff[index + 1:]             # <<<<<<<<<<<<<<
@@ -5349,25 +5155,25 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
  */
     if (unlikely(__pyx_v_self->linebuff == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_index, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_v_index, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PySequence_GetSlice(__pyx_v_self->linebuff, __pyx_t_4, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PySequence_GetSlice(__pyx_v_self->linebuff, __pyx_t_4, PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_linebuff = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "libhdfs3/chdfs.pyx":210
+    /* "cyhdfs3/cyhdfs3.pyx":204
  *             line = self.linebuff[:index]
  *             linebuff = self.linebuff[index + 1:]
  *             self.linebuff = linebuff             # <<<<<<<<<<<<<<
  *             return line
  * 
  */
-    if (!(likely(PyBytes_CheckExact(__pyx_v_linebuff))||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_linebuff)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(PyBytes_CheckExact(__pyx_v_linebuff))||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_linebuff)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_2 = __pyx_v_linebuff;
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_2);
@@ -5376,7 +5182,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
     __pyx_v_self->linebuff = ((PyObject*)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "libhdfs3/chdfs.pyx":211
+    /* "cyhdfs3/cyhdfs3.pyx":205
  *             linebuff = self.linebuff[index + 1:]
  *             self.linebuff = linebuff
  *             return line             # <<<<<<<<<<<<<<
@@ -5388,8 +5194,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
     __pyx_r = __pyx_v_line;
     goto __pyx_L0;
 
-    /* "libhdfs3/chdfs.pyx":207
- *     def readline(self, buffersize=2**16):
+    /* "cyhdfs3/cyhdfs3.pyx":201
+ *     def readline(self, step=1*2**19, buffersize=1*2**19):
  *         index = self.linebuff.find("\n")
  *         if index >= 0:             # <<<<<<<<<<<<<<
  *             line = self.linebuff[:index]
@@ -5397,15 +5203,15 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
  */
   }
 
-  /* "libhdfs3/chdfs.pyx":213
+  /* "cyhdfs3/cyhdfs3.pyx":207
  *             return line
  * 
  *         while self.tell() < self.info.size:             # <<<<<<<<<<<<<<
- *             lastbytesread = self.read(buffersize=buffersize)
+ *             lastbytesread = self.read(length=step, buffersize=buffersize)
  *             linebuff = self.linebuff + lastbytesread
  */
   while (1) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tell); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tell); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
@@ -5418,64 +5224,65 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
       }
     }
     if (__pyx_t_5) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
-      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_info); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_info); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_size); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_size); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_5, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_5, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (!__pyx_t_3) break;
 
-    /* "libhdfs3/chdfs.pyx":214
+    /* "cyhdfs3/cyhdfs3.pyx":208
  * 
  *         while self.tell() < self.info.size:
- *             lastbytesread = self.read(buffersize=buffersize)             # <<<<<<<<<<<<<<
+ *             lastbytesread = self.read(length=step, buffersize=buffersize)             # <<<<<<<<<<<<<<
  *             linebuff = self.linebuff + lastbytesread
  *             self.linebuff = linebuff
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_read); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_read); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_buffersize, __pyx_v_buffersize) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_length, __pyx_v_step) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_buffersize, __pyx_v_buffersize) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_lastbytesread = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "libhdfs3/chdfs.pyx":215
+    /* "cyhdfs3/cyhdfs3.pyx":209
  *         while self.tell() < self.info.size:
- *             lastbytesread = self.read(buffersize=buffersize)
+ *             lastbytesread = self.read(length=step, buffersize=buffersize)
  *             linebuff = self.linebuff + lastbytesread             # <<<<<<<<<<<<<<
  *             self.linebuff = linebuff
- *             return self.readline(buffersize=buffersize)
+ *             return self.readline(step=step, buffersize=buffersize)
  */
-    __pyx_t_2 = PyNumber_Add(__pyx_v_self->linebuff, __pyx_v_lastbytesread); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyNumber_Add(__pyx_v_self->linebuff, __pyx_v_lastbytesread); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_linebuff = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "libhdfs3/chdfs.pyx":216
- *             lastbytesread = self.read(buffersize=buffersize)
+    /* "cyhdfs3/cyhdfs3.pyx":210
+ *             lastbytesread = self.read(length=step, buffersize=buffersize)
  *             linebuff = self.linebuff + lastbytesread
  *             self.linebuff = linebuff             # <<<<<<<<<<<<<<
- *             return self.readline(buffersize=buffersize)
+ *             return self.readline(step=step, buffersize=buffersize)
  * 
  */
-    if (!(likely(PyBytes_CheckExact(__pyx_v_linebuff))||((__pyx_v_linebuff) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_linebuff)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(PyBytes_CheckExact(__pyx_v_linebuff))||((__pyx_v_linebuff) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_v_linebuff)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_2 = __pyx_v_linebuff;
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_2);
@@ -5484,20 +5291,21 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
     __pyx_v_self->linebuff = ((PyObject*)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "libhdfs3/chdfs.pyx":217
+    /* "cyhdfs3/cyhdfs3.pyx":211
  *             linebuff = self.linebuff + lastbytesread
  *             self.linebuff = linebuff
- *             return self.readline(buffersize=buffersize)             # <<<<<<<<<<<<<<
+ *             return self.readline(step=step, buffersize=buffersize)             # <<<<<<<<<<<<<<
  * 
  *         return self.linebuff
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_readline); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_readline); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
-    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_buffersize, __pyx_v_buffersize) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_step, __pyx_v_step) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_buffersize, __pyx_v_buffersize) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -5506,8 +5314,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
     goto __pyx_L0;
   }
 
-  /* "libhdfs3/chdfs.pyx":219
- *             return self.readline(buffersize=buffersize)
+  /* "cyhdfs3/cyhdfs3.pyx":213
+ *             return self.readline(step=step, buffersize=buffersize)
  * 
  *         return self.linebuff             # <<<<<<<<<<<<<<
  * 
@@ -5518,10 +5326,10 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
   __pyx_r = __pyx_v_self->linebuff;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":205
+  /* "cyhdfs3/cyhdfs3.pyx":199
  *         return py_bytes_string
  * 
- *     def readline(self, buffersize=2**16):             # <<<<<<<<<<<<<<
+ *     def readline(self, step=1*2**19, buffersize=1*2**19):             # <<<<<<<<<<<<<<
  *         index = self.linebuff.find("\n")
  *         if index >= 0:
  */
@@ -5531,7 +5339,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.readline", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.readline", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_index);
@@ -5543,7 +5351,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":221
+/* "cyhdfs3/cyhdfs3.pyx":215
  *         return self.linebuff
  * 
  *     def flush(self):             # <<<<<<<<<<<<<<
@@ -5552,19 +5360,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_10readline(struct __pyx_obj_8li
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_13flush(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_13flush(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_11flush(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_11flush(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("flush (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_12flush(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_10flush(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_10flush(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   int __pyx_v_flushed;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -5576,7 +5384,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("flush", 0);
 
-  /* "libhdfs3/chdfs.pyx":222
+  /* "cyhdfs3/cyhdfs3.pyx":216
  * 
  *     def flush(self):
  *         cdef int flushed = 0             # <<<<<<<<<<<<<<
@@ -5585,20 +5393,20 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
  */
   __pyx_v_flushed = 0;
 
-  /* "libhdfs3/chdfs.pyx":223
+  /* "cyhdfs3/cyhdfs3.pyx":217
  *     def flush(self):
  *         cdef int flushed = 0
  *         if self.mode == b'w':             # <<<<<<<<<<<<<<
  *             flushed = libhdfs3.hdfsFlush(self.client.fs, self._file)
  *             if flushed != 0:
  */
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->mode); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->mode); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = (__Pyx_PyBytes_Equals(__pyx_t_1, __pyx_n_b_w, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = (__Pyx_PyBytes_Equals(__pyx_t_1, __pyx_n_b_w, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "libhdfs3/chdfs.pyx":224
+    /* "cyhdfs3/cyhdfs3.pyx":218
  *         cdef int flushed = 0
  *         if self.mode == b'w':
  *             flushed = libhdfs3.hdfsFlush(self.client.fs, self._file)             # <<<<<<<<<<<<<<
@@ -5607,7 +5415,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
  */
     __pyx_v_flushed = hdfsFlush(__pyx_v_self->client->fs, __pyx_v_self->_file);
 
-    /* "libhdfs3/chdfs.pyx":225
+    /* "cyhdfs3/cyhdfs3.pyx":219
  *         if self.mode == b'w':
  *             flushed = libhdfs3.hdfsFlush(self.client.fs, self._file)
  *             if flushed != 0:             # <<<<<<<<<<<<<<
@@ -5617,16 +5425,16 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
     __pyx_t_2 = ((__pyx_v_flushed != 0) != 0);
     if (__pyx_t_2) {
 
-      /* "libhdfs3/chdfs.pyx":226
+      /* "cyhdfs3/cyhdfs3.pyx":220
  *             flushed = libhdfs3.hdfsFlush(self.client.fs, self._file)
  *             if flushed != 0:
  *                 raise IOError("Could not flush file:", libhdfs3.hdfsGetLastError())             # <<<<<<<<<<<<<<
  *         return True
  * 
  */
-      __pyx_t_1 = __Pyx_PyBytes_FromString(hdfsGetLastError()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyBytes_FromString(hdfsGetLastError()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_kp_s_Could_not_flush_file);
       __Pyx_GIVEREF(__pyx_kp_s_Could_not_flush_file);
@@ -5634,14 +5442,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
       __Pyx_GIVEREF(__pyx_t_1);
       PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
       __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_Raise(__pyx_t_1, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "libhdfs3/chdfs.pyx":225
+      /* "cyhdfs3/cyhdfs3.pyx":219
  *         if self.mode == b'w':
  *             flushed = libhdfs3.hdfsFlush(self.client.fs, self._file)
  *             if flushed != 0:             # <<<<<<<<<<<<<<
@@ -5650,7 +5458,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
  */
     }
 
-    /* "libhdfs3/chdfs.pyx":223
+    /* "cyhdfs3/cyhdfs3.pyx":217
  *     def flush(self):
  *         cdef int flushed = 0
  *         if self.mode == b'w':             # <<<<<<<<<<<<<<
@@ -5659,7 +5467,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
  */
   }
 
-  /* "libhdfs3/chdfs.pyx":227
+  /* "cyhdfs3/cyhdfs3.pyx":221
  *             if flushed != 0:
  *                 raise IOError("Could not flush file:", libhdfs3.hdfsGetLastError())
  *         return True             # <<<<<<<<<<<<<<
@@ -5671,7 +5479,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":221
+  /* "cyhdfs3/cyhdfs3.pyx":215
  *         return self.linebuff
  * 
  *     def flush(self):             # <<<<<<<<<<<<<<
@@ -5683,7 +5491,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.flush", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.flush", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5691,7 +5499,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":229
+/* "cyhdfs3/cyhdfs3.pyx":223
  *         return True
  * 
  *     def seek(self, pos):             # <<<<<<<<<<<<<<
@@ -5700,19 +5508,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_12flush(struct __pyx_obj_8libhd
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_15seek(PyObject *__pyx_v_self, PyObject *__pyx_v_pos); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_15seek(PyObject *__pyx_v_self, PyObject *__pyx_v_pos) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_13seek(PyObject *__pyx_v_self, PyObject *__pyx_v_pos); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_13seek(PyObject *__pyx_v_self, PyObject *__pyx_v_pos) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("seek (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_14seek(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), ((PyObject *)__pyx_v_pos));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_12seek(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), ((PyObject *)__pyx_v_pos));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_pos) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_12seek(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_pos) {
   int __pyx_v_out;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -5726,17 +5534,17 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("seek", 0);
 
-  /* "libhdfs3/chdfs.pyx":230
+  /* "cyhdfs3/cyhdfs3.pyx":224
  * 
  *     def seek(self, pos):
  *         out = libhdfs3.hdfsSeek(self.client.fs, self._file, pos)             # <<<<<<<<<<<<<<
  *         if out != 0:
  *             raise IOError('Seek Failed:', self.client.getLastError())
  */
-  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_pos); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_pos); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 224; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_out = hdfsSeek(__pyx_v_self->client->fs, __pyx_v_self->_file, __pyx_t_1);
 
-  /* "libhdfs3/chdfs.pyx":231
+  /* "cyhdfs3/cyhdfs3.pyx":225
  *     def seek(self, pos):
  *         out = libhdfs3.hdfsSeek(self.client.fs, self._file, pos)
  *         if out != 0:             # <<<<<<<<<<<<<<
@@ -5746,14 +5554,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
   __pyx_t_2 = ((__pyx_v_out != 0) != 0);
   if (__pyx_t_2) {
 
-    /* "libhdfs3/chdfs.pyx":232
+    /* "cyhdfs3/cyhdfs3.pyx":226
  *         out = libhdfs3.hdfsSeek(self.client.fs, self._file, pos)
  *         if out != 0:
  *             raise IOError('Seek Failed:', self.client.getLastError())             # <<<<<<<<<<<<<<
  *         return True
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5766,14 +5574,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
       }
     }
     if (__pyx_t_5) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
-      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_INCREF(__pyx_kp_s_Seek_Failed);
     __Pyx_GIVEREF(__pyx_kp_s_Seek_Failed);
@@ -5781,14 +5589,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "libhdfs3/chdfs.pyx":231
+    /* "cyhdfs3/cyhdfs3.pyx":225
  *     def seek(self, pos):
  *         out = libhdfs3.hdfsSeek(self.client.fs, self._file, pos)
  *         if out != 0:             # <<<<<<<<<<<<<<
@@ -5797,7 +5605,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
  */
   }
 
-  /* "libhdfs3/chdfs.pyx":233
+  /* "cyhdfs3/cyhdfs3.pyx":227
  *         if out != 0:
  *             raise IOError('Seek Failed:', self.client.getLastError())
  *         return True             # <<<<<<<<<<<<<<
@@ -5809,7 +5617,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":229
+  /* "cyhdfs3/cyhdfs3.pyx":223
  *         return True
  * 
  *     def seek(self, pos):             # <<<<<<<<<<<<<<
@@ -5822,7 +5630,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.seek", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.seek", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5830,7 +5638,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":235
+/* "cyhdfs3/cyhdfs3.pyx":229
  *         return True
  * 
  *     def tell(self):             # <<<<<<<<<<<<<<
@@ -5839,19 +5647,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_14seek(struct __pyx_obj_8libhdf
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_17tell(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_17tell(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_15tell(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_15tell(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("tell (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_16tell(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_14tell(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_14tell(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   tOffset __pyx_v_out;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -5864,7 +5672,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("tell", 0);
 
-  /* "libhdfs3/chdfs.pyx":236
+  /* "cyhdfs3/cyhdfs3.pyx":230
  * 
  *     def tell(self):
  *         out = libhdfs3.hdfsTell(self.client.fs, self._file)             # <<<<<<<<<<<<<<
@@ -5873,7 +5681,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
  */
   __pyx_v_out = hdfsTell(__pyx_v_self->client->fs, __pyx_v_self->_file);
 
-  /* "libhdfs3/chdfs.pyx":237
+  /* "cyhdfs3/cyhdfs3.pyx":231
  *     def tell(self):
  *         out = libhdfs3.hdfsTell(self.client.fs, self._file)
  *         if out == -1:             # <<<<<<<<<<<<<<
@@ -5883,14 +5691,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
   __pyx_t_1 = ((__pyx_v_out == -1L) != 0);
   if (__pyx_t_1) {
 
-    /* "libhdfs3/chdfs.pyx":238
+    /* "cyhdfs3/cyhdfs3.pyx":232
  *         out = libhdfs3.hdfsTell(self.client.fs, self._file)
  *         if out == -1:
  *             raise IOError('Tell Failed:', self.client.getLastError())             # <<<<<<<<<<<<<<
  *         return out
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_getLastError); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -5903,14 +5711,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
       }
     }
     if (__pyx_t_4) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     } else {
-      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_kp_s_Tell_Failed);
     __Pyx_GIVEREF(__pyx_kp_s_Tell_Failed);
@@ -5918,14 +5726,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IOError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "libhdfs3/chdfs.pyx":237
+    /* "cyhdfs3/cyhdfs3.pyx":231
  *     def tell(self):
  *         out = libhdfs3.hdfsTell(self.client.fs, self._file)
  *         if out == -1:             # <<<<<<<<<<<<<<
@@ -5934,7 +5742,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
  */
   }
 
-  /* "libhdfs3/chdfs.pyx":239
+  /* "cyhdfs3/cyhdfs3.pyx":233
  *         if out == -1:
  *             raise IOError('Tell Failed:', self.client.getLastError())
  *         return out             # <<<<<<<<<<<<<<
@@ -5942,13 +5750,13 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
  *     def __enter__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyInt_From_tOffset(__pyx_v_out); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 239; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyInt_From_tOffset(__pyx_v_out); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":235
+  /* "cyhdfs3/cyhdfs3.pyx":229
  *         return True
  * 
  *     def tell(self):             # <<<<<<<<<<<<<<
@@ -5961,7 +5769,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.tell", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.tell", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5969,7 +5777,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":241
+/* "cyhdfs3/cyhdfs3.pyx":235
  *         return out
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
@@ -5978,24 +5786,24 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_16tell(struct __pyx_obj_8libhdf
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_19__enter__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_19__enter__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_17__enter__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_17__enter__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__enter__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_18__enter__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_16__enter__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_18__enter__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_16__enter__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__enter__", 0);
 
-  /* "libhdfs3/chdfs.pyx":242
+  /* "cyhdfs3/cyhdfs3.pyx":236
  * 
  *     def __enter__(self):
  *         return self             # <<<<<<<<<<<<<<
@@ -6007,7 +5815,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_18__enter__(struct __pyx_obj_8l
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":241
+  /* "cyhdfs3/cyhdfs3.pyx":235
  *         return out
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
@@ -6022,7 +5830,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_18__enter__(struct __pyx_obj_8l
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":244
+/* "cyhdfs3/cyhdfs3.pyx":238
  *         return self
  * 
  *     def __exit__(self, *args):             # <<<<<<<<<<<<<<
@@ -6031,8 +5839,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_18__enter__(struct __pyx_obj_8l
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_21__exit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_21__exit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_19__exit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_19__exit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   CYTHON_UNUSED PyObject *__pyx_v_args = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -6040,7 +5848,7 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_21__exit__(PyObject *__pyx_v_se
   if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__exit__", 0))) return NULL;
   __Pyx_INCREF(__pyx_args);
   __pyx_v_args = __pyx_args;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_20__exit__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), __pyx_v_args);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_18__exit__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), __pyx_v_args);
 
   /* function exit code */
   __Pyx_XDECREF(__pyx_v_args);
@@ -6048,7 +5856,7 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_21__exit__(PyObject *__pyx_v_se
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_20__exit__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_18__exit__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6059,14 +5867,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_20__exit__(struct __pyx_obj_8li
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__exit__", 0);
 
-  /* "libhdfs3/chdfs.pyx":245
+  /* "cyhdfs3/cyhdfs3.pyx":239
  * 
  *     def __exit__(self, *args):
  *         self.close()             # <<<<<<<<<<<<<<
  * 
  *     def __del__(self):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_close); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 245; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_close); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 239; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -6079,16 +5887,16 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_20__exit__(struct __pyx_obj_8li
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 245; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 239; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 245; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 239; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":244
+  /* "cyhdfs3/cyhdfs3.pyx":238
  *         return self
  * 
  *     def __exit__(self, *args):             # <<<<<<<<<<<<<<
@@ -6103,7 +5911,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_20__exit__(struct __pyx_obj_8li
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.__exit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.__exit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6111,7 +5919,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_20__exit__(struct __pyx_obj_8li
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":247
+/* "cyhdfs3/cyhdfs3.pyx":241
  *         self.close()
  * 
  *     def __del__(self):             # <<<<<<<<<<<<<<
@@ -6120,19 +5928,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_20__exit__(struct __pyx_obj_8li
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_23__del__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_23__del__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_21__del__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_21__del__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_22__del__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_20__del__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_22__del__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_20__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6143,14 +5951,14 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_22__del__(struct __pyx_obj_8lib
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__del__", 0);
 
-  /* "libhdfs3/chdfs.pyx":248
+  /* "cyhdfs3/cyhdfs3.pyx":242
  * 
  *     def __del__(self):
  *         self.close()             # <<<<<<<<<<<<<<
  * 
  *     property info:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_close); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_close); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 242; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -6163,16 +5971,16 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_22__del__(struct __pyx_obj_8lib
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 242; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 242; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":247
+  /* "cyhdfs3/cyhdfs3.pyx":241
  *         self.close()
  * 
  *     def __del__(self):             # <<<<<<<<<<<<<<
@@ -6187,7 +5995,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_22__del__(struct __pyx_obj_8lib
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.__del__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6195,7 +6003,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_22__del__(struct __pyx_obj_8lib
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":252
+/* "cyhdfs3/cyhdfs3.pyx":246
  *     property info:
  *         "A `FileInfo` reference"
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6204,19 +6012,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_22__del__(struct __pyx_obj_8lib
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_4info_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_4info_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_4info_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_4info_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4info___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_4info___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6231,30 +6039,30 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "libhdfs3/chdfs.pyx":253
+  /* "cyhdfs3/cyhdfs3.pyx":247
  *         "A `FileInfo` reference"
  *         def __get__(self):
  *             if getattr(self, '_info', None) is None:             # <<<<<<<<<<<<<<
  *                 self._info = self.client.path_info(self.path)
  *             return self._info
  */
-  __pyx_t_1 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_info_2, Py_None); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 253; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_info_2, Py_None); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 247; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "libhdfs3/chdfs.pyx":254
+    /* "cyhdfs3/cyhdfs3.pyx":248
  *         def __get__(self):
  *             if getattr(self, '_info', None) is None:
  *                 self._info = self.client.path_info(self.path)             # <<<<<<<<<<<<<<
  *             return self._info
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_path_info); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_path_info); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyBytes_FromString(__pyx_v_self->path); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyBytes_FromString(__pyx_v_self->path); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -6267,29 +6075,29 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(struct __pyx_obj_
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_8libhdfs3_5chdfs_FileInfo))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_7cyhdfs3_7cyhdfs3_FileInfo))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 248; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GIVEREF(__pyx_t_1);
     __Pyx_GOTREF(__pyx_v_self->_info);
     __Pyx_DECREF(((PyObject *)__pyx_v_self->_info));
-    __pyx_v_self->_info = ((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_t_1);
+    __pyx_v_self->_info = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "libhdfs3/chdfs.pyx":253
+    /* "cyhdfs3/cyhdfs3.pyx":247
  *         "A `FileInfo` reference"
  *         def __get__(self):
  *             if getattr(self, '_info', None) is None:             # <<<<<<<<<<<<<<
@@ -6298,7 +6106,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(struct __pyx_obj_
  */
   }
 
-  /* "libhdfs3/chdfs.pyx":255
+  /* "cyhdfs3/cyhdfs3.pyx":249
  *             if getattr(self, '_info', None) is None:
  *                 self._info = self.client.path_info(self.path)
  *             return self._info             # <<<<<<<<<<<<<<
@@ -6310,7 +6118,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(struct __pyx_obj_
   __pyx_r = ((PyObject *)__pyx_v_self->_info);
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":252
+  /* "cyhdfs3/cyhdfs3.pyx":246
  *     property info:
  *         "A `FileInfo` reference"
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6325,7 +6133,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(struct __pyx_obj_
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.info.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.info.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6333,98 +6141,137 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4info___get__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":259
+/* "cyhdfs3/cyhdfs3.pyx":253
  *     property blocks:
  *         "A `FileInfo` reference"
  *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return self.client.get_blocks(self.path)
- * 
+ *             if getattr(self, '_info', None) is None:
+ *                 self._blocks = self.client.get_blocks(self.path)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_6blocks_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_6blocks_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_6blocks_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_6blocks_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_6blocks___get__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_6blocks___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_6blocks___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_6blocks___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_2;
+  int __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "libhdfs3/chdfs.pyx":260
+  /* "cyhdfs3/cyhdfs3.pyx":254
  *         "A `FileInfo` reference"
  *         def __get__(self):
- *             return self.client.get_blocks(self.path)             # <<<<<<<<<<<<<<
+ *             if getattr(self, '_info', None) is None:             # <<<<<<<<<<<<<<
+ *                 self._blocks = self.client.get_blocks(self.path)
+ *             return self._blocks
+ */
+  __pyx_t_1 = __Pyx_GetAttr3(((PyObject *)__pyx_v_self), __pyx_n_s_info_2, Py_None); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = (__pyx_t_1 == Py_None);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = (__pyx_t_2 != 0);
+  if (__pyx_t_3) {
+
+    /* "cyhdfs3/cyhdfs3.pyx":255
+ *         def __get__(self):
+ *             if getattr(self, '_info', None) is None:
+ *                 self._blocks = self.client.get_blocks(self.path)             # <<<<<<<<<<<<<<
+ *             return self._blocks
+ * 
+ */
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_get_blocks); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = __Pyx_PyBytes_FromString(__pyx_v_self->path); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_4, function);
+      }
+    }
+    if (!__pyx_t_6) {
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+    } else {
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
+      __Pyx_GIVEREF(__pyx_t_5);
+      PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_5);
+      __pyx_t_5 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GIVEREF(__pyx_t_1);
+    __Pyx_GOTREF(__pyx_v_self->_blocks);
+    __Pyx_DECREF(__pyx_v_self->_blocks);
+    __pyx_v_self->_blocks = ((PyObject*)__pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "cyhdfs3/cyhdfs3.pyx":254
+ *         "A `FileInfo` reference"
+ *         def __get__(self):
+ *             if getattr(self, '_info', None) is None:             # <<<<<<<<<<<<<<
+ *                 self._blocks = self.client.get_blocks(self.path)
+ *             return self._blocks
+ */
+  }
+
+  /* "cyhdfs3/cyhdfs3.pyx":256
+ *             if getattr(self, '_info', None) is None:
+ *                 self._blocks = self.client.get_blocks(self.path)
+ *             return self._blocks             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->client), __pyx_n_s_get_blocks); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyBytes_FromString(__pyx_v_self->path); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-  } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
-    __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __Pyx_INCREF(__pyx_v_self->_blocks);
+  __pyx_r = __pyx_v_self->_blocks;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":259
+  /* "cyhdfs3/cyhdfs3.pyx":253
  *     property blocks:
  *         "A `FileInfo` reference"
  *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return self.client.get_blocks(self.path)
- * 
+ *             if getattr(self, '_info', None) is None:
+ *                 self._blocks = self.client.get_blocks(self.path)
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.blocks.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.blocks.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6432,7 +6279,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_6blocks___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":124
+/* "cyhdfs3/cyhdfs3.pyx":125
  *     cdef HDFSClient client
  *     cdef libhdfs3.hdfsFile _file
  *     cdef public char* path             # <<<<<<<<<<<<<<
@@ -6441,19 +6288,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_6blocks___get__(struct __pyx_ob
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_4path_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_4path_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_4path_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_4path_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_4path___get__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4path___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4path___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_4path___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6462,7 +6309,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4path___get__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->path); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->path); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6471,7 +6318,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4path___get__(struct __pyx_obj_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.path.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.path.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6480,101 +6327,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4path___get__(struct __pyx_obj_
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_4File_4path_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_4File_4path_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4path_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4path_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_4path_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4path_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_4File_4path_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  char *__pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_self->path = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.path.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "libhdfs3/chdfs.pyx":125
- *     cdef libhdfs3.hdfsFile _file
- *     cdef public char* path
- *     cdef public char* mode             # <<<<<<<<<<<<<<
- *     cdef public char* encoding
- *     cdef public short replication
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_4mode_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_4mode_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_4mode___get__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_4mode___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->mode); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.mode.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_4File_4mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_4File_4mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_4mode_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_8libhdfs3_5chdfs_4File_4mode_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4path_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -6583,41 +6348,41 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_4mode_2__set__(struct __pyx_obj_8libh
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
   __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_self->mode = __pyx_t_1;
+  __pyx_v_self->path = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.mode.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.path.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":126
+/* "cyhdfs3/cyhdfs3.pyx":126
+ *     cdef libhdfs3.hdfsFile _file
  *     cdef public char* path
- *     cdef public char* mode
- *     cdef public char* encoding             # <<<<<<<<<<<<<<
+ *     cdef public char* mode             # <<<<<<<<<<<<<<
+ *     cdef public char* encoding
  *     cdef public short replication
- *     cdef public FileInfo _info
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_8encoding_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_8encoding_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_4mode_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_4mode_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_8encoding___get__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4mode___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_8encoding___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_4mode___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6626,7 +6391,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_8encoding___get__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->encoding); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->mode); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6635,7 +6400,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_8encoding___get__(struct __pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.encoding.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.mode.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6644,19 +6409,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_8encoding___get__(struct __pyx_
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_4File_8encoding_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_4File_8encoding_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_8encoding_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4mode_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_4File_8encoding_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_4mode_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -6665,41 +6430,41 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_8encoding_2__set__(struct __pyx_obj_8
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
   __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_self->encoding = __pyx_t_1;
+  __pyx_v_self->mode = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.encoding.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.mode.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":127
+/* "cyhdfs3/cyhdfs3.pyx":127
+ *     cdef public char* path
  *     cdef public char* mode
- *     cdef public char* encoding
- *     cdef public short replication             # <<<<<<<<<<<<<<
+ *     cdef public char* encoding             # <<<<<<<<<<<<<<
+ *     cdef public short replication
  *     cdef public FileInfo _info
- *     cdef bytes linebuff
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_11replication_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_11replication_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_8encoding_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_8encoding_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_11replication___get__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_8encoding___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_11replication___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_8encoding___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6708,7 +6473,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_11replication___get__(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->replication); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->encoding); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6717,7 +6482,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_11replication___get__(struct __
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.replication.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.encoding.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6726,19 +6491,101 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_11replication___get__(struct __
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_4File_11replication_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_4File_11replication_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_8encoding_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_8encoding_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_11replication_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_8encoding_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_4File_11replication_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_8encoding_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  char *__pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->encoding = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.encoding.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":128
+ *     cdef public char* mode
+ *     cdef public char* encoding
+ *     cdef public short replication             # <<<<<<<<<<<<<<
+ *     cdef public FileInfo _info
+ *     cdef public list _blocks
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_11replication_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_11replication_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_11replication___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_11replication___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->replication); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.replication.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_11replication_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_11replication_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_11replication_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_11replication_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   short __pyx_t_1;
@@ -6746,42 +6593,42 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_11replication_2__set__(struct __pyx_o
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_short(__pyx_v_value); if (unlikely((__pyx_t_1 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_short(__pyx_v_value); if (unlikely((__pyx_t_1 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->replication = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.File.replication.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File.replication.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":128
+/* "cyhdfs3/cyhdfs3.pyx":129
  *     cdef public char* encoding
  *     cdef public short replication
  *     cdef public FileInfo _info             # <<<<<<<<<<<<<<
+ *     cdef public list _blocks
  *     cdef bytes linebuff
- * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_5_info_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_4File_5_info_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_5_info___get__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_5_info___get__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
@@ -6798,19 +6645,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_4File_5_info___get__(struct __pyx_obj
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_4File_5_info_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_4File_5_info_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_5_info_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -6818,13 +6665,13 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_2__set__(struct __pyx_obj_8lib
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_8libhdfs3_5chdfs_FileInfo))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_7cyhdfs3_7cyhdfs3_FileInfo))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->_info);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->_info));
-  __pyx_v_self->_info = ((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_t_1);
+  __pyx_v_self->_info = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_t_1);
   __pyx_t_1 = 0;
 
   /* function exit code */
@@ -6832,7 +6679,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_2__set__(struct __pyx_obj_8lib
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.File._info.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File._info.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -6840,19 +6687,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_2__set__(struct __pyx_obj_8lib
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_4File_5_info_5__del__(PyObject *__pyx_v_self); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_4File_5_info_5__del__(PyObject *__pyx_v_self) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_5__del__(PyObject *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_4File_5_info_4__del__(((struct __pyx_obj_8libhdfs3_5chdfs_File *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info_4__del__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_4__del__(struct __pyx_obj_8libhdfs3_5chdfs_File *__pyx_v_self) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_5_info_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__", 0);
@@ -6860,7 +6707,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_4__del__(struct __pyx_obj_8lib
   __Pyx_GIVEREF(Py_None);
   __Pyx_GOTREF(__pyx_v_self->_info);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->_info));
-  __pyx_v_self->_info = ((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)Py_None);
+  __pyx_v_self->_info = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)Py_None);
 
   /* function exit code */
   __pyx_r = 0;
@@ -6868,7 +6715,115 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_4__del__(struct __pyx_obj_8lib
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":275
+/* "cyhdfs3/cyhdfs3.pyx":130
+ *     cdef public short replication
+ *     cdef public FileInfo _info
+ *     cdef public list _blocks             # <<<<<<<<<<<<<<
+ *     cdef bytes linebuff
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_self->_blocks);
+  __pyx_r = __pyx_v_self->_blocks;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_v_value;
+  __Pyx_INCREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __Pyx_GOTREF(__pyx_v_self->_blocks);
+  __Pyx_DECREF(__pyx_v_self->_blocks);
+  __pyx_v_self->_blocks = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.File._blocks.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_5__del__(PyObject *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks_4__del__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_4File_7_blocks_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__", 0);
+  __Pyx_INCREF(Py_None);
+  __Pyx_GIVEREF(Py_None);
+  __Pyx_GOTREF(__pyx_v_self->_blocks);
+  __Pyx_DECREF(__pyx_v_self->_blocks);
+  __pyx_v_self->_blocks = ((PyObject*)Py_None);
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":271
  *     cdef public char* kind
  * 
  *     def __init__(self, name, owner, group, replication,             # <<<<<<<<<<<<<<
@@ -6877,8 +6832,8 @@ static int __pyx_pf_8libhdfs3_5chdfs_4File_5_info_4__del__(struct __pyx_obj_8lib
  */
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_name = 0;
   PyObject *__pyx_v_owner = 0;
   PyObject *__pyx_v_group = 0;
@@ -6923,51 +6878,51 @@ static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_1__init__(PyObject *__pyx_v_self,
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_owner)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_group)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_replication)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_permissions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lastMod)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lastAccess)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_blockSize)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_kind)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 10) {
       goto __pyx_L5_argtuple_error;
@@ -6996,20 +6951,20 @@ static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_1__init__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 10, 10, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo___init__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), __pyx_v_name, __pyx_v_owner, __pyx_v_group, __pyx_v_replication, __pyx_v_permissions, __pyx_v_size, __pyx_v_lastMod, __pyx_v_lastAccess, __pyx_v_blockSize, __pyx_v_kind);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo___init__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), __pyx_v_name, __pyx_v_owner, __pyx_v_group, __pyx_v_replication, __pyx_v_permissions, __pyx_v_size, __pyx_v_lastMod, __pyx_v_lastAccess, __pyx_v_blockSize, __pyx_v_kind);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo___init__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_owner, PyObject *__pyx_v_group, PyObject *__pyx_v_replication, PyObject *__pyx_v_permissions, PyObject *__pyx_v_size, PyObject *__pyx_v_lastMod, PyObject *__pyx_v_lastAccess, PyObject *__pyx_v_blockSize, PyObject *__pyx_v_kind) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo___init__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_owner, PyObject *__pyx_v_group, PyObject *__pyx_v_replication, PyObject *__pyx_v_permissions, PyObject *__pyx_v_size, PyObject *__pyx_v_lastMod, PyObject *__pyx_v_lastAccess, PyObject *__pyx_v_blockSize, PyObject *__pyx_v_kind) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7026,124 +6981,124 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo___init__(struct __pyx_obj_8libhdf
   __Pyx_INCREF(__pyx_v_name);
   __Pyx_INCREF(__pyx_v_kind);
 
-  /* "libhdfs3/chdfs.pyx":277
+  /* "cyhdfs3/cyhdfs3.pyx":273
  *     def __init__(self, name, owner, group, replication,
  *                  permissions, size, lastMod, lastAccess, blockSize, kind):
  *         name = '/' + name.lstrip('/')             # <<<<<<<<<<<<<<
  *         self.name = name
  *         self.owner = owner
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_lstrip); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_lstrip); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyNumber_Add(__pyx_kp_s_, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyNumber_Add(__pyx_kp_s_, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF_SET(__pyx_v_name, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":278
+  /* "cyhdfs3/cyhdfs3.pyx":274
  *                  permissions, size, lastMod, lastAccess, blockSize, kind):
  *         name = '/' + name.lstrip('/')
  *         self.name = name             # <<<<<<<<<<<<<<
  *         self.owner = owner
  *         self.group = group
  */
-  __pyx_t_3 = __Pyx_PyObject_AsString(__pyx_v_name); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_AsString(__pyx_v_name); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 274; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->name = __pyx_t_3;
 
-  /* "libhdfs3/chdfs.pyx":279
+  /* "cyhdfs3/cyhdfs3.pyx":275
  *         name = '/' + name.lstrip('/')
  *         self.name = name
  *         self.owner = owner             # <<<<<<<<<<<<<<
  *         self.group = group
  *         self.replication = replication
  */
-  __pyx_t_3 = __Pyx_PyObject_AsString(__pyx_v_owner); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_AsString(__pyx_v_owner); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->owner = __pyx_t_3;
 
-  /* "libhdfs3/chdfs.pyx":280
+  /* "cyhdfs3/cyhdfs3.pyx":276
  *         self.name = name
  *         self.owner = owner
  *         self.group = group             # <<<<<<<<<<<<<<
  *         self.replication = replication
  *         self.permissions = permissions
  */
-  __pyx_t_3 = __Pyx_PyObject_AsString(__pyx_v_group); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_AsString(__pyx_v_group); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->group = __pyx_t_3;
 
-  /* "libhdfs3/chdfs.pyx":281
+  /* "cyhdfs3/cyhdfs3.pyx":277
  *         self.owner = owner
  *         self.group = group
  *         self.replication = replication             # <<<<<<<<<<<<<<
  *         self.permissions = permissions
  *         self.size = size
  */
-  __pyx_t_4 = __Pyx_PyInt_As_short(__pyx_v_replication); if (unlikely((__pyx_t_4 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 281; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyInt_As_short(__pyx_v_replication); if (unlikely((__pyx_t_4 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->replication = __pyx_t_4;
 
-  /* "libhdfs3/chdfs.pyx":282
+  /* "cyhdfs3/cyhdfs3.pyx":278
  *         self.group = group
  *         self.replication = replication
  *         self.permissions = permissions             # <<<<<<<<<<<<<<
  *         self.size = size
  *         self.lastMod = lastMod
  */
-  __pyx_t_4 = __Pyx_PyInt_As_short(__pyx_v_permissions); if (unlikely((__pyx_t_4 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 282; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyInt_As_short(__pyx_v_permissions); if (unlikely((__pyx_t_4 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->permissions = __pyx_t_4;
 
-  /* "libhdfs3/chdfs.pyx":283
+  /* "cyhdfs3/cyhdfs3.pyx":279
  *         self.replication = replication
  *         self.permissions = permissions
  *         self.size = size             # <<<<<<<<<<<<<<
  *         self.lastMod = lastMod
  *         self.lastAccess = lastAccess
  */
-  __pyx_t_5 = __Pyx_PyInt_As_tOffset(__pyx_v_size); if (unlikely((__pyx_t_5 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyInt_As_tOffset(__pyx_v_size); if (unlikely((__pyx_t_5 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->size = __pyx_t_5;
 
-  /* "libhdfs3/chdfs.pyx":284
+  /* "cyhdfs3/cyhdfs3.pyx":280
  *         self.permissions = permissions
  *         self.size = size
  *         self.lastMod = lastMod             # <<<<<<<<<<<<<<
  *         self.lastAccess = lastAccess
  *         self.blockSize = blockSize
  */
-  __pyx_t_6 = __Pyx_PyInt_As_tTime(__pyx_v_lastMod); if (unlikely((__pyx_t_6 == (tTime)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyInt_As_tTime(__pyx_v_lastMod); if (unlikely((__pyx_t_6 == (tTime)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->lastMod = __pyx_t_6;
 
-  /* "libhdfs3/chdfs.pyx":285
+  /* "cyhdfs3/cyhdfs3.pyx":281
  *         self.size = size
  *         self.lastMod = lastMod
  *         self.lastAccess = lastAccess             # <<<<<<<<<<<<<<
  *         self.blockSize = blockSize
  *         kind = 'f' if kind == 70 else 'd'
  */
-  __pyx_t_6 = __Pyx_PyInt_As_tTime(__pyx_v_lastAccess); if (unlikely((__pyx_t_6 == (tTime)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyInt_As_tTime(__pyx_v_lastAccess); if (unlikely((__pyx_t_6 == (tTime)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 281; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->lastAccess = __pyx_t_6;
 
-  /* "libhdfs3/chdfs.pyx":286
+  /* "cyhdfs3/cyhdfs3.pyx":282
  *         self.lastMod = lastMod
  *         self.lastAccess = lastAccess
  *         self.blockSize = blockSize             # <<<<<<<<<<<<<<
  *         kind = 'f' if kind == 70 else 'd'
  *         self.kind = kind
  */
-  __pyx_t_5 = __Pyx_PyInt_As_tOffset(__pyx_v_blockSize); if (unlikely((__pyx_t_5 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyInt_As_tOffset(__pyx_v_blockSize); if (unlikely((__pyx_t_5 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 282; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->blockSize = __pyx_t_5;
 
-  /* "libhdfs3/chdfs.pyx":287
+  /* "cyhdfs3/cyhdfs3.pyx":283
  *         self.lastAccess = lastAccess
  *         self.blockSize = blockSize
  *         kind = 'f' if kind == 70 else 'd'             # <<<<<<<<<<<<<<
  *         self.kind = kind
  * 
  */
-  __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_v_kind, __pyx_int_70, 70, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 287; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_v_kind, __pyx_int_70, 70, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 287; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_7) {
     __Pyx_INCREF(__pyx_n_s_f);
@@ -7155,17 +7110,17 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo___init__(struct __pyx_obj_8libhdf
   __Pyx_DECREF_SET(__pyx_v_kind, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":288
+  /* "cyhdfs3/cyhdfs3.pyx":284
  *         self.blockSize = blockSize
  *         kind = 'f' if kind == 70 else 'd'
  *         self.kind = kind             # <<<<<<<<<<<<<<
  * 
  *     def todict(self):
  */
-  __pyx_t_3 = __Pyx_PyObject_AsString(__pyx_v_kind); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_AsString(__pyx_v_kind); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->kind = __pyx_t_3;
 
-  /* "libhdfs3/chdfs.pyx":275
+  /* "cyhdfs3/cyhdfs3.pyx":271
  *     cdef public char* kind
  * 
  *     def __init__(self, name, owner, group, replication,             # <<<<<<<<<<<<<<
@@ -7179,7 +7134,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo___init__(struct __pyx_obj_8libhdf
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_name);
@@ -7188,7 +7143,7 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo___init__(struct __pyx_obj_8libhdf
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":290
+/* "cyhdfs3/cyhdfs3.pyx":286
  *         self.kind = kind
  * 
  *     def todict(self):             # <<<<<<<<<<<<<<
@@ -7197,19 +7152,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo___init__(struct __pyx_obj_8libhdf
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_3todict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_3todict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_3todict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_3todict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("todict (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_2todict(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_2todict(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_2todict(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_2todict(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_v_dic = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -7219,139 +7174,139 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_2todict(struct __pyx_obj_8l
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("todict", 0);
 
-  /* "libhdfs3/chdfs.pyx":291
+  /* "cyhdfs3/cyhdfs3.pyx":287
  * 
  *     def todict(self):
  *         dic = {}             # <<<<<<<<<<<<<<
  *         dic['name'] = self.name
  *         dic['owner'] = self.owner
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 291; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 287; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_dic = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":292
+  /* "cyhdfs3/cyhdfs3.pyx":288
  *     def todict(self):
  *         dic = {}
  *         dic['name'] = self.name             # <<<<<<<<<<<<<<
  *         dic['owner'] = self.owner
  *         dic['group'] = self.group
  */
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->name); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->name); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_name, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_name, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 288; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":293
+  /* "cyhdfs3/cyhdfs3.pyx":289
  *         dic = {}
  *         dic['name'] = self.name
  *         dic['owner'] = self.owner             # <<<<<<<<<<<<<<
  *         dic['group'] = self.group
  *         dic['replication'] = self.replication
  */
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->owner); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 293; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->owner); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 289; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_owner, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 293; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_owner, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 289; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":294
+  /* "cyhdfs3/cyhdfs3.pyx":290
  *         dic['name'] = self.name
  *         dic['owner'] = self.owner
  *         dic['group'] = self.group             # <<<<<<<<<<<<<<
  *         dic['replication'] = self.replication
  *         dic['permissions'] = self.permissions
  */
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->group); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->group); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 290; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_group, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_group, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 290; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":295
+  /* "cyhdfs3/cyhdfs3.pyx":291
  *         dic['owner'] = self.owner
  *         dic['group'] = self.group
  *         dic['replication'] = self.replication             # <<<<<<<<<<<<<<
  *         dic['permissions'] = self.permissions
  *         dic['size'] = self.size
  */
-  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->replication); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->replication); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 291; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_replication, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_replication, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 291; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":296
+  /* "cyhdfs3/cyhdfs3.pyx":292
  *         dic['group'] = self.group
  *         dic['replication'] = self.replication
  *         dic['permissions'] = self.permissions             # <<<<<<<<<<<<<<
  *         dic['size'] = self.size
  *         dic['lastMod'] = self.lastMod
  */
-  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->permissions); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 296; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->permissions); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_permissions, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 296; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_permissions, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 292; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":297
+  /* "cyhdfs3/cyhdfs3.pyx":293
  *         dic['replication'] = self.replication
  *         dic['permissions'] = self.permissions
  *         dic['size'] = self.size             # <<<<<<<<<<<<<<
  *         dic['lastMod'] = self.lastMod
  *         dic['lastAccess'] = self.lastAccess
  */
-  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 293; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_size, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_size, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 293; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":298
+  /* "cyhdfs3/cyhdfs3.pyx":294
  *         dic['permissions'] = self.permissions
  *         dic['size'] = self.size
  *         dic['lastMod'] = self.lastMod             # <<<<<<<<<<<<<<
  *         dic['lastAccess'] = self.lastAccess
  *         dic['blockSize'] = self.blockSize
  */
-  __pyx_t_1 = __Pyx_PyInt_From_tTime(__pyx_v_self->lastMod); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 298; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tTime(__pyx_v_self->lastMod); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_lastMod, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 298; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_lastMod, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":299
+  /* "cyhdfs3/cyhdfs3.pyx":295
  *         dic['size'] = self.size
  *         dic['lastMod'] = self.lastMod
  *         dic['lastAccess'] = self.lastAccess             # <<<<<<<<<<<<<<
  *         dic['blockSize'] = self.blockSize
  *         dic['kind'] = self.kind
  */
-  __pyx_t_1 = __Pyx_PyInt_From_tTime(__pyx_v_self->lastAccess); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 299; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tTime(__pyx_v_self->lastAccess); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_lastAccess, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 299; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_lastAccess, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":300
+  /* "cyhdfs3/cyhdfs3.pyx":296
  *         dic['lastMod'] = self.lastMod
  *         dic['lastAccess'] = self.lastAccess
  *         dic['blockSize'] = self.blockSize             # <<<<<<<<<<<<<<
  *         dic['kind'] = self.kind
  *         return dic
  */
-  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->blockSize); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 300; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->blockSize); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 296; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_blockSize, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 300; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_blockSize, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 296; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":301
+  /* "cyhdfs3/cyhdfs3.pyx":297
  *         dic['lastAccess'] = self.lastAccess
  *         dic['blockSize'] = self.blockSize
  *         dic['kind'] = self.kind             # <<<<<<<<<<<<<<
  *         return dic
  * 
  */
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->kind); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 301; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->kind); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_kind, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 301; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_kind, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":302
+  /* "cyhdfs3/cyhdfs3.pyx":298
  *         dic['blockSize'] = self.blockSize
  *         dic['kind'] = self.kind
  *         return dic             # <<<<<<<<<<<<<<
@@ -7363,7 +7318,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_2todict(struct __pyx_obj_8l
   __pyx_r = __pyx_v_dic;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":290
+  /* "cyhdfs3/cyhdfs3.pyx":286
  *         self.kind = kind
  * 
  *     def todict(self):             # <<<<<<<<<<<<<<
@@ -7374,7 +7329,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_2todict(struct __pyx_obj_8l
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.todict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.todict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_dic);
@@ -7383,7 +7338,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_2todict(struct __pyx_obj_8l
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":304
+/* "cyhdfs3/cyhdfs3.pyx":300
  *         return dic
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -7392,19 +7347,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_2todict(struct __pyx_obj_8l
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_5__str__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_5__str__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5__str__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5__str__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__str__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4__str__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4__str__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7415,7 +7370,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(struct __pyx_obj_8
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "libhdfs3/chdfs.pyx":305
+  /* "cyhdfs3/cyhdfs3.pyx":301
  * 
  *     def __str__(self):
  *         return str(self.todict())             # <<<<<<<<<<<<<<
@@ -7423,7 +7378,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(struct __pyx_obj_8
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_todict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_todict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 301; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -7436,26 +7391,26 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(struct __pyx_obj_8
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 301; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 301; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 301; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 301; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":304
+  /* "cyhdfs3/cyhdfs3.pyx":300
  *         return dic
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -7468,7 +7423,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(struct __pyx_obj_8
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.__str__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.__str__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7476,7 +7431,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(struct __pyx_obj_8
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":264
+/* "cyhdfs3/cyhdfs3.pyx":260
  * 
  * cdef class FileInfo(object):
  *     cdef public char* name             # <<<<<<<<<<<<<<
@@ -7485,19 +7440,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4__str__(struct __pyx_obj_8
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_4name_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_4name_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4name_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4name_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4name___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4name___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7506,7 +7461,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name___get__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->name); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->name); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7515,7 +7470,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name___get__(struct __pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.name.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.name.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7524,19 +7479,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name___get__(struct __pyx_
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4name_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4name_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4name_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4name_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4name_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4name_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -7544,21 +7499,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name_2__set__(struct __pyx_obj_8
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->name = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.name.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.name.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":265
+/* "cyhdfs3/cyhdfs3.pyx":261
  * cdef class FileInfo(object):
  *     cdef public char* name
  *     cdef public char* owner             # <<<<<<<<<<<<<<
@@ -7567,19 +7522,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4name_2__set__(struct __pyx_obj_8
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_5owner_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_5owner_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5owner___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5owner___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7588,7 +7543,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner___get__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->owner); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 265; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->owner); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7597,7 +7552,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner___get__(struct __pyx
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.owner.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.owner.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7606,19 +7561,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner___get__(struct __pyx
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5owner_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5owner_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -7626,21 +7581,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner_2__set__(struct __pyx_obj_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 265; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->owner = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.owner.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.owner.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":266
+/* "cyhdfs3/cyhdfs3.pyx":262
  *     cdef public char* name
  *     cdef public char* owner
  *     cdef public char* group             # <<<<<<<<<<<<<<
@@ -7649,19 +7604,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5owner_2__set__(struct __pyx_obj_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_5group_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_5group_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5group_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5group_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5group___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5group___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7670,7 +7625,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group___get__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->group); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 266; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->group); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7679,7 +7634,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group___get__(struct __pyx
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.group.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.group.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7688,19 +7643,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group___get__(struct __pyx
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5group_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5group_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5group_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5group_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5group_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_5group_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -7708,21 +7663,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group_2__set__(struct __pyx_obj_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 266; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->group = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.group.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.group.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":267
+/* "cyhdfs3/cyhdfs3.pyx":263
  *     cdef public char* owner
  *     cdef public char* group
  *     cdef public short replication             # <<<<<<<<<<<<<<
@@ -7731,19 +7686,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_5group_2__set__(struct __pyx_obj_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_11replication_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_11replication_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11replication___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11replication___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7752,7 +7707,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication___get__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->replication); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 267; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->replication); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 263; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7761,7 +7716,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication___get__(struc
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.replication.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.replication.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7770,19 +7725,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication___get__(struc
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_11replication_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_11replication_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   short __pyx_t_1;
@@ -7790,21 +7745,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication_2__set__(struct __p
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_short(__pyx_v_value); if (unlikely((__pyx_t_1 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 267; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_short(__pyx_v_value); if (unlikely((__pyx_t_1 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 263; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->replication = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.replication.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.replication.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":268
+/* "cyhdfs3/cyhdfs3.pyx":264
  *     cdef public char* group
  *     cdef public short replication
  *     cdef public short permissions             # <<<<<<<<<<<<<<
@@ -7813,19 +7768,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11replication_2__set__(struct __p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_11permissions_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_11permissions_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7834,7 +7789,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions___get__(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->permissions); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 268; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_short(__pyx_v_self->permissions); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7843,7 +7798,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions___get__(struc
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.permissions.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.permissions.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7852,19 +7807,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions___get__(struc
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_11permissions_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_11permissions_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   short __pyx_t_1;
@@ -7872,21 +7827,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions_2__set__(struct __p
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_short(__pyx_v_value); if (unlikely((__pyx_t_1 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 268; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_short(__pyx_v_value); if (unlikely((__pyx_t_1 == (short)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->permissions = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.permissions.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.permissions.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":269
+/* "cyhdfs3/cyhdfs3.pyx":265
  *     cdef public short replication
  *     cdef public short permissions
  *     cdef public libhdfs3.tOffset size             # <<<<<<<<<<<<<<
@@ -7895,19 +7850,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_11permissions_2__set__(struct __p
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_4size_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_4size_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4size_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4size_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4size___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4size___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7916,7 +7871,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size___get__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 269; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 265; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7925,7 +7880,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size___get__(struct __pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.size.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.size.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7934,19 +7889,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size___get__(struct __pyx_
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4size_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4size_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4size_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4size_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4size_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4size_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   tOffset __pyx_t_1;
@@ -7954,21 +7909,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size_2__set__(struct __pyx_obj_8
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_value); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 269; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_value); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 265; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->size = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.size.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.size.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":270
+/* "cyhdfs3/cyhdfs3.pyx":266
  *     cdef public short permissions
  *     cdef public libhdfs3.tOffset size
  *     cdef public libhdfs3.tTime lastMod             # <<<<<<<<<<<<<<
@@ -7977,19 +7932,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4size_2__set__(struct __pyx_obj_8
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_7lastMod_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_7lastMod_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7998,7 +7953,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod___get__(struct __p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_tTime(__pyx_v_self->lastMod); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 270; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tTime(__pyx_v_self->lastMod); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 266; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8007,7 +7962,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod___get__(struct __p
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.lastMod.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.lastMod.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8016,19 +7971,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod___get__(struct __p
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_7lastMod_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_7lastMod_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   tTime __pyx_t_1;
@@ -8036,21 +7991,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod_2__set__(struct __pyx_ob
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_tTime(__pyx_v_value); if (unlikely((__pyx_t_1 == (tTime)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 270; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_tTime(__pyx_v_value); if (unlikely((__pyx_t_1 == (tTime)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 266; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->lastMod = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.lastMod.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.lastMod.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":271
+/* "cyhdfs3/cyhdfs3.pyx":267
  *     cdef public libhdfs3.tOffset size
  *     cdef public libhdfs3.tTime lastMod
  *     cdef public libhdfs3.tTime lastAccess             # <<<<<<<<<<<<<<
@@ -8059,19 +8014,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_7lastMod_2__set__(struct __pyx_ob
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_10lastAccess_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_10lastAccess_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8080,7 +8035,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess___get__(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_tTime(__pyx_v_self->lastAccess); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tTime(__pyx_v_self->lastAccess); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 267; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8089,7 +8044,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess___get__(struct
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.lastAccess.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.lastAccess.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8098,19 +8053,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess___get__(struct
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_10lastAccess_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_10lastAccess_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   tTime __pyx_t_1;
@@ -8118,21 +8073,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess_2__set__(struct __py
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_tTime(__pyx_v_value); if (unlikely((__pyx_t_1 == (tTime)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 271; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_tTime(__pyx_v_value); if (unlikely((__pyx_t_1 == (tTime)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 267; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->lastAccess = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.lastAccess.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.lastAccess.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":272
+/* "cyhdfs3/cyhdfs3.pyx":268
  *     cdef public libhdfs3.tTime lastMod
  *     cdef public libhdfs3.tTime lastAccess
  *     cdef public libhdfs3.tOffset blockSize             # <<<<<<<<<<<<<<
@@ -8141,19 +8096,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_10lastAccess_2__set__(struct __py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_9blockSize_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_9blockSize_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8162,7 +8117,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize___get__(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->blockSize); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 272; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->blockSize); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 268; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8171,7 +8126,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize___get__(struct _
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.blockSize.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.blockSize.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8180,19 +8135,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize___get__(struct _
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_9blockSize_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_9blockSize_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   tOffset __pyx_t_1;
@@ -8200,21 +8155,21 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize_2__set__(struct __pyx_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_value); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 272; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_value); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 268; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->blockSize = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.blockSize.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.blockSize.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":273
+/* "cyhdfs3/cyhdfs3.pyx":269
  *     cdef public libhdfs3.tTime lastAccess
  *     cdef public libhdfs3.tOffset blockSize
  *     cdef public char* kind             # <<<<<<<<<<<<<<
@@ -8223,19 +8178,19 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_9blockSize_2__set__(struct __pyx_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_4kind_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_8FileInfo_4kind_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind___get__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4kind___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind___get__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4kind___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8244,7 +8199,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind___get__(struct __pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->kind); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBytes_FromString(__pyx_v_self->kind); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 269; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8253,7 +8208,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind___get__(struct __pyx_
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.kind.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.kind.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8262,19 +8217,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind___get__(struct __pyx_
 }
 
 /* Python wrapper */
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4kind_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4kind_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind_2__set__(((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)__pyx_v_self), ((PyObject *)__pyx_v_value));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind_2__set__(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *__pyx_v_self, PyObject *__pyx_v_value) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   char *__pyx_t_1;
@@ -8282,22 +8237,22 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind_2__set__(struct __pyx_obj_8
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_AsString(__pyx_v_value); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 269; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_self->kind = __pyx_t_1;
 
   /* function exit code */
   __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.FileInfo.kind.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.FileInfo.kind.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":310
- * class BlockLocation(object):
+/* "cyhdfs3/cyhdfs3.pyx":313
+ *     cdef public libhdfs3.tOffset offset
  * 
  *     def __init__(self, length, offset, corrupt):             # <<<<<<<<<<<<<<
  *         self.length = length
@@ -8305,27 +8260,24 @@ static int __pyx_pf_8libhdfs3_5chdfs_8FileInfo_4kind_2__set__(struct __pyx_obj_8
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8libhdfs3_5chdfs_13BlockLocation_1__init__ = {"__init__", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_1__init__, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_self = 0;
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_length = 0;
   PyObject *__pyx_v_offset = 0;
   PyObject *__pyx_v_corrupt = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_length,&__pyx_n_s_offset,&__pyx_n_s_corrupt,0};
-    PyObject* values[4] = {0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_length,&__pyx_n_s_offset,&__pyx_n_s_corrupt,0};
+    PyObject* values[3] = {0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -8335,129 +8287,136 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_1__init__(PyObject *_
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_length)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_length)) != 0)) kw_args--;
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_offset)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 313; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_offset)) != 0)) kw_args--;
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_corrupt)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-        }
-        case  3:
-        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_corrupt)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 313; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 313; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_self = values[0];
-    __pyx_v_length = values[1];
-    __pyx_v_offset = values[2];
-    __pyx_v_corrupt = values[3];
+    __pyx_v_length = values[0];
+    __pyx_v_offset = values[1];
+    __pyx_v_corrupt = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 313; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.BlockLocation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
-  return NULL;
+  return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_13BlockLocation___init__(__pyx_self, __pyx_v_self, __pyx_v_length, __pyx_v_offset, __pyx_v_corrupt);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation___init__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), __pyx_v_length, __pyx_v_offset, __pyx_v_corrupt);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_length, PyObject *__pyx_v_offset, PyObject *__pyx_v_corrupt) {
-  PyObject *__pyx_r = NULL;
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation___init__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_length, PyObject *__pyx_v_offset, PyObject *__pyx_v_corrupt) {
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  tOffset __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "libhdfs3/chdfs.pyx":311
+  /* "cyhdfs3/cyhdfs3.pyx":314
  * 
  *     def __init__(self, length, offset, corrupt):
  *         self.length = length             # <<<<<<<<<<<<<<
  *         self.offset = offset
  *         self.corrupt = corrupt
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_length, __pyx_v_length) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 311; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_length); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 314; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->length = __pyx_t_1;
 
-  /* "libhdfs3/chdfs.pyx":312
+  /* "cyhdfs3/cyhdfs3.pyx":315
  *     def __init__(self, length, offset, corrupt):
  *         self.length = length
  *         self.offset = offset             # <<<<<<<<<<<<<<
  *         self.corrupt = corrupt
  *         self.hostnames = []
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_offset, __pyx_v_offset) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 312; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_offset); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 315; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->offset = __pyx_t_1;
 
-  /* "libhdfs3/chdfs.pyx":313
+  /* "cyhdfs3/cyhdfs3.pyx":316
  *         self.length = length
  *         self.offset = offset
  *         self.corrupt = corrupt             # <<<<<<<<<<<<<<
  *         self.hostnames = []
  *         self.names = []
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_corrupt, __pyx_v_corrupt) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 313; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_corrupt); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 316; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->corrupt = __pyx_t_2;
 
-  /* "libhdfs3/chdfs.pyx":314
+  /* "cyhdfs3/cyhdfs3.pyx":317
  *         self.offset = offset
  *         self.corrupt = corrupt
  *         self.hostnames = []             # <<<<<<<<<<<<<<
  *         self.names = []
  *         self.topology_paths = []
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 314; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_hostnames, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 314; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 317; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_3);
+  __Pyx_GOTREF(__pyx_v_self->hostnames);
+  __Pyx_DECREF(__pyx_v_self->hostnames);
+  __pyx_v_self->hostnames = ((PyObject*)__pyx_t_3);
+  __pyx_t_3 = 0;
 
-  /* "libhdfs3/chdfs.pyx":315
+  /* "cyhdfs3/cyhdfs3.pyx":318
  *         self.corrupt = corrupt
  *         self.hostnames = []
  *         self.names = []             # <<<<<<<<<<<<<<
  *         self.topology_paths = []
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 315; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_names, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 315; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_3);
+  __Pyx_GOTREF(__pyx_v_self->names);
+  __Pyx_DECREF(__pyx_v_self->names);
+  __pyx_v_self->names = ((PyObject*)__pyx_t_3);
+  __pyx_t_3 = 0;
 
-  /* "libhdfs3/chdfs.pyx":316
+  /* "cyhdfs3/cyhdfs3.pyx":319
  *         self.hostnames = []
  *         self.names = []
  *         self.topology_paths = []             # <<<<<<<<<<<<<<
  * 
  *     def append_host(self, hostname, datanode, topology_path):
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 316; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_topology_paths, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 316; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 319; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_3);
+  __Pyx_GOTREF(__pyx_v_self->topology_paths);
+  __Pyx_DECREF(__pyx_v_self->topology_paths);
+  __pyx_v_self->topology_paths = ((PyObject*)__pyx_t_3);
+  __pyx_t_3 = 0;
 
-  /* "libhdfs3/chdfs.pyx":310
- * class BlockLocation(object):
+  /* "cyhdfs3/cyhdfs3.pyx":313
+ *     cdef public libhdfs3.tOffset offset
  * 
  *     def __init__(self, length, offset, corrupt):             # <<<<<<<<<<<<<<
  *         self.length = length
@@ -8465,19 +8424,18 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation___init__(CYTHON_UNUSE
  */
 
   /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  __pyx_r = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.BlockLocation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":318
+/* "cyhdfs3/cyhdfs3.pyx":321
  *         self.topology_paths = []
  * 
  *     def append_host(self, hostname, datanode, topology_path):             # <<<<<<<<<<<<<<
@@ -8486,10 +8444,8 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation___init__(CYTHON_UNUSE
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_3append_host(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8libhdfs3_5chdfs_13BlockLocation_3append_host = {"append_host", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_3append_host, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_3append_host(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_self = 0;
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_3append_host(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_3append_host(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_hostname = 0;
   PyObject *__pyx_v_datanode = 0;
   PyObject *__pyx_v_topology_path = 0;
@@ -8500,13 +8456,12 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_3append_host(PyObject
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("append_host (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_hostname,&__pyx_n_s_datanode,&__pyx_n_s_topology_path,0};
-    PyObject* values[4] = {0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_hostname,&__pyx_n_s_datanode,&__pyx_n_s_topology_path,0};
+    PyObject* values[3] = {0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -8516,102 +8471,97 @@ static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_3append_host(PyObject
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_hostname)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_hostname)) != 0)) kw_args--;
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_datanode)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("append_host", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("append_host", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 321; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_datanode)) != 0)) kw_args--;
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_topology_path)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("append_host", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-        }
-        case  3:
-        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_topology_path)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("append_host", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("append_host", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 321; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "append_host") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "append_host") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 321; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
-    __pyx_v_self = values[0];
-    __pyx_v_hostname = values[1];
-    __pyx_v_datanode = values[2];
-    __pyx_v_topology_path = values[3];
+    __pyx_v_hostname = values[0];
+    __pyx_v_datanode = values[1];
+    __pyx_v_topology_path = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("append_host", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("append_host", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 321; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("libhdfs3.chdfs.BlockLocation.append_host", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.append_host", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_13BlockLocation_2append_host(__pyx_self, __pyx_v_self, __pyx_v_hostname, __pyx_v_datanode, __pyx_v_topology_path);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_2append_host(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), __pyx_v_hostname, __pyx_v_datanode, __pyx_v_topology_path);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_2append_host(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_hostname, PyObject *__pyx_v_datanode, PyObject *__pyx_v_topology_path) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_2append_host(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_hostname, PyObject *__pyx_v_datanode, PyObject *__pyx_v_topology_path) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
+  int __pyx_t_1;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("append_host", 0);
 
-  /* "libhdfs3/chdfs.pyx":319
+  /* "cyhdfs3/cyhdfs3.pyx":322
  * 
  *     def append_host(self, hostname, datanode, topology_path):
  *         self.hostnames.append(hostname)             # <<<<<<<<<<<<<<
  *         self.names.append(datanode)
  *         self.topology_paths.append(topology_path)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_hostnames); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 319; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_hostname); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 319; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(__pyx_v_self->hostnames == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 322; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_1 = __Pyx_PyList_Append(__pyx_v_self->hostnames, __pyx_v_hostname); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 322; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "libhdfs3/chdfs.pyx":320
+  /* "cyhdfs3/cyhdfs3.pyx":323
  *     def append_host(self, hostname, datanode, topology_path):
  *         self.hostnames.append(hostname)
  *         self.names.append(datanode)             # <<<<<<<<<<<<<<
  *         self.topology_paths.append(topology_path)
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_names); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 320; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_datanode); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 320; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(__pyx_v_self->names == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 323; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_1 = __Pyx_PyList_Append(__pyx_v_self->names, __pyx_v_datanode); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 323; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "libhdfs3/chdfs.pyx":321
+  /* "cyhdfs3/cyhdfs3.pyx":324
  *         self.hostnames.append(hostname)
  *         self.names.append(datanode)
  *         self.topology_paths.append(topology_path)             # <<<<<<<<<<<<<<
  * 
  *     def todict(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_topology_paths); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 321; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_v_topology_path); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 321; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (unlikely(__pyx_v_self->topology_paths == Py_None)) {
+    PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%s'", "append");
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 324; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __pyx_t_1 = __Pyx_PyList_Append(__pyx_v_self->topology_paths, __pyx_v_topology_path); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 324; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "libhdfs3/chdfs.pyx":318
+  /* "cyhdfs3/cyhdfs3.pyx":321
  *         self.topology_paths = []
  * 
  *     def append_host(self, hostname, datanode, topology_path):             # <<<<<<<<<<<<<<
@@ -8623,8 +8573,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_2append_host(CYTHON_U
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.BlockLocation.append_host", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.append_host", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8632,7 +8581,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_2append_host(CYTHON_U
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":323
+/* "cyhdfs3/cyhdfs3.pyx":326
  *         self.topology_paths.append(topology_path)
  * 
  *     def todict(self):             # <<<<<<<<<<<<<<
@@ -8641,20 +8590,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_2append_host(CYTHON_U
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_5todict(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static PyMethodDef __pyx_mdef_8libhdfs3_5chdfs_13BlockLocation_5todict = {"todict", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_5todict, METH_O, 0};
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_5todict(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5todict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5todict(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("todict (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_13BlockLocation_4todict(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_4todict(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_4todict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_4todict(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
   PyObject *__pyx_v_dic = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -8664,91 +8612,91 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_4todict(CYTHON_UNUSED
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("todict", 0);
 
-  /* "libhdfs3/chdfs.pyx":324
+  /* "cyhdfs3/cyhdfs3.pyx":327
  * 
  *     def todict(self):
  *         dic = {}             # <<<<<<<<<<<<<<
  *         dic['length'] = self.length
  *         dic['offset'] = self.offset
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 324; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 327; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_dic = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":325
+  /* "cyhdfs3/cyhdfs3.pyx":328
  *     def todict(self):
  *         dic = {}
  *         dic['length'] = self.length             # <<<<<<<<<<<<<<
  *         dic['offset'] = self.offset
  *         dic['corrupt'] = self.corrupt
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_length); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->length); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 328; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_length, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_length, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 328; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":326
+  /* "cyhdfs3/cyhdfs3.pyx":329
  *         dic = {}
  *         dic['length'] = self.length
  *         dic['offset'] = self.offset             # <<<<<<<<<<<<<<
  *         dic['corrupt'] = self.corrupt
  *         dic['hosts'] = self.hostnames
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_offset); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->offset); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 329; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_offset, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_offset, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 329; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":327
+  /* "cyhdfs3/cyhdfs3.pyx":330
  *         dic['length'] = self.length
  *         dic['offset'] = self.offset
  *         dic['corrupt'] = self.corrupt             # <<<<<<<<<<<<<<
  *         dic['hosts'] = self.hostnames
  *         dic['names'] = self.names
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_corrupt); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 327; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->corrupt); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 330; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_corrupt, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 327; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_corrupt, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 330; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":328
+  /* "cyhdfs3/cyhdfs3.pyx":331
  *         dic['offset'] = self.offset
  *         dic['corrupt'] = self.corrupt
  *         dic['hosts'] = self.hostnames             # <<<<<<<<<<<<<<
  *         dic['names'] = self.names
  *         dic['topology_paths'] = self.topology_paths
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_hostnames); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 328; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_hosts, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 328; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_v_self->hostnames;
+  __Pyx_INCREF(__pyx_t_1);
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_hosts, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 331; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":329
+  /* "cyhdfs3/cyhdfs3.pyx":332
  *         dic['corrupt'] = self.corrupt
  *         dic['hosts'] = self.hostnames
  *         dic['names'] = self.names             # <<<<<<<<<<<<<<
  *         dic['topology_paths'] = self.topology_paths
  *         return dic
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_names); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 329; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_names, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 329; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_v_self->names;
+  __Pyx_INCREF(__pyx_t_1);
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_names, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 332; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":330
+  /* "cyhdfs3/cyhdfs3.pyx":333
  *         dic['hosts'] = self.hostnames
  *         dic['names'] = self.names
  *         dic['topology_paths'] = self.topology_paths             # <<<<<<<<<<<<<<
  *         return dic
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_topology_paths); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 330; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_topology_paths, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 330; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_v_self->topology_paths;
+  __Pyx_INCREF(__pyx_t_1);
+  if (unlikely(PyDict_SetItem(__pyx_v_dic, __pyx_n_s_topology_paths, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":331
+  /* "cyhdfs3/cyhdfs3.pyx":334
  *         dic['names'] = self.names
  *         dic['topology_paths'] = self.topology_paths
  *         return dic             # <<<<<<<<<<<<<<
@@ -8760,7 +8708,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_4todict(CYTHON_UNUSED
   __pyx_r = __pyx_v_dic;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":323
+  /* "cyhdfs3/cyhdfs3.pyx":326
  *         self.topology_paths.append(topology_path)
  * 
  *     def todict(self):             # <<<<<<<<<<<<<<
@@ -8771,7 +8719,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_4todict(CYTHON_UNUSED
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("libhdfs3.chdfs.BlockLocation.todict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.todict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_dic);
@@ -8780,7 +8728,7 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_4todict(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "libhdfs3/chdfs.pyx":333
+/* "cyhdfs3/cyhdfs3.pyx":336
  *         return dic
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -8788,20 +8736,19 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_4todict(CYTHON_UNUSED
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_7__str__(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static PyMethodDef __pyx_mdef_8libhdfs3_5chdfs_13BlockLocation_7__str__ = {"__str__", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_7__str__, METH_O, 0};
-static PyObject *__pyx_pw_8libhdfs3_5chdfs_13BlockLocation_7__str__(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7__str__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7__str__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__str__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_8libhdfs3_5chdfs_13BlockLocation_6__str__(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6__str__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_6__str__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6__str__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8812,13 +8759,13 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_6__str__(CYTHON_UNUSE
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "libhdfs3/chdfs.pyx":334
+  /* "cyhdfs3/cyhdfs3.pyx":337
  * 
  *     def __str__(self):
  *         return str(self.todict())             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_todict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_todict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8831,26 +8778,26 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_6__str__(CYTHON_UNUSE
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "libhdfs3/chdfs.pyx":333
+  /* "cyhdfs3/cyhdfs3.pyx":336
  *         return dic
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -8862,10 +8809,662 @@ static PyObject *__pyx_pf_8libhdfs3_5chdfs_13BlockLocation_6__str__(CYTHON_UNUSE
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("libhdfs3.chdfs.BlockLocation.__str__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.__str__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":305
+ * 
+ * cdef class BlockLocation(object):
+ *     cdef public int corrupt             # <<<<<<<<<<<<<<
+ *     cdef public int numOfNodes
+ *     cdef public list hostnames
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->corrupt); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.corrupt.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 305; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->corrupt = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.corrupt.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":306
+ * cdef class BlockLocation(object):
+ *     cdef public int corrupt
+ *     cdef public int numOfNodes             # <<<<<<<<<<<<<<
+ *     cdef public list hostnames
+ *     cdef public list names
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->numOfNodes); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 306; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.numOfNodes.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 306; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->numOfNodes = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.numOfNodes.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":307
+ *     cdef public int corrupt
+ *     cdef public int numOfNodes
+ *     cdef public list hostnames             # <<<<<<<<<<<<<<
+ *     cdef public list names
+ *     cdef public list topology_paths
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_self->hostnames);
+  __pyx_r = __pyx_v_self->hostnames;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 307; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_v_value;
+  __Pyx_INCREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __Pyx_GOTREF(__pyx_v_self->hostnames);
+  __Pyx_DECREF(__pyx_v_self->hostnames);
+  __pyx_v_self->hostnames = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.hostnames.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_5__del__(PyObject *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_4__del__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__", 0);
+  __Pyx_INCREF(Py_None);
+  __Pyx_GIVEREF(Py_None);
+  __Pyx_GOTREF(__pyx_v_self->hostnames);
+  __Pyx_DECREF(__pyx_v_self->hostnames);
+  __pyx_v_self->hostnames = ((PyObject*)Py_None);
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":308
+ *     cdef public int numOfNodes
+ *     cdef public list hostnames
+ *     cdef public list names             # <<<<<<<<<<<<<<
+ *     cdef public list topology_paths
+ *     cdef public libhdfs3.tOffset length
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_self->names);
+  __pyx_r = __pyx_v_self->names;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 308; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_v_value;
+  __Pyx_INCREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __Pyx_GOTREF(__pyx_v_self->names);
+  __Pyx_DECREF(__pyx_v_self->names);
+  __pyx_v_self->names = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.names.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_5__del__(PyObject *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_4__del__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__", 0);
+  __Pyx_INCREF(Py_None);
+  __Pyx_GIVEREF(Py_None);
+  __Pyx_GOTREF(__pyx_v_self->names);
+  __Pyx_DECREF(__pyx_v_self->names);
+  __pyx_v_self->names = ((PyObject*)Py_None);
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":309
+ *     cdef public list hostnames
+ *     cdef public list names
+ *     cdef public list topology_paths             # <<<<<<<<<<<<<<
+ *     cdef public libhdfs3.tOffset length
+ *     cdef public libhdfs3.tOffset offset
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_self->topology_paths);
+  __pyx_r = __pyx_v_self->topology_paths;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  if (!(likely(PyList_CheckExact(__pyx_v_value))||((__pyx_v_value) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_v_value)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_v_value;
+  __Pyx_INCREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __Pyx_GOTREF(__pyx_v_self->topology_paths);
+  __Pyx_DECREF(__pyx_v_self->topology_paths);
+  __pyx_v_self->topology_paths = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.topology_paths.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_5__del__(PyObject *__pyx_v_self); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_5__del__(PyObject *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_4__del__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_4__del__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__del__", 0);
+  __Pyx_INCREF(Py_None);
+  __Pyx_GIVEREF(Py_None);
+  __Pyx_GOTREF(__pyx_v_self->topology_paths);
+  __Pyx_DECREF(__pyx_v_self->topology_paths);
+  __pyx_v_self->topology_paths = ((PyObject*)Py_None);
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":310
+ *     cdef public list names
+ *     cdef public list topology_paths
+ *     cdef public libhdfs3.tOffset length             # <<<<<<<<<<<<<<
+ *     cdef public libhdfs3.tOffset offset
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6length___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6length___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->length); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.length.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  tOffset __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_value); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->length = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.length.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "cyhdfs3/cyhdfs3.pyx":311
+ *     cdef public list topology_paths
+ *     cdef public libhdfs3.tOffset length
+ *     cdef public libhdfs3.tOffset offset             # <<<<<<<<<<<<<<
+ * 
+ *     def __init__(self, length, offset, corrupt):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset___get__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset___get__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_tOffset(__pyx_v_self->offset); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 311; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.offset.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
+static int __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_2__set__(((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_2__set__(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *__pyx_v_self, PyObject *__pyx_v_value) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  tOffset __pyx_t_1;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__set__", 0);
+  __pyx_t_1 = __Pyx_PyInt_As_tOffset(__pyx_v_value); if (unlikely((__pyx_t_1 == (tOffset)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 311; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_self->offset = __pyx_t_1;
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("cyhdfs3.cyhdfs3.BlockLocation.offset.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -9519,7 +10118,7 @@ static CYTHON_INLINE void __pyx_f_7cpython_5array_zero(arrayobject *__pyx_v_self
   __Pyx_RefNannyFinishContext();
 }
 
-static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_HDFSClient(PyTypeObject *t, PyObject *a, PyObject *k) {
+static PyObject *__pyx_tp_new_7cyhdfs3_7cyhdfs3_HDFSClient(PyTypeObject *t, PyObject *a, PyObject *k) {
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -9527,13 +10126,13 @@ static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_HDFSClient(PyTypeObject *t, PyObj
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  if (unlikely(__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_1__cinit__(o, a, k) < 0)) {
+  if (unlikely(__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_1__cinit__(o, a, k) < 0)) {
     Py_DECREF(o); o = 0;
   }
   return o;
 }
 
-static void __pyx_tp_dealloc_8libhdfs3_5chdfs_HDFSClient(PyObject *o) {
+static void __pyx_tp_dealloc_7cyhdfs3_7cyhdfs3_HDFSClient(PyObject *o) {
   #if PY_VERSION_HEX >= 0x030400a1
   if (unlikely(Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -9543,20 +10142,20 @@ static void __pyx_tp_dealloc_8libhdfs3_5chdfs_HDFSClient(PyObject *o) {
     PyObject *etype, *eval, *etb;
     PyErr_Fetch(&etype, &eval, &etb);
     ++Py_REFCNT(o);
-    __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_3__dealloc__(o);
+    __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_3__dealloc__(o);
     --Py_REFCNT(o);
     PyErr_Restore(etype, eval, etb);
   }
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_10HDFSClient_host(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4host_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_10HDFSClient_host(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_10HDFSClient_host(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_10HDFSClient_host(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4host_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4host_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9564,13 +10163,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_10HDFSClient_host(PyObject *o, PyObjec
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_10HDFSClient_port(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4port_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_10HDFSClient_port(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_10HDFSClient_port(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_10HDFSClient_port(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_10HDFSClient_4port_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_4port_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9578,37 +10177,37 @@ static int __pyx_setprop_8libhdfs3_5chdfs_10HDFSClient_port(PyObject *o, PyObjec
   }
 }
 
-static PyMethodDef __pyx_methods_8libhdfs3_5chdfs_HDFSClient[] = {
-  {"getLastError", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_5getLastError, METH_NOARGS, 0},
-  {"exists", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_7exists, METH_O, 0},
-  {"copy", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_9copy, METH_VARARGS|METH_KEYWORDS, 0},
-  {"move", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_11move, METH_VARARGS|METH_KEYWORDS, 0},
-  {"rename", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_13rename, METH_VARARGS|METH_KEYWORDS, 0},
-  {"delete", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_15delete, METH_VARARGS|METH_KEYWORDS, 0},
-  {"create_dir", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_17create_dir, METH_O, 0},
-  {"list_dir", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_19list_dir, METH_VARARGS|METH_KEYWORDS, 0},
-  {"list_dir_recursive", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_21list_dir_recursive, METH_VARARGS|METH_KEYWORDS, 0},
-  {"get_blocks", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_23get_blocks, METH_VARARGS|METH_KEYWORDS, 0},
-  {"get_default_block_size", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_25get_default_block_size, METH_NOARGS, 0},
-  {"get_capacity", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_27get_capacity, METH_NOARGS, 0},
-  {"get_used", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_29get_used, METH_NOARGS, 0},
-  {"open", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_31open, METH_VARARGS|METH_KEYWORDS, 0},
-  {"path_info", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_10HDFSClient_33path_info, METH_O, 0},
+static PyMethodDef __pyx_methods_7cyhdfs3_7cyhdfs3_HDFSClient[] = {
+  {"getLastError", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_5getLastError, METH_NOARGS, 0},
+  {"exists", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_7exists, METH_O, 0},
+  {"copy", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_9copy, METH_VARARGS|METH_KEYWORDS, 0},
+  {"move", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_11move, METH_VARARGS|METH_KEYWORDS, 0},
+  {"rename", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_13rename, METH_VARARGS|METH_KEYWORDS, 0},
+  {"delete", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_15delete, METH_VARARGS|METH_KEYWORDS, 0},
+  {"create_dir", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_17create_dir, METH_O, 0},
+  {"list_dir", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_19list_dir, METH_VARARGS|METH_KEYWORDS, 0},
+  {"list_dir_recursive", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_21list_dir_recursive, METH_VARARGS|METH_KEYWORDS, 0},
+  {"get_blocks", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_23get_blocks, METH_VARARGS|METH_KEYWORDS, 0},
+  {"get_default_block_size", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_25get_default_block_size, METH_NOARGS, 0},
+  {"get_capacity", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_27get_capacity, METH_NOARGS, 0},
+  {"get_used", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_29get_used, METH_NOARGS, 0},
+  {"open", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_31open, METH_VARARGS|METH_KEYWORDS, 0},
+  {"path_info", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_10HDFSClient_33path_info, METH_O, 0},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_8libhdfs3_5chdfs_HDFSClient[] = {
-  {(char *)"host", __pyx_getprop_8libhdfs3_5chdfs_10HDFSClient_host, __pyx_setprop_8libhdfs3_5chdfs_10HDFSClient_host, 0, 0},
-  {(char *)"port", __pyx_getprop_8libhdfs3_5chdfs_10HDFSClient_port, __pyx_setprop_8libhdfs3_5chdfs_10HDFSClient_port, 0, 0},
+static struct PyGetSetDef __pyx_getsets_7cyhdfs3_7cyhdfs3_HDFSClient[] = {
+  {(char *)"host", __pyx_getprop_7cyhdfs3_7cyhdfs3_10HDFSClient_host, __pyx_setprop_7cyhdfs3_7cyhdfs3_10HDFSClient_host, 0, 0},
+  {(char *)"port", __pyx_getprop_7cyhdfs3_7cyhdfs3_10HDFSClient_port, __pyx_setprop_7cyhdfs3_7cyhdfs3_10HDFSClient_port, 0, 0},
   {0, 0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_8libhdfs3_5chdfs_HDFSClient = {
+static PyTypeObject __pyx_type_7cyhdfs3_7cyhdfs3_HDFSClient = {
   PyVarObject_HEAD_INIT(0, 0)
-  "libhdfs3.chdfs.HDFSClient", /*tp_name*/
-  sizeof(struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient), /*tp_basicsize*/
+  "cyhdfs3.cyhdfs3.HDFSClient", /*tp_name*/
+  sizeof(struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_8libhdfs3_5chdfs_HDFSClient, /*tp_dealloc*/
+  __pyx_tp_dealloc_7cyhdfs3_7cyhdfs3_HDFSClient, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -9636,9 +10235,9 @@ static PyTypeObject __pyx_type_8libhdfs3_5chdfs_HDFSClient = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_8libhdfs3_5chdfs_HDFSClient, /*tp_methods*/
+  __pyx_methods_7cyhdfs3_7cyhdfs3_HDFSClient, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_8libhdfs3_5chdfs_HDFSClient, /*tp_getset*/
+  __pyx_getsets_7cyhdfs3_7cyhdfs3_HDFSClient, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
@@ -9646,7 +10245,7 @@ static PyTypeObject __pyx_type_8libhdfs3_5chdfs_HDFSClient = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_8libhdfs3_5chdfs_HDFSClient, /*tp_new*/
+  __pyx_tp_new_7cyhdfs3_7cyhdfs3_HDFSClient, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -9661,8 +10260,8 @@ static PyTypeObject __pyx_type_8libhdfs3_5chdfs_HDFSClient = {
   #endif
 };
 
-static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_File(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_8libhdfs3_5chdfs_File *p;
+static PyObject *__pyx_tp_new_7cyhdfs3_7cyhdfs3_File(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *p;
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -9670,18 +10269,19 @@ static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_File(PyTypeObject *t, PyObject *a
     o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
   }
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_8libhdfs3_5chdfs_File *)o);
-  p->client = ((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)Py_None); Py_INCREF(Py_None);
-  p->_info = ((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)Py_None); Py_INCREF(Py_None);
+  p = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)o);
+  p->client = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)Py_None); Py_INCREF(Py_None);
+  p->_info = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)Py_None); Py_INCREF(Py_None);
+  p->_blocks = ((PyObject*)Py_None); Py_INCREF(Py_None);
   p->linebuff = ((PyObject*)Py_None); Py_INCREF(Py_None);
-  if (unlikely(__pyx_pw_8libhdfs3_5chdfs_4File_1__cinit__(o, a, k) < 0)) {
+  if (unlikely(__pyx_pw_7cyhdfs3_7cyhdfs3_4File_1__cinit__(o, a, k) < 0)) {
     Py_DECREF(o); o = 0;
   }
   return o;
 }
 
-static void __pyx_tp_dealloc_8libhdfs3_5chdfs_File(PyObject *o) {
-  struct __pyx_obj_8libhdfs3_5chdfs_File *p = (struct __pyx_obj_8libhdfs3_5chdfs_File *)o;
+static void __pyx_tp_dealloc_7cyhdfs3_7cyhdfs3_File(PyObject *o) {
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *p = (struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)o;
   #if PY_VERSION_HEX >= 0x030400a1
   if (unlikely(Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -9690,49 +10290,56 @@ static void __pyx_tp_dealloc_8libhdfs3_5chdfs_File(PyObject *o) {
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->client);
   Py_CLEAR(p->_info);
+  Py_CLEAR(p->_blocks);
   Py_CLEAR(p->linebuff);
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static int __pyx_tp_traverse_8libhdfs3_5chdfs_File(PyObject *o, visitproc v, void *a) {
+static int __pyx_tp_traverse_7cyhdfs3_7cyhdfs3_File(PyObject *o, visitproc v, void *a) {
   int e;
-  struct __pyx_obj_8libhdfs3_5chdfs_File *p = (struct __pyx_obj_8libhdfs3_5chdfs_File *)o;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *p = (struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)o;
   if (p->client) {
     e = (*v)(((PyObject*)p->client), a); if (e) return e;
   }
   if (p->_info) {
     e = (*v)(((PyObject*)p->_info), a); if (e) return e;
   }
+  if (p->_blocks) {
+    e = (*v)(p->_blocks, a); if (e) return e;
+  }
   return 0;
 }
 
-static int __pyx_tp_clear_8libhdfs3_5chdfs_File(PyObject *o) {
+static int __pyx_tp_clear_7cyhdfs3_7cyhdfs3_File(PyObject *o) {
   PyObject* tmp;
-  struct __pyx_obj_8libhdfs3_5chdfs_File *p = (struct __pyx_obj_8libhdfs3_5chdfs_File *)o;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *p = (struct __pyx_obj_7cyhdfs3_7cyhdfs3_File *)o;
   tmp = ((PyObject*)p->client);
-  p->client = ((struct __pyx_obj_8libhdfs3_5chdfs_HDFSClient *)Py_None); Py_INCREF(Py_None);
+  p->client = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_HDFSClient *)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->_info);
-  p->_info = ((struct __pyx_obj_8libhdfs3_5chdfs_FileInfo *)Py_None); Py_INCREF(Py_None);
+  p->_info = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo *)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->_blocks);
+  p->_blocks = ((PyObject*)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_4File_info(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_4File_4info_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_4File_info(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4info_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_4File_blocks(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_4File_6blocks_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_4File_blocks(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_6blocks_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_4File_path(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_4File_4path_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_4File_path(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4path_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_4File_path(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_4File_path(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_4File_4path_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4path_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9740,13 +10347,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_4File_path(PyObject *o, PyObject *v, C
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_4File_mode(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_4File_4mode_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_4File_mode(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4mode_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_4File_mode(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_4File_mode(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_4File_4mode_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_4mode_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9754,13 +10361,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_4File_mode(PyObject *o, PyObject *v, C
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_4File_encoding(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_4File_8encoding_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_4File_encoding(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_8encoding_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_4File_encoding(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_4File_encoding(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_4File_8encoding_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_8encoding_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9768,13 +10375,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_4File_encoding(PyObject *o, PyObject *
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_4File_replication(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_4File_11replication_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_4File_replication(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_11replication_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_4File_replication(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_4File_replication(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_4File_11replication_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_11replication_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9782,51 +10389,64 @@ static int __pyx_setprop_8libhdfs3_5chdfs_4File_replication(PyObject *o, PyObjec
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_4File__info(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_4File_5_info_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_4File__info(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_4File__info(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_4File__info(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_4File_5_info_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_3__set__(o, v);
   }
   else {
-    return __pyx_pw_8libhdfs3_5chdfs_4File_5_info_5__del__(o);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_5_info_5__del__(o);
   }
 }
 
-static PyMethodDef __pyx_methods_8libhdfs3_5chdfs_File[] = {
-  {"close", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_3close, METH_NOARGS, 0},
-  {"write", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_5write, METH_O, 0},
-  {"read", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_7read, METH_VARARGS|METH_KEYWORDS, 0},
-  {"readfile", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_9readfile, METH_VARARGS|METH_KEYWORDS, 0},
-  {"readline", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_11readline, METH_VARARGS|METH_KEYWORDS, 0},
-  {"flush", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_13flush, METH_NOARGS, 0},
-  {"seek", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_15seek, METH_O, 0},
-  {"tell", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_17tell, METH_NOARGS, 0},
-  {"__enter__", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_19__enter__, METH_NOARGS, 0},
-  {"__exit__", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_21__exit__, METH_VARARGS|METH_KEYWORDS, 0},
-  {"__del__", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_4File_23__del__, METH_NOARGS, 0},
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_4File__blocks(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_1__get__(o);
+}
+
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_4File__blocks(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_3__set__(o, v);
+  }
+  else {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_4File_7_blocks_5__del__(o);
+  }
+}
+
+static PyMethodDef __pyx_methods_7cyhdfs3_7cyhdfs3_File[] = {
+  {"close", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_3close, METH_NOARGS, 0},
+  {"write", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_5write, METH_O, 0},
+  {"read", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_7read, METH_VARARGS|METH_KEYWORDS, 0},
+  {"readline", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_9readline, METH_VARARGS|METH_KEYWORDS, 0},
+  {"flush", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_11flush, METH_NOARGS, 0},
+  {"seek", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_13seek, METH_O, 0},
+  {"tell", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_15tell, METH_NOARGS, 0},
+  {"__enter__", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_17__enter__, METH_NOARGS, 0},
+  {"__exit__", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_19__exit__, METH_VARARGS|METH_KEYWORDS, 0},
+  {"__del__", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_4File_21__del__, METH_NOARGS, 0},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_8libhdfs3_5chdfs_File[] = {
-  {(char *)"info", __pyx_getprop_8libhdfs3_5chdfs_4File_info, 0, __pyx_k_A_FileInfo_reference, 0},
-  {(char *)"blocks", __pyx_getprop_8libhdfs3_5chdfs_4File_blocks, 0, __pyx_k_A_FileInfo_reference, 0},
-  {(char *)"path", __pyx_getprop_8libhdfs3_5chdfs_4File_path, __pyx_setprop_8libhdfs3_5chdfs_4File_path, 0, 0},
-  {(char *)"mode", __pyx_getprop_8libhdfs3_5chdfs_4File_mode, __pyx_setprop_8libhdfs3_5chdfs_4File_mode, 0, 0},
-  {(char *)"encoding", __pyx_getprop_8libhdfs3_5chdfs_4File_encoding, __pyx_setprop_8libhdfs3_5chdfs_4File_encoding, 0, 0},
-  {(char *)"replication", __pyx_getprop_8libhdfs3_5chdfs_4File_replication, __pyx_setprop_8libhdfs3_5chdfs_4File_replication, 0, 0},
-  {(char *)"_info", __pyx_getprop_8libhdfs3_5chdfs_4File__info, __pyx_setprop_8libhdfs3_5chdfs_4File__info, 0, 0},
+static struct PyGetSetDef __pyx_getsets_7cyhdfs3_7cyhdfs3_File[] = {
+  {(char *)"info", __pyx_getprop_7cyhdfs3_7cyhdfs3_4File_info, 0, __pyx_k_A_FileInfo_reference, 0},
+  {(char *)"blocks", __pyx_getprop_7cyhdfs3_7cyhdfs3_4File_blocks, 0, __pyx_k_A_FileInfo_reference, 0},
+  {(char *)"path", __pyx_getprop_7cyhdfs3_7cyhdfs3_4File_path, __pyx_setprop_7cyhdfs3_7cyhdfs3_4File_path, 0, 0},
+  {(char *)"mode", __pyx_getprop_7cyhdfs3_7cyhdfs3_4File_mode, __pyx_setprop_7cyhdfs3_7cyhdfs3_4File_mode, 0, 0},
+  {(char *)"encoding", __pyx_getprop_7cyhdfs3_7cyhdfs3_4File_encoding, __pyx_setprop_7cyhdfs3_7cyhdfs3_4File_encoding, 0, 0},
+  {(char *)"replication", __pyx_getprop_7cyhdfs3_7cyhdfs3_4File_replication, __pyx_setprop_7cyhdfs3_7cyhdfs3_4File_replication, 0, 0},
+  {(char *)"_info", __pyx_getprop_7cyhdfs3_7cyhdfs3_4File__info, __pyx_setprop_7cyhdfs3_7cyhdfs3_4File__info, 0, 0},
+  {(char *)"_blocks", __pyx_getprop_7cyhdfs3_7cyhdfs3_4File__blocks, __pyx_setprop_7cyhdfs3_7cyhdfs3_4File__blocks, 0, 0},
   {0, 0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_8libhdfs3_5chdfs_File = {
+static PyTypeObject __pyx_type_7cyhdfs3_7cyhdfs3_File = {
   PyVarObject_HEAD_INIT(0, 0)
-  "libhdfs3.chdfs.File", /*tp_name*/
-  sizeof(struct __pyx_obj_8libhdfs3_5chdfs_File), /*tp_basicsize*/
+  "cyhdfs3.cyhdfs3.File", /*tp_name*/
+  sizeof(struct __pyx_obj_7cyhdfs3_7cyhdfs3_File), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_8libhdfs3_5chdfs_File, /*tp_dealloc*/
+  __pyx_tp_dealloc_7cyhdfs3_7cyhdfs3_File, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -9848,15 +10468,15 @@ static PyTypeObject __pyx_type_8libhdfs3_5chdfs_File = {
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  __pyx_tp_traverse_8libhdfs3_5chdfs_File, /*tp_traverse*/
-  __pyx_tp_clear_8libhdfs3_5chdfs_File, /*tp_clear*/
+  __pyx_tp_traverse_7cyhdfs3_7cyhdfs3_File, /*tp_traverse*/
+  __pyx_tp_clear_7cyhdfs3_7cyhdfs3_File, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_8libhdfs3_5chdfs_File, /*tp_methods*/
+  __pyx_methods_7cyhdfs3_7cyhdfs3_File, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_8libhdfs3_5chdfs_File, /*tp_getset*/
+  __pyx_getsets_7cyhdfs3_7cyhdfs3_File, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
@@ -9864,7 +10484,7 @@ static PyTypeObject __pyx_type_8libhdfs3_5chdfs_File = {
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_8libhdfs3_5chdfs_File, /*tp_new*/
+  __pyx_tp_new_7cyhdfs3_7cyhdfs3_File, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -9879,7 +10499,7 @@ static PyTypeObject __pyx_type_8libhdfs3_5chdfs_File = {
   #endif
 };
 
-static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_FileInfo(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+static PyObject *__pyx_tp_new_7cyhdfs3_7cyhdfs3_FileInfo(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
   PyObject *o;
   if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
     o = (*t->tp_alloc)(t, 0);
@@ -9890,7 +10510,7 @@ static PyObject *__pyx_tp_new_8libhdfs3_5chdfs_FileInfo(PyTypeObject *t, CYTHON_
   return o;
 }
 
-static void __pyx_tp_dealloc_8libhdfs3_5chdfs_FileInfo(PyObject *o) {
+static void __pyx_tp_dealloc_7cyhdfs3_7cyhdfs3_FileInfo(PyObject *o) {
   #if PY_VERSION_HEX >= 0x030400a1
   if (unlikely(Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
@@ -9899,13 +10519,13 @@ static void __pyx_tp_dealloc_8libhdfs3_5chdfs_FileInfo(PyObject *o) {
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_name(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4name_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_name(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4name_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_name(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_name(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4name_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4name_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9913,13 +10533,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_name(PyObject *o, PyObject *
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_owner(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5owner_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_owner(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_owner(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_owner(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5owner_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5owner_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9927,13 +10547,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_owner(PyObject *o, PyObject 
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_group(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5group_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_group(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5group_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_group(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_group(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5group_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5group_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9941,13 +10561,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_group(PyObject *o, PyObject 
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_replication(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_11replication_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_replication(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_replication(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_replication(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_11replication_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11replication_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9955,13 +10575,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_replication(PyObject *o, PyO
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_permissions(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_11permissions_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_permissions(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_permissions(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_permissions(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_11permissions_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_11permissions_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9969,13 +10589,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_permissions(PyObject *o, PyO
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_size(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4size_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_size(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4size_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_size(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_size(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4size_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4size_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9983,13 +10603,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_size(PyObject *o, PyObject *
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_lastMod(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_7lastMod_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_lastMod(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_lastMod(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_lastMod(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_7lastMod_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_7lastMod_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -9997,13 +10617,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_lastMod(PyObject *o, PyObjec
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_lastAccess(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_10lastAccess_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_lastAccess(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_lastAccess(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_lastAccess(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_10lastAccess_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_10lastAccess_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -10011,13 +10631,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_lastAccess(PyObject *o, PyOb
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_blockSize(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_9blockSize_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_blockSize(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_blockSize(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_blockSize(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_9blockSize_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_9blockSize_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -10025,13 +10645,13 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_blockSize(PyObject *o, PyObj
   }
 }
 
-static PyObject *__pyx_getprop_8libhdfs3_5chdfs_8FileInfo_kind(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4kind_1__get__(o);
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_kind(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_1__get__(o);
 }
 
-static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_kind(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_kind(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
   if (v) {
-    return __pyx_pw_8libhdfs3_5chdfs_8FileInfo_4kind_3__set__(o, v);
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_4kind_3__set__(o, v);
   }
   else {
     PyErr_SetString(PyExc_NotImplementedError, "__del__");
@@ -10039,31 +10659,31 @@ static int __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_kind(PyObject *o, PyObject *
   }
 }
 
-static PyMethodDef __pyx_methods_8libhdfs3_5chdfs_FileInfo[] = {
-  {"todict", (PyCFunction)__pyx_pw_8libhdfs3_5chdfs_8FileInfo_3todict, METH_NOARGS, 0},
+static PyMethodDef __pyx_methods_7cyhdfs3_7cyhdfs3_FileInfo[] = {
+  {"todict", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_3todict, METH_NOARGS, 0},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_8libhdfs3_5chdfs_FileInfo[] = {
-  {(char *)"name", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_name, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_name, 0, 0},
-  {(char *)"owner", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_owner, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_owner, 0, 0},
-  {(char *)"group", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_group, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_group, 0, 0},
-  {(char *)"replication", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_replication, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_replication, 0, 0},
-  {(char *)"permissions", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_permissions, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_permissions, 0, 0},
-  {(char *)"size", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_size, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_size, 0, 0},
-  {(char *)"lastMod", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_lastMod, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_lastMod, 0, 0},
-  {(char *)"lastAccess", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_lastAccess, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_lastAccess, 0, 0},
-  {(char *)"blockSize", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_blockSize, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_blockSize, 0, 0},
-  {(char *)"kind", __pyx_getprop_8libhdfs3_5chdfs_8FileInfo_kind, __pyx_setprop_8libhdfs3_5chdfs_8FileInfo_kind, 0, 0},
+static struct PyGetSetDef __pyx_getsets_7cyhdfs3_7cyhdfs3_FileInfo[] = {
+  {(char *)"name", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_name, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_name, 0, 0},
+  {(char *)"owner", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_owner, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_owner, 0, 0},
+  {(char *)"group", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_group, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_group, 0, 0},
+  {(char *)"replication", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_replication, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_replication, 0, 0},
+  {(char *)"permissions", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_permissions, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_permissions, 0, 0},
+  {(char *)"size", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_size, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_size, 0, 0},
+  {(char *)"lastMod", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_lastMod, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_lastMod, 0, 0},
+  {(char *)"lastAccess", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_lastAccess, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_lastAccess, 0, 0},
+  {(char *)"blockSize", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_blockSize, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_blockSize, 0, 0},
+  {(char *)"kind", __pyx_getprop_7cyhdfs3_7cyhdfs3_8FileInfo_kind, __pyx_setprop_7cyhdfs3_7cyhdfs3_8FileInfo_kind, 0, 0},
   {0, 0, 0, 0, 0}
 };
 
-static PyTypeObject __pyx_type_8libhdfs3_5chdfs_FileInfo = {
+static PyTypeObject __pyx_type_7cyhdfs3_7cyhdfs3_FileInfo = {
   PyVarObject_HEAD_INIT(0, 0)
-  "libhdfs3.chdfs.FileInfo", /*tp_name*/
-  sizeof(struct __pyx_obj_8libhdfs3_5chdfs_FileInfo), /*tp_basicsize*/
+  "cyhdfs3.cyhdfs3.FileInfo", /*tp_name*/
+  sizeof(struct __pyx_obj_7cyhdfs3_7cyhdfs3_FileInfo), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_8libhdfs3_5chdfs_FileInfo, /*tp_dealloc*/
+  __pyx_tp_dealloc_7cyhdfs3_7cyhdfs3_FileInfo, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -10079,7 +10699,7 @@ static PyTypeObject __pyx_type_8libhdfs3_5chdfs_FileInfo = {
   0, /*tp_as_mapping*/
   0, /*tp_hash*/
   0, /*tp_call*/
-  __pyx_pw_8libhdfs3_5chdfs_8FileInfo_5__str__, /*tp_str*/
+  __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_5__str__, /*tp_str*/
   0, /*tp_getattro*/
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
@@ -10091,17 +10711,247 @@ static PyTypeObject __pyx_type_8libhdfs3_5chdfs_FileInfo = {
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_8libhdfs3_5chdfs_FileInfo, /*tp_methods*/
+  __pyx_methods_7cyhdfs3_7cyhdfs3_FileInfo, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_8libhdfs3_5chdfs_FileInfo, /*tp_getset*/
+  __pyx_getsets_7cyhdfs3_7cyhdfs3_FileInfo, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
   0, /*tp_descr_set*/
   0, /*tp_dictoffset*/
-  __pyx_pw_8libhdfs3_5chdfs_8FileInfo_1__init__, /*tp_init*/
+  __pyx_pw_7cyhdfs3_7cyhdfs3_8FileInfo_1__init__, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_8libhdfs3_5chdfs_FileInfo, /*tp_new*/
+  __pyx_tp_new_7cyhdfs3_7cyhdfs3_FileInfo, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+
+static PyObject *__pyx_tp_new_7cyhdfs3_7cyhdfs3_BlockLocation(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *p;
+  PyObject *o;
+  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
+    o = (*t->tp_alloc)(t, 0);
+  } else {
+    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
+  }
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)o);
+  p->hostnames = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  p->names = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  p->topology_paths = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  return o;
+}
+
+static void __pyx_tp_dealloc_7cyhdfs3_7cyhdfs3_BlockLocation(PyObject *o) {
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *p = (struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)o;
+  #if PY_VERSION_HEX >= 0x030400a1
+  if (unlikely(Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
+    if (PyObject_CallFinalizerFromDealloc(o)) return;
+  }
+  #endif
+  PyObject_GC_UnTrack(o);
+  Py_CLEAR(p->hostnames);
+  Py_CLEAR(p->names);
+  Py_CLEAR(p->topology_paths);
+  (*Py_TYPE(o)->tp_free)(o);
+}
+
+static int __pyx_tp_traverse_7cyhdfs3_7cyhdfs3_BlockLocation(PyObject *o, visitproc v, void *a) {
+  int e;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *p = (struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)o;
+  if (p->hostnames) {
+    e = (*v)(p->hostnames, a); if (e) return e;
+  }
+  if (p->names) {
+    e = (*v)(p->names, a); if (e) return e;
+  }
+  if (p->topology_paths) {
+    e = (*v)(p->topology_paths, a); if (e) return e;
+  }
+  return 0;
+}
+
+static int __pyx_tp_clear_7cyhdfs3_7cyhdfs3_BlockLocation(PyObject *o) {
+  PyObject* tmp;
+  struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *p = (struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation *)o;
+  tmp = ((PyObject*)p->hostnames);
+  p->hostnames = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->names);
+  p->names = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->topology_paths);
+  p->topology_paths = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  return 0;
+}
+
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_corrupt(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_1__get__(o);
+}
+
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_corrupt(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7corrupt_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_numOfNodes(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_1__get__(o);
+}
+
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_numOfNodes(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_10numOfNodes_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_hostnames(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_1__get__(o);
+}
+
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_hostnames(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_3__set__(o, v);
+  }
+  else {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_9hostnames_5__del__(o);
+  }
+}
+
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_names(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_1__get__(o);
+}
+
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_names(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_3__set__(o, v);
+  }
+  else {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5names_5__del__(o);
+  }
+}
+
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_topology_paths(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_1__get__(o);
+}
+
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_topology_paths(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_3__set__(o, v);
+  }
+  else {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_14topology_paths_5__del__(o);
+  }
+}
+
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_length(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_1__get__(o);
+}
+
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_length(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6length_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyObject *__pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_offset(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_1__get__(o);
+}
+
+static int __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_offset(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_6offset_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
+static PyMethodDef __pyx_methods_7cyhdfs3_7cyhdfs3_BlockLocation[] = {
+  {"append_host", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_3append_host, METH_VARARGS|METH_KEYWORDS, 0},
+  {"todict", (PyCFunction)__pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_5todict, METH_NOARGS, 0},
+  {0, 0, 0, 0}
+};
+
+static struct PyGetSetDef __pyx_getsets_7cyhdfs3_7cyhdfs3_BlockLocation[] = {
+  {(char *)"corrupt", __pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_corrupt, __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_corrupt, 0, 0},
+  {(char *)"numOfNodes", __pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_numOfNodes, __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_numOfNodes, 0, 0},
+  {(char *)"hostnames", __pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_hostnames, __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_hostnames, 0, 0},
+  {(char *)"names", __pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_names, __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_names, 0, 0},
+  {(char *)"topology_paths", __pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_topology_paths, __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_topology_paths, 0, 0},
+  {(char *)"length", __pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_length, __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_length, 0, 0},
+  {(char *)"offset", __pyx_getprop_7cyhdfs3_7cyhdfs3_13BlockLocation_offset, __pyx_setprop_7cyhdfs3_7cyhdfs3_13BlockLocation_offset, 0, 0},
+  {0, 0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_7cyhdfs3_7cyhdfs3_BlockLocation = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "cyhdfs3.cyhdfs3.BlockLocation", /*tp_name*/
+  sizeof(struct __pyx_obj_7cyhdfs3_7cyhdfs3_BlockLocation), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_7cyhdfs3_7cyhdfs3_BlockLocation, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_7__str__, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
+  0, /*tp_doc*/
+  __pyx_tp_traverse_7cyhdfs3_7cyhdfs3_BlockLocation, /*tp_traverse*/
+  __pyx_tp_clear_7cyhdfs3_7cyhdfs3_BlockLocation, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_7cyhdfs3_7cyhdfs3_BlockLocation, /*tp_methods*/
+  0, /*tp_members*/
+  __pyx_getsets_7cyhdfs3_7cyhdfs3_BlockLocation, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_7cyhdfs3_7cyhdfs3_13BlockLocation_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_7cyhdfs3_7cyhdfs3_BlockLocation, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -10127,7 +10977,7 @@ static struct PyModuleDef __pyx_moduledef = {
   #else
     PyModuleDef_HEAD_INIT,
   #endif
-    "chdfs",
+    "cyhdfs3",
     0, /* m_doc */
     -1, /* m_size */
     __pyx_methods /* m_methods */,
@@ -10140,15 +10990,9 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
-  {&__pyx_n_s_BlockLocation, __pyx_k_BlockLocation, sizeof(__pyx_k_BlockLocation), 0, 0, 1, 1},
-  {&__pyx_n_s_BlockLocation___init, __pyx_k_BlockLocation___init, sizeof(__pyx_k_BlockLocation___init), 0, 0, 1, 1},
-  {&__pyx_n_s_BlockLocation___str, __pyx_k_BlockLocation___str, sizeof(__pyx_k_BlockLocation___str), 0, 0, 1, 1},
-  {&__pyx_n_s_BlockLocation_append_host, __pyx_k_BlockLocation_append_host, sizeof(__pyx_k_BlockLocation_append_host), 0, 0, 1, 1},
-  {&__pyx_n_s_BlockLocation_todict, __pyx_k_BlockLocation_todict, sizeof(__pyx_k_BlockLocation_todict), 0, 0, 1, 1},
   {&__pyx_kp_s_Could_not_flush_file, __pyx_k_Could_not_flush_file, sizeof(__pyx_k_Could_not_flush_file), 0, 0, 1, 0},
   {&__pyx_kp_s_Could_not_read_file, __pyx_k_Could_not_read_file, sizeof(__pyx_k_Could_not_read_file), 0, 0, 1, 0},
   {&__pyx_kp_s_Could_not_write_contents_to_file, __pyx_k_Could_not_write_contents_to_file, sizeof(__pyx_k_Could_not_write_contents_to_file), 0, 0, 1, 0},
-  {&__pyx_kp_s_File_not_open_for_read, __pyx_k_File_not_open_for_read, sizeof(__pyx_k_File_not_open_for_read), 0, 0, 1, 0},
   {&__pyx_kp_s_File_not_open_for_write, __pyx_k_File_not_open_for_write, sizeof(__pyx_k_File_not_open_for_write), 0, 0, 1, 0},
   {&__pyx_kp_s_File_open_failed, __pyx_k_File_open_failed, sizeof(__pyx_k_File_open_failed), 0, 0, 1, 0},
   {&__pyx_n_s_IOError, __pyx_k_IOError, sizeof(__pyx_k_IOError), 0, 0, 1, 1},
@@ -10171,13 +11015,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_client, __pyx_k_client, sizeof(__pyx_k_client), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_corrupt, __pyx_k_corrupt, sizeof(__pyx_k_corrupt), 0, 0, 1, 1},
-  {&__pyx_kp_s_cylibhdfs3_libhdfs3_chdfs_pyx, __pyx_k_cylibhdfs3_libhdfs3_chdfs_pyx, sizeof(__pyx_k_cylibhdfs3_libhdfs3_chdfs_pyx), 0, 0, 1, 0},
   {&__pyx_n_b_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 0, 1},
   {&__pyx_n_s_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 1},
   {&__pyx_n_s_datanode, __pyx_k_datanode, sizeof(__pyx_k_datanode), 0, 0, 1, 1},
   {&__pyx_n_s_depth, __pyx_k_depth, sizeof(__pyx_k_depth), 0, 0, 1, 1},
-  {&__pyx_n_s_dic, __pyx_k_dic, sizeof(__pyx_k_dic), 0, 0, 1, 1},
-  {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_n_s_dst, __pyx_k_dst, sizeof(__pyx_k_dst), 0, 0, 1, 1},
   {&__pyx_n_s_encoding, __pyx_k_encoding, sizeof(__pyx_k_encoding), 0, 0, 1, 1},
   {&__pyx_n_s_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 0, 1, 1},
@@ -10188,36 +11029,28 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_group, __pyx_k_group, sizeof(__pyx_k_group), 0, 0, 1, 1},
   {&__pyx_n_s_host, __pyx_k_host, sizeof(__pyx_k_host), 0, 0, 1, 1},
   {&__pyx_n_s_hostname, __pyx_k_hostname, sizeof(__pyx_k_hostname), 0, 0, 1, 1},
-  {&__pyx_n_s_hostnames, __pyx_k_hostnames, sizeof(__pyx_k_hostnames), 0, 0, 1, 1},
   {&__pyx_n_s_hosts, __pyx_k_hosts, sizeof(__pyx_k_hosts), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_info, __pyx_k_info, sizeof(__pyx_k_info), 0, 0, 1, 1},
   {&__pyx_n_s_info_2, __pyx_k_info_2, sizeof(__pyx_k_info_2), 0, 0, 1, 1},
-  {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_kind, __pyx_k_kind, sizeof(__pyx_k_kind), 0, 0, 1, 1},
   {&__pyx_n_s_lastAccess, __pyx_k_lastAccess, sizeof(__pyx_k_lastAccess), 0, 0, 1, 1},
   {&__pyx_n_s_lastMod, __pyx_k_lastMod, sizeof(__pyx_k_lastMod), 0, 0, 1, 1},
   {&__pyx_n_s_length, __pyx_k_length, sizeof(__pyx_k_length), 0, 0, 1, 1},
-  {&__pyx_n_s_libhdfs3_chdfs, __pyx_k_libhdfs3_chdfs, sizeof(__pyx_k_libhdfs3_chdfs), 0, 0, 1, 1},
   {&__pyx_n_s_list_dir_recursive, __pyx_k_list_dir_recursive, sizeof(__pyx_k_list_dir_recursive), 0, 0, 1, 1},
   {&__pyx_n_s_localhost, __pyx_k_localhost, sizeof(__pyx_k_localhost), 0, 0, 1, 1},
   {&__pyx_n_s_lstrip, __pyx_k_lstrip, sizeof(__pyx_k_lstrip), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_max_depth, __pyx_k_max_depth, sizeof(__pyx_k_max_depth), 0, 0, 1, 1},
-  {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
-  {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_names, __pyx_k_names, sizeof(__pyx_k_names), 0, 0, 1, 1},
-  {&__pyx_n_s_object, __pyx_k_object, sizeof(__pyx_k_object), 0, 0, 1, 1},
   {&__pyx_n_s_offset, __pyx_k_offset, sizeof(__pyx_k_offset), 0, 0, 1, 1},
   {&__pyx_n_s_owner, __pyx_k_owner, sizeof(__pyx_k_owner), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
   {&__pyx_n_s_path_info, __pyx_k_path_info, sizeof(__pyx_k_path_info), 0, 0, 1, 1},
   {&__pyx_n_s_permissions, __pyx_k_permissions, sizeof(__pyx_k_permissions), 0, 0, 1, 1},
   {&__pyx_n_s_port, __pyx_k_port, sizeof(__pyx_k_port), 0, 0, 1, 1},
-  {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
-  {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_read, __pyx_k_read, sizeof(__pyx_k_read), 0, 0, 1, 1},
@@ -10226,11 +11059,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_recursive, __pyx_k_recursive, sizeof(__pyx_k_recursive), 0, 0, 1, 1},
   {&__pyx_n_s_replication, __pyx_k_replication, sizeof(__pyx_k_replication), 0, 0, 1, 1},
   {&__pyx_n_s_ret, __pyx_k_ret, sizeof(__pyx_k_ret), 0, 0, 1, 1},
-  {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_src, __pyx_k_src, sizeof(__pyx_k_src), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
-  {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
+  {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
   {&__pyx_n_s_tell, __pyx_k_tell, sizeof(__pyx_k_tell), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_todict, __pyx_k_todict, sizeof(__pyx_k_todict), 0, 0, 1, 1},
@@ -10242,9 +11074,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 308; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_IOError = __Pyx_GetBuiltinName(__pyx_n_s_IOError); if (!__pyx_builtin_IOError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_IOError = __Pyx_GetBuiltinName(__pyx_n_s_IOError); if (!__pyx_builtin_IOError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
@@ -10255,74 +11086,27 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "libhdfs3/chdfs.pyx":206
+  /* "cyhdfs3/cyhdfs3.pyx":200
  * 
- *     def readline(self, buffersize=2**16):
+ *     def readline(self, step=1*2**19, buffersize=1*2**19):
  *         index = self.linebuff.find("\n")             # <<<<<<<<<<<<<<
  *         if index >= 0:
  *             line = self.linebuff[:index]
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "libhdfs3/chdfs.pyx":277
+  /* "cyhdfs3/cyhdfs3.pyx":273
  *     def __init__(self, name, owner, group, replication,
  *                  permissions, size, lastMod, lastAccess, blockSize, kind):
  *         name = '/' + name.lstrip('/')             # <<<<<<<<<<<<<<
  *         self.name = name
  *         self.owner = owner
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-
-  /* "libhdfs3/chdfs.pyx":310
- * class BlockLocation(object):
- * 
- *     def __init__(self, length, offset, corrupt):             # <<<<<<<<<<<<<<
- *         self.length = length
- *         self.offset = offset
- */
-  __pyx_tuple__6 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_length, __pyx_n_s_offset, __pyx_n_s_corrupt); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cylibhdfs3_libhdfs3_chdfs_pyx, __pyx_n_s_init, 310, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "libhdfs3/chdfs.pyx":318
- *         self.topology_paths = []
- * 
- *     def append_host(self, hostname, datanode, topology_path):             # <<<<<<<<<<<<<<
- *         self.hostnames.append(hostname)
- *         self.names.append(datanode)
- */
-  __pyx_tuple__8 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_hostname, __pyx_n_s_datanode, __pyx_n_s_topology_path); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cylibhdfs3_libhdfs3_chdfs_pyx, __pyx_n_s_append_host, 318, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "libhdfs3/chdfs.pyx":323
- *         self.topology_paths.append(topology_path)
- * 
- *     def todict(self):             # <<<<<<<<<<<<<<
- *         dic = {}
- *         dic['length'] = self.length
- */
-  __pyx_tuple__10 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_dic); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 323; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cylibhdfs3_libhdfs3_chdfs_pyx, __pyx_n_s_todict, 323, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 323; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "libhdfs3/chdfs.pyx":333
- *         return dic
- * 
- *     def __str__(self):             # <<<<<<<<<<<<<<
- *         return str(self.todict())
- */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cylibhdfs3_libhdfs3_chdfs_pyx, __pyx_n_s_str, 333, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -10335,10 +11119,9 @@ static int __Pyx_InitGlobals(void) {
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_5 = PyInt_FromLong(5); if (unlikely(!__pyx_int_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_int_10 = PyInt_FromLong(10); if (unlikely(!__pyx_int_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_70 = PyInt_FromLong(70); if (unlikely(!__pyx_int_70)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_8020 = PyInt_FromLong(8020); if (unlikely(!__pyx_int_8020)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_int_65536 = PyInt_FromLong(65536L); if (unlikely(!__pyx_int_65536)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_int_524288 = PyInt_FromLong(524288L); if (unlikely(!__pyx_int_524288)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_1048576 = PyInt_FromLong(1048576L); if (unlikely(!__pyx_int_1048576)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
@@ -10346,17 +11129,14 @@ static int __Pyx_InitGlobals(void) {
 }
 
 #if PY_MAJOR_VERSION < 3
-PyMODINIT_FUNC initchdfs(void); /*proto*/
-PyMODINIT_FUNC initchdfs(void)
+PyMODINIT_FUNC initcyhdfs3(void); /*proto*/
+PyMODINIT_FUNC initcyhdfs3(void)
 #else
-PyMODINIT_FUNC PyInit_chdfs(void); /*proto*/
-PyMODINIT_FUNC PyInit_chdfs(void)
+PyMODINIT_FUNC PyInit_cyhdfs3(void); /*proto*/
+PyMODINIT_FUNC PyInit_cyhdfs3(void)
 #endif
 {
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -10370,7 +11150,7 @@ PyMODINIT_FUNC PyInit_chdfs(void)
           Py_FatalError("failed to import 'refnanny' module");
   }
   #endif
-  __Pyx_RefNannySetupContext("PyMODINIT_FUNC PyInit_chdfs(void)", 0);
+  __Pyx_RefNannySetupContext("PyMODINIT_FUNC PyInit_cyhdfs3(void)", 0);
   if (__Pyx_check_binary_version() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10398,7 +11178,7 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   #endif
   /*--- Module creation code ---*/
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("chdfs", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("cyhdfs3", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -10415,14 +11195,14 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
-  if (__pyx_module_is_main_libhdfs3__chdfs) {
+  if (__pyx_module_is_main_cyhdfs3__cyhdfs3) {
     if (PyObject_SetAttrString(__pyx_m, "__name__", __pyx_n_s_main) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (!PyDict_GetItemString(modules, "libhdfs3.chdfs")) {
-      if (unlikely(PyDict_SetItemString(modules, "libhdfs3.chdfs", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!PyDict_GetItemString(modules, "cyhdfs3.cyhdfs3")) {
+      if (unlikely(PyDict_SetItemString(modules, "cyhdfs3.cyhdfs3", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
   #endif
@@ -10434,18 +11214,22 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_8libhdfs3_5chdfs_HDFSClient) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_type_8libhdfs3_5chdfs_HDFSClient.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "HDFSClient", (PyObject *)&__pyx_type_8libhdfs3_5chdfs_HDFSClient) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_8libhdfs3_5chdfs_HDFSClient = &__pyx_type_8libhdfs3_5chdfs_HDFSClient;
-  if (PyType_Ready(&__pyx_type_8libhdfs3_5chdfs_File) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_type_8libhdfs3_5chdfs_File.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "File", (PyObject *)&__pyx_type_8libhdfs3_5chdfs_File) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_8libhdfs3_5chdfs_File = &__pyx_type_8libhdfs3_5chdfs_File;
-  if (PyType_Ready(&__pyx_type_8libhdfs3_5chdfs_FileInfo) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 263; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_type_8libhdfs3_5chdfs_FileInfo.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "FileInfo", (PyObject *)&__pyx_type_8libhdfs3_5chdfs_FileInfo) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 263; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_8libhdfs3_5chdfs_FileInfo = &__pyx_type_8libhdfs3_5chdfs_FileInfo;
+  if (PyType_Ready(&__pyx_type_7cyhdfs3_7cyhdfs3_HDFSClient) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_7cyhdfs3_7cyhdfs3_HDFSClient.tp_print = 0;
+  if (PyObject_SetAttrString(__pyx_m, "HDFSClient", (PyObject *)&__pyx_type_7cyhdfs3_7cyhdfs3_HDFSClient) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_7cyhdfs3_7cyhdfs3_HDFSClient = &__pyx_type_7cyhdfs3_7cyhdfs3_HDFSClient;
+  if (PyType_Ready(&__pyx_type_7cyhdfs3_7cyhdfs3_File) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_7cyhdfs3_7cyhdfs3_File.tp_print = 0;
+  if (PyObject_SetAttrString(__pyx_m, "File", (PyObject *)&__pyx_type_7cyhdfs3_7cyhdfs3_File) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_7cyhdfs3_7cyhdfs3_File = &__pyx_type_7cyhdfs3_7cyhdfs3_File;
+  if (PyType_Ready(&__pyx_type_7cyhdfs3_7cyhdfs3_FileInfo) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 259; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_7cyhdfs3_7cyhdfs3_FileInfo.tp_print = 0;
+  if (PyObject_SetAttrString(__pyx_m, "FileInfo", (PyObject *)&__pyx_type_7cyhdfs3_7cyhdfs3_FileInfo) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 259; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_7cyhdfs3_7cyhdfs3_FileInfo = &__pyx_type_7cyhdfs3_7cyhdfs3_FileInfo;
+  if (PyType_Ready(&__pyx_type_7cyhdfs3_7cyhdfs3_BlockLocation) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 304; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_7cyhdfs3_7cyhdfs3_BlockLocation.tp_print = 0;
+  if (PyObject_SetAttrString(__pyx_m, "BlockLocation", (PyObject *)&__pyx_type_7cyhdfs3_7cyhdfs3_BlockLocation) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 304; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_7cyhdfs3_7cyhdfs3_BlockLocation = &__pyx_type_7cyhdfs3_7cyhdfs3_BlockLocation;
   /*--- Type import code ---*/
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
   #if CYTHON_COMPILING_IN_PYPY
@@ -10464,7 +11248,7 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   if (__Pyx_patch_abc() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
 
-  /* "libhdfs3/chdfs.pyx":3
+  /* "cyhdfs3/cyhdfs3.pyx":3
  * from libc cimport stdlib
  * from cpython cimport array
  * import array             # <<<<<<<<<<<<<<
@@ -10476,7 +11260,7 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_array, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":7
+  /* "cyhdfs3/cyhdfs3.pyx":7
  * cimport libhdfs3
  * 
  * O_RDONLY = libhdfs3.O_RDONLY             # <<<<<<<<<<<<<<
@@ -10488,7 +11272,7 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_O_RDONLY, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":8
+  /* "cyhdfs3/cyhdfs3.pyx":8
  * 
  * O_RDONLY = libhdfs3.O_RDONLY
  * O_WRONLY = libhdfs3.O_WRONLY             # <<<<<<<<<<<<<<
@@ -10500,7 +11284,7 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_O_WRONLY, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":9
+  /* "cyhdfs3/cyhdfs3.pyx":9
  * O_RDONLY = libhdfs3.O_RDONLY
  * O_WRONLY = libhdfs3.O_WRONLY
  * O_APPEND = libhdfs3.O_APPEND             # <<<<<<<<<<<<<<
@@ -10512,86 +11296,7 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_O_APPEND, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "libhdfs3/chdfs.pyx":308
- * 
- * 
- * class BlockLocation(object):             # <<<<<<<<<<<<<<
- * 
- *     def __init__(self, length, offset, corrupt):
- */
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 308; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_builtin_object);
-  __Pyx_GIVEREF(__pyx_builtin_object);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_builtin_object);
-  __pyx_t_2 = __Pyx_CalculateMetaclass(NULL, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 308; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_2, __pyx_t_1, __pyx_n_s_BlockLocation, __pyx_n_s_BlockLocation, (PyObject *) NULL, __pyx_n_s_libhdfs3_chdfs, (PyObject *) NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 308; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-
-  /* "libhdfs3/chdfs.pyx":310
- * class BlockLocation(object):
- * 
- *     def __init__(self, length, offset, corrupt):             # <<<<<<<<<<<<<<
- *         self.length = length
- *         self.offset = offset
- */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8libhdfs3_5chdfs_13BlockLocation_1__init__, 0, __pyx_n_s_BlockLocation___init, NULL, __pyx_n_s_libhdfs3_chdfs, __pyx_d, ((PyObject *)__pyx_codeobj__7)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "libhdfs3/chdfs.pyx":318
- *         self.topology_paths = []
- * 
- *     def append_host(self, hostname, datanode, topology_path):             # <<<<<<<<<<<<<<
- *         self.hostnames.append(hostname)
- *         self.names.append(datanode)
- */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8libhdfs3_5chdfs_13BlockLocation_3append_host, 0, __pyx_n_s_BlockLocation_append_host, NULL, __pyx_n_s_libhdfs3_chdfs, __pyx_d, ((PyObject *)__pyx_codeobj__9)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_append_host, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 318; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "libhdfs3/chdfs.pyx":323
- *         self.topology_paths.append(topology_path)
- * 
- *     def todict(self):             # <<<<<<<<<<<<<<
- *         dic = {}
- *         dic['length'] = self.length
- */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8libhdfs3_5chdfs_13BlockLocation_5todict, 0, __pyx_n_s_BlockLocation_todict, NULL, __pyx_n_s_libhdfs3_chdfs, __pyx_d, ((PyObject *)__pyx_codeobj__11)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 323; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_todict, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 323; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "libhdfs3/chdfs.pyx":333
- *         return dic
- * 
- *     def __str__(self):             # <<<<<<<<<<<<<<
- *         return str(self.todict())
- */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_8libhdfs3_5chdfs_13BlockLocation_7__str__, 0, __pyx_n_s_BlockLocation___str, NULL, __pyx_n_s_libhdfs3_chdfs, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_str, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-  /* "libhdfs3/chdfs.pyx":308
- * 
- * 
- * class BlockLocation(object):             # <<<<<<<<<<<<<<
- * 
- *     def __init__(self, length, offset, corrupt):
- */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_2, __pyx_n_s_BlockLocation, __pyx_t_1, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 308; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BlockLocation, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 308; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "libhdfs3/chdfs.pyx":1
+  /* "cyhdfs3/cyhdfs3.pyx":1
  * from libc cimport stdlib             # <<<<<<<<<<<<<<
  * from cpython cimport array
  * import array
@@ -10614,16 +11319,13 @@ PyMODINIT_FUNC PyInit_chdfs(void)
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init libhdfs3.chdfs", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init cyhdfs3.cyhdfs3", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_DECREF(__pyx_m); __pyx_m = 0;
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init libhdfs3.chdfs");
+    PyErr_SetString(PyExc_ImportError, "init cyhdfs3.cyhdfs3");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -11056,6 +11758,18 @@ static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, CYTHON_U
 }
 #endif
 
+static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    if (likely(PyObject_TypeCheck(obj, type)))
+        return 1;
+    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
+                 Py_TYPE(obj)->tp_name, type->tp_name);
+    return 0;
+}
+
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
     PyObject *result;
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -11071,18 +11785,6 @@ static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
         result = __Pyx_GetBuiltinName(name);
     }
     return result;
-}
-
-static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    if (likely(PyObject_TypeCheck(obj, type)))
-        return 1;
-    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
-                 Py_TYPE(obj)->tp_name, type->tp_name);
-    return 0;
 }
 
 static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals) {
@@ -11798,714 +12500,6 @@ bad:
     Py_XDECREF(empty_list);
     Py_XDECREF(empty_dict);
     return module;
-}
-
-static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases) {
-    Py_ssize_t i, nbases = PyTuple_GET_SIZE(bases);
-    for (i=0; i < nbases; i++) {
-        PyTypeObject *tmptype;
-        PyObject *tmp = PyTuple_GET_ITEM(bases, i);
-        tmptype = Py_TYPE(tmp);
-#if PY_MAJOR_VERSION < 3
-        if (tmptype == &PyClass_Type)
-            continue;
-#endif
-        if (!metaclass) {
-            metaclass = tmptype;
-            continue;
-        }
-        if (PyType_IsSubtype(metaclass, tmptype))
-            continue;
-        if (PyType_IsSubtype(tmptype, metaclass)) {
-            metaclass = tmptype;
-            continue;
-        }
-        PyErr_SetString(PyExc_TypeError,
-                        "metaclass conflict: "
-                        "the metaclass of a derived class "
-                        "must be a (non-strict) subclass "
-                        "of the metaclasses of all its bases");
-        return NULL;
-    }
-    if (!metaclass) {
-#if PY_MAJOR_VERSION < 3
-        metaclass = &PyClass_Type;
-#else
-        metaclass = &PyType_Type;
-#endif
-    }
-    Py_INCREF((PyObject*) metaclass);
-    return (PyObject*) metaclass;
-}
-
-static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type) {
-    PyObject* fake_module;
-    PyTypeObject* cached_type = NULL;
-    fake_module = PyImport_AddModule((char*) "_cython_" CYTHON_ABI);
-    if (!fake_module) return NULL;
-    Py_INCREF(fake_module);
-    cached_type = (PyTypeObject*) PyObject_GetAttrString(fake_module, type->tp_name);
-    if (cached_type) {
-        if (!PyType_Check((PyObject*)cached_type)) {
-            PyErr_Format(PyExc_TypeError,
-                "Shared Cython type %.200s is not a type object",
-                type->tp_name);
-            goto bad;
-        }
-        if (cached_type->tp_basicsize != type->tp_basicsize) {
-            PyErr_Format(PyExc_TypeError,
-                "Shared Cython type %.200s has the wrong size, try recompiling",
-                type->tp_name);
-            goto bad;
-        }
-    } else {
-        if (!PyErr_ExceptionMatches(PyExc_AttributeError)) goto bad;
-        PyErr_Clear();
-        if (PyType_Ready(type) < 0) goto bad;
-        if (PyObject_SetAttrString(fake_module, type->tp_name, (PyObject*) type) < 0)
-            goto bad;
-        Py_INCREF(type);
-        cached_type = type;
-    }
-done:
-    Py_DECREF(fake_module);
-    return cached_type;
-bad:
-    Py_XDECREF(cached_type);
-    cached_type = NULL;
-    goto done;
-}
-
-static PyObject *
-__Pyx_CyFunction_get_doc(__pyx_CyFunctionObject *op, CYTHON_UNUSED void *closure)
-{
-    if (unlikely(op->func_doc == NULL)) {
-        if (op->func.m_ml->ml_doc) {
-#if PY_MAJOR_VERSION >= 3
-            op->func_doc = PyUnicode_FromString(op->func.m_ml->ml_doc);
-#else
-            op->func_doc = PyString_FromString(op->func.m_ml->ml_doc);
-#endif
-            if (unlikely(op->func_doc == NULL))
-                return NULL;
-        } else {
-            Py_INCREF(Py_None);
-            return Py_None;
-        }
-    }
-    Py_INCREF(op->func_doc);
-    return op->func_doc;
-}
-static int
-__Pyx_CyFunction_set_doc(__pyx_CyFunctionObject *op, PyObject *value)
-{
-    PyObject *tmp = op->func_doc;
-    if (value == NULL) {
-        value = Py_None;
-    }
-    Py_INCREF(value);
-    op->func_doc = value;
-    Py_XDECREF(tmp);
-    return 0;
-}
-static PyObject *
-__Pyx_CyFunction_get_name(__pyx_CyFunctionObject *op)
-{
-    if (unlikely(op->func_name == NULL)) {
-#if PY_MAJOR_VERSION >= 3
-        op->func_name = PyUnicode_InternFromString(op->func.m_ml->ml_name);
-#else
-        op->func_name = PyString_InternFromString(op->func.m_ml->ml_name);
-#endif
-        if (unlikely(op->func_name == NULL))
-            return NULL;
-    }
-    Py_INCREF(op->func_name);
-    return op->func_name;
-}
-static int
-__Pyx_CyFunction_set_name(__pyx_CyFunctionObject *op, PyObject *value)
-{
-    PyObject *tmp;
-#if PY_MAJOR_VERSION >= 3
-    if (unlikely(value == NULL || !PyUnicode_Check(value))) {
-#else
-    if (unlikely(value == NULL || !PyString_Check(value))) {
-#endif
-        PyErr_SetString(PyExc_TypeError,
-                        "__name__ must be set to a string object");
-        return -1;
-    }
-    tmp = op->func_name;
-    Py_INCREF(value);
-    op->func_name = value;
-    Py_XDECREF(tmp);
-    return 0;
-}
-static PyObject *
-__Pyx_CyFunction_get_qualname(__pyx_CyFunctionObject *op)
-{
-    Py_INCREF(op->func_qualname);
-    return op->func_qualname;
-}
-static int
-__Pyx_CyFunction_set_qualname(__pyx_CyFunctionObject *op, PyObject *value)
-{
-    PyObject *tmp;
-#if PY_MAJOR_VERSION >= 3
-    if (unlikely(value == NULL || !PyUnicode_Check(value))) {
-#else
-    if (unlikely(value == NULL || !PyString_Check(value))) {
-#endif
-        PyErr_SetString(PyExc_TypeError,
-                        "__qualname__ must be set to a string object");
-        return -1;
-    }
-    tmp = op->func_qualname;
-    Py_INCREF(value);
-    op->func_qualname = value;
-    Py_XDECREF(tmp);
-    return 0;
-}
-static PyObject *
-__Pyx_CyFunction_get_self(__pyx_CyFunctionObject *m, CYTHON_UNUSED void *closure)
-{
-    PyObject *self;
-    self = m->func_closure;
-    if (self == NULL)
-        self = Py_None;
-    Py_INCREF(self);
-    return self;
-}
-static PyObject *
-__Pyx_CyFunction_get_dict(__pyx_CyFunctionObject *op)
-{
-    if (unlikely(op->func_dict == NULL)) {
-        op->func_dict = PyDict_New();
-        if (unlikely(op->func_dict == NULL))
-            return NULL;
-    }
-    Py_INCREF(op->func_dict);
-    return op->func_dict;
-}
-static int
-__Pyx_CyFunction_set_dict(__pyx_CyFunctionObject *op, PyObject *value)
-{
-    PyObject *tmp;
-    if (unlikely(value == NULL)) {
-        PyErr_SetString(PyExc_TypeError,
-               "function's dictionary may not be deleted");
-        return -1;
-    }
-    if (unlikely(!PyDict_Check(value))) {
-        PyErr_SetString(PyExc_TypeError,
-               "setting function's dictionary to a non-dict");
-        return -1;
-    }
-    tmp = op->func_dict;
-    Py_INCREF(value);
-    op->func_dict = value;
-    Py_XDECREF(tmp);
-    return 0;
-}
-static PyObject *
-__Pyx_CyFunction_get_globals(__pyx_CyFunctionObject *op)
-{
-    Py_INCREF(op->func_globals);
-    return op->func_globals;
-}
-static PyObject *
-__Pyx_CyFunction_get_closure(CYTHON_UNUSED __pyx_CyFunctionObject *op)
-{
-    Py_INCREF(Py_None);
-    return Py_None;
-}
-static PyObject *
-__Pyx_CyFunction_get_code(__pyx_CyFunctionObject *op)
-{
-    PyObject* result = (op->func_code) ? op->func_code : Py_None;
-    Py_INCREF(result);
-    return result;
-}
-static int
-__Pyx_CyFunction_init_defaults(__pyx_CyFunctionObject *op) {
-    int result = 0;
-    PyObject *res = op->defaults_getter((PyObject *) op);
-    if (unlikely(!res))
-        return -1;
-    #if CYTHON_COMPILING_IN_CPYTHON
-    op->defaults_tuple = PyTuple_GET_ITEM(res, 0);
-    Py_INCREF(op->defaults_tuple);
-    op->defaults_kwdict = PyTuple_GET_ITEM(res, 1);
-    Py_INCREF(op->defaults_kwdict);
-    #else
-    op->defaults_tuple = PySequence_ITEM(res, 0);
-    if (unlikely(!op->defaults_tuple)) result = -1;
-    else {
-        op->defaults_kwdict = PySequence_ITEM(res, 1);
-        if (unlikely(!op->defaults_kwdict)) result = -1;
-    }
-    #endif
-    Py_DECREF(res);
-    return result;
-}
-static int
-__Pyx_CyFunction_set_defaults(__pyx_CyFunctionObject *op, PyObject* value) {
-    PyObject* tmp;
-    if (!value) {
-        value = Py_None;
-    } else if (value != Py_None && !PyTuple_Check(value)) {
-        PyErr_SetString(PyExc_TypeError,
-                        "__defaults__ must be set to a tuple object");
-        return -1;
-    }
-    Py_INCREF(value);
-    tmp = op->defaults_tuple;
-    op->defaults_tuple = value;
-    Py_XDECREF(tmp);
-    return 0;
-}
-static PyObject *
-__Pyx_CyFunction_get_defaults(__pyx_CyFunctionObject *op) {
-    PyObject* result = op->defaults_tuple;
-    if (unlikely(!result)) {
-        if (op->defaults_getter) {
-            if (__Pyx_CyFunction_init_defaults(op) < 0) return NULL;
-            result = op->defaults_tuple;
-        } else {
-            result = Py_None;
-        }
-    }
-    Py_INCREF(result);
-    return result;
-}
-static int
-__Pyx_CyFunction_set_kwdefaults(__pyx_CyFunctionObject *op, PyObject* value) {
-    PyObject* tmp;
-    if (!value) {
-        value = Py_None;
-    } else if (value != Py_None && !PyDict_Check(value)) {
-        PyErr_SetString(PyExc_TypeError,
-                        "__kwdefaults__ must be set to a dict object");
-        return -1;
-    }
-    Py_INCREF(value);
-    tmp = op->defaults_kwdict;
-    op->defaults_kwdict = value;
-    Py_XDECREF(tmp);
-    return 0;
-}
-static PyObject *
-__Pyx_CyFunction_get_kwdefaults(__pyx_CyFunctionObject *op) {
-    PyObject* result = op->defaults_kwdict;
-    if (unlikely(!result)) {
-        if (op->defaults_getter) {
-            if (__Pyx_CyFunction_init_defaults(op) < 0) return NULL;
-            result = op->defaults_kwdict;
-        } else {
-            result = Py_None;
-        }
-    }
-    Py_INCREF(result);
-    return result;
-}
-static int
-__Pyx_CyFunction_set_annotations(__pyx_CyFunctionObject *op, PyObject* value) {
-    PyObject* tmp;
-    if (!value || value == Py_None) {
-        value = NULL;
-    } else if (!PyDict_Check(value)) {
-        PyErr_SetString(PyExc_TypeError,
-                        "__annotations__ must be set to a dict object");
-        return -1;
-    }
-    Py_XINCREF(value);
-    tmp = op->func_annotations;
-    op->func_annotations = value;
-    Py_XDECREF(tmp);
-    return 0;
-}
-static PyObject *
-__Pyx_CyFunction_get_annotations(__pyx_CyFunctionObject *op) {
-    PyObject* result = op->func_annotations;
-    if (unlikely(!result)) {
-        result = PyDict_New();
-        if (unlikely(!result)) return NULL;
-        op->func_annotations = result;
-    }
-    Py_INCREF(result);
-    return result;
-}
-static PyGetSetDef __pyx_CyFunction_getsets[] = {
-    {(char *) "func_doc", (getter)__Pyx_CyFunction_get_doc, (setter)__Pyx_CyFunction_set_doc, 0, 0},
-    {(char *) "__doc__",  (getter)__Pyx_CyFunction_get_doc, (setter)__Pyx_CyFunction_set_doc, 0, 0},
-    {(char *) "func_name", (getter)__Pyx_CyFunction_get_name, (setter)__Pyx_CyFunction_set_name, 0, 0},
-    {(char *) "__name__", (getter)__Pyx_CyFunction_get_name, (setter)__Pyx_CyFunction_set_name, 0, 0},
-    {(char *) "__qualname__", (getter)__Pyx_CyFunction_get_qualname, (setter)__Pyx_CyFunction_set_qualname, 0, 0},
-    {(char *) "__self__", (getter)__Pyx_CyFunction_get_self, 0, 0, 0},
-    {(char *) "func_dict", (getter)__Pyx_CyFunction_get_dict, (setter)__Pyx_CyFunction_set_dict, 0, 0},
-    {(char *) "__dict__", (getter)__Pyx_CyFunction_get_dict, (setter)__Pyx_CyFunction_set_dict, 0, 0},
-    {(char *) "func_globals", (getter)__Pyx_CyFunction_get_globals, 0, 0, 0},
-    {(char *) "__globals__", (getter)__Pyx_CyFunction_get_globals, 0, 0, 0},
-    {(char *) "func_closure", (getter)__Pyx_CyFunction_get_closure, 0, 0, 0},
-    {(char *) "__closure__", (getter)__Pyx_CyFunction_get_closure, 0, 0, 0},
-    {(char *) "func_code", (getter)__Pyx_CyFunction_get_code, 0, 0, 0},
-    {(char *) "__code__", (getter)__Pyx_CyFunction_get_code, 0, 0, 0},
-    {(char *) "func_defaults", (getter)__Pyx_CyFunction_get_defaults, (setter)__Pyx_CyFunction_set_defaults, 0, 0},
-    {(char *) "__defaults__", (getter)__Pyx_CyFunction_get_defaults, (setter)__Pyx_CyFunction_set_defaults, 0, 0},
-    {(char *) "__kwdefaults__", (getter)__Pyx_CyFunction_get_kwdefaults, (setter)__Pyx_CyFunction_set_kwdefaults, 0, 0},
-    {(char *) "__annotations__", (getter)__Pyx_CyFunction_get_annotations, (setter)__Pyx_CyFunction_set_annotations, 0, 0},
-    {0, 0, 0, 0, 0}
-};
-static PyMemberDef __pyx_CyFunction_members[] = {
-    {(char *) "__module__", T_OBJECT, offsetof(__pyx_CyFunctionObject, func.m_module), PY_WRITE_RESTRICTED, 0},
-    {0, 0, 0,  0, 0}
-};
-static PyObject *
-__Pyx_CyFunction_reduce(__pyx_CyFunctionObject *m, CYTHON_UNUSED PyObject *args)
-{
-#if PY_MAJOR_VERSION >= 3
-    return PyUnicode_FromString(m->func.m_ml->ml_name);
-#else
-    return PyString_FromString(m->func.m_ml->ml_name);
-#endif
-}
-static PyMethodDef __pyx_CyFunction_methods[] = {
-    {"__reduce__", (PyCFunction)__Pyx_CyFunction_reduce, METH_VARARGS, 0},
-    {0, 0, 0, 0}
-};
-#if PY_VERSION_HEX < 0x030500A0
-#define __Pyx_CyFunction_weakreflist(cyfunc) ((cyfunc)->func_weakreflist)
-#else
-#define __Pyx_CyFunction_weakreflist(cyfunc) ((cyfunc)->func.m_weakreflist)
-#endif
-static PyObject *__Pyx_CyFunction_New(PyTypeObject *type, PyMethodDef *ml, int flags, PyObject* qualname,
-                                      PyObject *closure, PyObject *module, PyObject* globals, PyObject* code) {
-    __pyx_CyFunctionObject *op = PyObject_GC_New(__pyx_CyFunctionObject, type);
-    if (op == NULL)
-        return NULL;
-    op->flags = flags;
-    __Pyx_CyFunction_weakreflist(op) = NULL;
-    op->func.m_ml = ml;
-    op->func.m_self = (PyObject *) op;
-    Py_XINCREF(closure);
-    op->func_closure = closure;
-    Py_XINCREF(module);
-    op->func.m_module = module;
-    op->func_dict = NULL;
-    op->func_name = NULL;
-    Py_INCREF(qualname);
-    op->func_qualname = qualname;
-    op->func_doc = NULL;
-    op->func_classobj = NULL;
-    op->func_globals = globals;
-    Py_INCREF(op->func_globals);
-    Py_XINCREF(code);
-    op->func_code = code;
-    op->defaults_pyobjects = 0;
-    op->defaults = NULL;
-    op->defaults_tuple = NULL;
-    op->defaults_kwdict = NULL;
-    op->defaults_getter = NULL;
-    op->func_annotations = NULL;
-    PyObject_GC_Track(op);
-    return (PyObject *) op;
-}
-static int
-__Pyx_CyFunction_clear(__pyx_CyFunctionObject *m)
-{
-    Py_CLEAR(m->func_closure);
-    Py_CLEAR(m->func.m_module);
-    Py_CLEAR(m->func_dict);
-    Py_CLEAR(m->func_name);
-    Py_CLEAR(m->func_qualname);
-    Py_CLEAR(m->func_doc);
-    Py_CLEAR(m->func_globals);
-    Py_CLEAR(m->func_code);
-    Py_CLEAR(m->func_classobj);
-    Py_CLEAR(m->defaults_tuple);
-    Py_CLEAR(m->defaults_kwdict);
-    Py_CLEAR(m->func_annotations);
-    if (m->defaults) {
-        PyObject **pydefaults = __Pyx_CyFunction_Defaults(PyObject *, m);
-        int i;
-        for (i = 0; i < m->defaults_pyobjects; i++)
-            Py_XDECREF(pydefaults[i]);
-        PyMem_Free(m->defaults);
-        m->defaults = NULL;
-    }
-    return 0;
-}
-static void __Pyx_CyFunction_dealloc(__pyx_CyFunctionObject *m)
-{
-    PyObject_GC_UnTrack(m);
-    if (__Pyx_CyFunction_weakreflist(m) != NULL)
-        PyObject_ClearWeakRefs((PyObject *) m);
-    __Pyx_CyFunction_clear(m);
-    PyObject_GC_Del(m);
-}
-static int __Pyx_CyFunction_traverse(__pyx_CyFunctionObject *m, visitproc visit, void *arg)
-{
-    Py_VISIT(m->func_closure);
-    Py_VISIT(m->func.m_module);
-    Py_VISIT(m->func_dict);
-    Py_VISIT(m->func_name);
-    Py_VISIT(m->func_qualname);
-    Py_VISIT(m->func_doc);
-    Py_VISIT(m->func_globals);
-    Py_VISIT(m->func_code);
-    Py_VISIT(m->func_classobj);
-    Py_VISIT(m->defaults_tuple);
-    Py_VISIT(m->defaults_kwdict);
-    if (m->defaults) {
-        PyObject **pydefaults = __Pyx_CyFunction_Defaults(PyObject *, m);
-        int i;
-        for (i = 0; i < m->defaults_pyobjects; i++)
-            Py_VISIT(pydefaults[i]);
-    }
-    return 0;
-}
-static PyObject *__Pyx_CyFunction_descr_get(PyObject *func, PyObject *obj, PyObject *type)
-{
-    __pyx_CyFunctionObject *m = (__pyx_CyFunctionObject *) func;
-    if (m->flags & __Pyx_CYFUNCTION_STATICMETHOD) {
-        Py_INCREF(func);
-        return func;
-    }
-    if (m->flags & __Pyx_CYFUNCTION_CLASSMETHOD) {
-        if (type == NULL)
-            type = (PyObject *)(Py_TYPE(obj));
-        return __Pyx_PyMethod_New(func, type, (PyObject *)(Py_TYPE(type)));
-    }
-    if (obj == Py_None)
-        obj = NULL;
-    return __Pyx_PyMethod_New(func, obj, type);
-}
-static PyObject*
-__Pyx_CyFunction_repr(__pyx_CyFunctionObject *op)
-{
-#if PY_MAJOR_VERSION >= 3
-    return PyUnicode_FromFormat("<cyfunction %U at %p>",
-                                op->func_qualname, (void *)op);
-#else
-    return PyString_FromFormat("<cyfunction %s at %p>",
-                               PyString_AsString(op->func_qualname), (void *)op);
-#endif
-}
-#if CYTHON_COMPILING_IN_PYPY
-static PyObject * __Pyx_CyFunction_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyCFunctionObject* f = (PyCFunctionObject*)func;
-    PyCFunction meth = f->m_ml->ml_meth;
-    PyObject *self = f->m_self;
-    Py_ssize_t size;
-    switch (f->m_ml->ml_flags & (METH_VARARGS | METH_KEYWORDS | METH_NOARGS | METH_O)) {
-    case METH_VARARGS:
-        if (likely(kw == NULL || PyDict_Size(kw) == 0))
-            return (*meth)(self, arg);
-        break;
-    case METH_VARARGS | METH_KEYWORDS:
-        return (*(PyCFunctionWithKeywords)meth)(self, arg, kw);
-    case METH_NOARGS:
-        if (likely(kw == NULL || PyDict_Size(kw) == 0)) {
-            size = PyTuple_GET_SIZE(arg);
-            if (likely(size == 0))
-                return (*meth)(self, NULL);
-            PyErr_Format(PyExc_TypeError,
-                "%.200s() takes no arguments (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                f->m_ml->ml_name, size);
-            return NULL;
-        }
-        break;
-    case METH_O:
-        if (likely(kw == NULL || PyDict_Size(kw) == 0)) {
-            size = PyTuple_GET_SIZE(arg);
-            if (likely(size == 1)) {
-                PyObject *result, *arg0 = PySequence_ITEM(arg, 0);
-                if (unlikely(!arg0)) return NULL;
-                result = (*meth)(self, arg0);
-                Py_DECREF(arg0);
-                return result;
-            }
-            PyErr_Format(PyExc_TypeError,
-                "%.200s() takes exactly one argument (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                f->m_ml->ml_name, size);
-            return NULL;
-        }
-        break;
-    default:
-        PyErr_SetString(PyExc_SystemError, "Bad call flags in "
-                        "__Pyx_CyFunction_Call. METH_OLDARGS is no "
-                        "longer supported!");
-        return NULL;
-    }
-    PyErr_Format(PyExc_TypeError, "%.200s() takes no keyword arguments",
-                 f->m_ml->ml_name);
-    return NULL;
-}
-#else
-static PyObject * __Pyx_CyFunction_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-	return PyCFunction_Call(func, arg, kw);
-}
-#endif
-static PyTypeObject __pyx_CyFunctionType_type = {
-    PyVarObject_HEAD_INIT(0, 0)
-    "cython_function_or_method",
-    sizeof(__pyx_CyFunctionObject),
-    0,
-    (destructor) __Pyx_CyFunction_dealloc,
-    0,
-    0,
-    0,
-#if PY_MAJOR_VERSION < 3
-    0,
-#else
-    0,
-#endif
-    (reprfunc) __Pyx_CyFunction_repr,
-    0,
-    0,
-    0,
-    0,
-    __Pyx_CyFunction_Call,
-    0,
-    0,
-    0,
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
-    0,
-    (traverseproc) __Pyx_CyFunction_traverse,
-    (inquiry) __Pyx_CyFunction_clear,
-    0,
-#if PY_VERSION_HEX < 0x030500A0
-    offsetof(__pyx_CyFunctionObject, func_weakreflist),
-#else
-    offsetof(PyCFunctionObject, m_weakreflist),
-#endif
-    0,
-    0,
-    __pyx_CyFunction_methods,
-    __pyx_CyFunction_members,
-    __pyx_CyFunction_getsets,
-    0,
-    0,
-    __Pyx_CyFunction_descr_get,
-    0,
-    offsetof(__pyx_CyFunctionObject, func_dict),
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-#if PY_VERSION_HEX >= 0x030400a1
-    0,
-#endif
-};
-static int __pyx_CyFunction_init(void) {
-#if !CYTHON_COMPILING_IN_PYPY
-    __pyx_CyFunctionType_type.tp_call = PyCFunction_Call;
-#endif
-    __pyx_CyFunctionType = __Pyx_FetchCommonType(&__pyx_CyFunctionType_type);
-    if (__pyx_CyFunctionType == NULL) {
-        return -1;
-    }
-    return 0;
-}
-static CYTHON_INLINE void *__Pyx_CyFunction_InitDefaults(PyObject *func, size_t size, int pyobjects) {
-    __pyx_CyFunctionObject *m = (__pyx_CyFunctionObject *) func;
-    m->defaults = PyMem_Malloc(size);
-    if (!m->defaults)
-        return PyErr_NoMemory();
-    memset(m->defaults, 0, size);
-    m->defaults_pyobjects = pyobjects;
-    return m->defaults;
-}
-static CYTHON_INLINE void __Pyx_CyFunction_SetDefaultsTuple(PyObject *func, PyObject *tuple) {
-    __pyx_CyFunctionObject *m = (__pyx_CyFunctionObject *) func;
-    m->defaults_tuple = tuple;
-    Py_INCREF(tuple);
-}
-static CYTHON_INLINE void __Pyx_CyFunction_SetDefaultsKwDict(PyObject *func, PyObject *dict) {
-    __pyx_CyFunctionObject *m = (__pyx_CyFunctionObject *) func;
-    m->defaults_kwdict = dict;
-    Py_INCREF(dict);
-}
-static CYTHON_INLINE void __Pyx_CyFunction_SetAnnotationsDict(PyObject *func, PyObject *dict) {
-    __pyx_CyFunctionObject *m = (__pyx_CyFunctionObject *) func;
-    m->func_annotations = dict;
-    Py_INCREF(dict);
-}
-
-static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name,
-                                           PyObject *qualname, PyObject *mkw, PyObject *modname, PyObject *doc) {
-    PyObject *ns;
-    if (metaclass) {
-        PyObject *prep = __Pyx_PyObject_GetAttrStr(metaclass, __pyx_n_s_prepare);
-        if (prep) {
-            PyObject *pargs = PyTuple_Pack(2, name, bases);
-            if (unlikely(!pargs)) {
-                Py_DECREF(prep);
-                return NULL;
-            }
-            ns = PyObject_Call(prep, pargs, mkw);
-            Py_DECREF(prep);
-            Py_DECREF(pargs);
-        } else {
-            if (unlikely(!PyErr_ExceptionMatches(PyExc_AttributeError)))
-                return NULL;
-            PyErr_Clear();
-            ns = PyDict_New();
-        }
-    } else {
-        ns = PyDict_New();
-    }
-    if (unlikely(!ns))
-        return NULL;
-    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_module, modname) < 0)) goto bad;
-    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_qualname, qualname) < 0)) goto bad;
-    if (unlikely(doc && PyObject_SetItem(ns, __pyx_n_s_doc, doc) < 0)) goto bad;
-    return ns;
-bad:
-    Py_DECREF(ns);
-    return NULL;
-}
-static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases,
-                                      PyObject *dict, PyObject *mkw,
-                                      int calculate_metaclass, int allow_py2_metaclass) {
-    PyObject *result, *margs;
-    PyObject *owned_metaclass = NULL;
-    if (allow_py2_metaclass) {
-        owned_metaclass = PyObject_GetItem(dict, __pyx_n_s_metaclass);
-        if (owned_metaclass) {
-            metaclass = owned_metaclass;
-        } else if (likely(PyErr_ExceptionMatches(PyExc_KeyError))) {
-            PyErr_Clear();
-        } else {
-            return NULL;
-        }
-    }
-    if (calculate_metaclass && (!metaclass || PyType_Check(metaclass))) {
-        metaclass = __Pyx_CalculateMetaclass((PyTypeObject*) metaclass, bases);
-        Py_XDECREF(owned_metaclass);
-        if (unlikely(!metaclass))
-            return NULL;
-        owned_metaclass = metaclass;
-    }
-    margs = PyTuple_Pack(3, name, bases, dict);
-    if (unlikely(!margs)) {
-        result = NULL;
-    } else {
-        result = PyObject_Call(metaclass, margs, mkw);
-        Py_DECREF(margs);
-    }
-    Py_XDECREF(owned_metaclass);
-    return result;
 }
 
 static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {

@@ -1,6 +1,6 @@
 import pyximport; pyximport.install()
 
-from cyhdfs3 import chdfs
+import cyhdfs3
 from pywebhdfs.webhdfs import PyWebHdfsClient
 
 from timer import Timer
@@ -9,7 +9,7 @@ import os
 os.environ["LIBHDFS3_CONF"] = "/etc/hadoop/conf/hdfs-site.xml"
 
 host = "localhost"
-client = chdfs.HDFSClient(host=host, port=8020)
+client = cyhdfs3.HDFSClient(host=host, port=8020)
 webhdfs = PyWebHdfsClient(host=host, port=50070, timeout=None, user_name='hdfs')
 
 client.create_dir('/tmp/cyhdfs3/')

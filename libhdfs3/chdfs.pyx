@@ -192,7 +192,7 @@ cdef class File:
             stdlib.free(c_string)
         return py_bytes_string
 
-    def readline(self, step=1*2**20, buffersize=1*2**20):
+    def readline(self, step=1*2**19, buffersize=1*2**19):
         index = self.linebuff.find("\n")
         if index >= 0:
             line = self.linebuff[:index]

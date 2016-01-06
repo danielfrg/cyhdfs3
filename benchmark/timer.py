@@ -3,6 +3,7 @@ Taken from: https://gist.github.com/acdha/4068406
 """
 
 import sys
+import inspect
 from timeit import default_timer
 
 
@@ -12,11 +13,11 @@ class Timer(object):
         with Timer('key step'):
             ... do something ...
     """
-    def __init__(self, context=None):
+    def __init__(self, context=None, summary=True):
         self.timer = default_timer
+        self.summary = summary
 
         if context is None:
-            import inspect
             caller_frame = inspect.stack()[1]
             frame = caller_frame[0]
             info = inspect.getframeinfo(frame)
@@ -38,4 +39,5 @@ class Timer(object):
         return self
 
     def __exit__(self, *args):
-        print >>sys.stderr, '%s: %f ms' % (self.context, self.elapsed)
+        if self.summary:
+            print >>sys.stderr, '%s: %f ms' % (self.context, self.elapsed)

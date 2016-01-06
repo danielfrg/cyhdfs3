@@ -166,6 +166,8 @@ cdef class File:
     def read(self, length=None, buffersize=1*2**20):
         length = self.info.size if length is None else length
         cdef void* buffer = stdlib.malloc(length * sizeof(char))
+
+        buffersize = min(length, buffersize)
         cdef void* bytesread = stdlib.malloc(buffersize * sizeof(char))
         cdef int nbytesread = 0
 

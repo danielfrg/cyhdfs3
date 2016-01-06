@@ -13,6 +13,9 @@ ext_modules = [
             )
 ]
 
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
 cmdclass = versioneer.get_cmdclass()
 
 setup(
@@ -20,10 +23,11 @@ setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     license='Apache License Version 2.0, January 2004',
+    install_requires=required,
     packages=find_packages(),
     ext_modules=ext_modules,
     entry_points='''
         [console_scripts]
         hdfs3=cyhdfs3.cli:main
-    '''
+    ''',
 )

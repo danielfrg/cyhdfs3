@@ -26,7 +26,7 @@ def cli(ctx, namenode, port):
     import os
     os.environ["LIBHDFS3_CONF"] = "/etc/hadoop/conf/hdfs-site.xml"
 
-    from libhdfs3 import chdfs
+    from cyhdfs3 import chdfs
     ctx.obj = {}
     ctx.obj['client'] = chdfs.HDFSClient()
 

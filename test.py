@@ -3,7 +3,7 @@ import pyximport; pyximport.install()
 import os
 os.environ["LIBHDFS3_CONF"] = "/etc/hadoop/conf/hdfs-site.xml"
 
-from libhdfs3 import chdfs
+from cyhdfs3 import chdfs
 
 print('-----------------')
 
@@ -64,7 +64,7 @@ client = chdfs.HDFSClient()
 
 # print client.path_info('/tmp/iris.csv')
 
-# with client.open('/tmp/cylibhdfs3/500mb-0', 'r') as f:
+# with client.open('/tmp/cyhdfs3/500mb-0', 'r') as f:
 with client.open('/tmp/newtest', 'r') as f:
     print len(f.read())
 

@@ -5,8 +5,8 @@ from distutils.extension import Extension
 import versioneer
 
 ext_modules = [
-    Extension(name="libhdfs3.chdfs",
-              sources=["libhdfs3/chdfs.c"],
+    Extension(name="cyhdfs3.chdfs",
+              sources=["cyhdfs3/chdfs.c"],
               include_dirs=["/usr/local/include/hdfs"],
               library_dirs=["/usr/local/lib/"],
               libraries=["hdfs3"],
@@ -16,7 +16,7 @@ ext_modules = [
 cmdclass = versioneer.get_cmdclass()
 
 setup(
-    name="cylibhdfs3",
+    name="cyhdfs3",
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     license='Apache License Version 2.0, January 2004',
@@ -24,6 +24,6 @@ setup(
     ext_modules=ext_modules,
     entry_points='''
         [console_scripts]
-        hdfs3=libhdfs3.cli:main
+        hdfs3=cyhdfs3.cli:main
     '''
 )

@@ -1,1 +1,1 @@
-libhdfs3/_version.py export-subst
+cyhdfs3/_version.py export-subst

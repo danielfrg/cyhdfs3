@@ -1,6 +1,6 @@
 import pyximport; pyximport.install()
 
-from libhdfs3 import chdfs
+from cyhdfs3 import chdfs
 from pywebhdfs.webhdfs import PyWebHdfsClient
 
 from timer import Timer
@@ -12,7 +12,7 @@ host = "localhost"
 client = chdfs.HDFSClient(host=host, port=8020)
 webhdfs = PyWebHdfsClient(host=host, port=50070, timeout=None, user_name='hdfs')
 
-client.create_dir('/tmp/cylibhdfs3/')
+client.create_dir('/tmp/cyhdfs3/')
 client.create_dir('/tmp/ctypes/')
 client.create_dir('/tmp/pywebhdfs/')
 
@@ -22,13 +22,13 @@ n = 1
 data = b'0' * 250 * 2 ** 20
 data += b'1' * 250 * 2 ** 20
 
-# with Timer('cylibhdfs3 write 500mb x {}'.format(n)):
+# with Timer('cyhdfs3 write 500mb x {}'.format(n)):
 #     for i in range(n):
-#         name = "/tmp/cylibhdfs3/500mb-{}".format(i)
+#         name = "/tmp/cyhdfs3/500mb-{}".format(i)
 #         f = client.open(name, 'w', replication=1)
 #         f.write(data)
 #         f.close()
-
+#
 # with Timer('pywebhdfs write 500mb x {}'.format(n)):
 #     for i in range(n):
 #         name = "/tmp/pywebhdfs/500mb-{}".format(i)
@@ -36,21 +36,12 @@ data += b'1' * 250 * 2 ** 20
 
 #####
 
-# with Timer('cylibhdfs3 readfile 500mb x {}'.format(n)) as t:
+# with Timer('cyhdfs3 readfile 500mb x {}'.format(n)) as t:
 #     for i in range(n):
-#         name = '/tmp/cylibhdfs3/500mb-{}'.format(i)
+#         name = '/tmp/cyhdfs3/500mb-{}'.format(i)
 #         f = client.open(name, 'r')
 #
-#         content = f.readfile()
-#         print(len(content), content == data)
-#         f.close()
-
-# with Timer('cylibhdfs3 readfile 500mb x {}'.format(n)) as t:
-#     for i in range(n):
-#         name = '/tmp/cylibhdfs3/500mb-{}'.format(i)
-#         f = client.open(name, 'r')
-#
-#         content = f.read(len(data))
+#         content = f.read()
 #         print(len(content), content == data)
 #         f.close()
 
@@ -62,7 +53,7 @@ data += b'1' * 250 * 2 ** 20
 
 ######
 
-# with Timer('cylibhdfs3 iris readline') as t:
+# with Timer('cyhdfs3 iris readline') as t:
 #     name = '/tmp/iris.csv'
 #     f = client.open(name, 'r')
 #
@@ -75,19 +66,19 @@ data += b'1' * 250 * 2 ** 20
 
 ######
 
-# with Timer(summary=False) as t:
-#     for i in range(n):
-#         name = '/tmp/cylibhdfs3/500mb-{}'.format(i)
-#         f = client.open(name, 'r')
-#
-#         content = f.readfile()
-#         s = t.elapsed / 1000
-#         mb = len(content) / 2 ** 20
-#         print 'Bandwidth (Mb/s):', (mb / s)
-#         f.close()
+with Timer(summary=False) as t:
+    for i in range(n):
+        name = '/tmp/cyhdfs3/500mb-{}'.format(i)
+        f = client.open(name, 'r')
+
+        content = f.read()
+        s = t.elapsed / 1000
+        mb = len(content) / 2 ** 20
+        print 'Bandwidth (Mb/s):', (mb / s)
+        f.close()
 
 with Timer(summary=False) as t:
-    f = client.open('/tmp/cylibhdfs3/500mb-0', 'r')
+    f = client.open('/tmp/cyhdfs3/500mb-0', 'r')
     blocks = f.blocks
 
     for block in f.blocks:

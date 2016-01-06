@@ -1,4 +1,4 @@
-FROM libhdfs3
+FROM cyhdfs3
 MAINTAINER Daniel Rodriguez
 
 # Cloudera repositories

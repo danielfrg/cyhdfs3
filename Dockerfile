@@ -16,7 +16,7 @@ RUN bash /tmp/libhdfs-build.sh
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 # cyhdfs3
-RUN /opt/conda/bin/conda install -y -q ipython cython
+RUN /opt/conda/bin/conda install -y -q ipython cython pytest
 RUN /opt/conda/bin/pip install versioneer pywebhdfs click
 
 VOLUME /cyhdfs3

@@ -167,20 +167,6 @@ cdef class File:
         if nbytes < 0:
             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
 
-    def read_avro(self, length=None, buffersize=1*2**20):
-        length = self.info.size if length is None else length
-        cdef void* buffer = stdlib.malloc(length * sizeof(char))
-
-        tempbuffer_length = min(length, buffersize)
-        cdef void* tempbuffer = stdlib.malloc(tempbuffer_length * sizeof(char))
-
-        self._read(buffer, length, tempbuffer, tempbuffer_length)
-
-        cdef cyavro.AvroReader reader = cyavro.AvroReader("unused")
-        reader.from_bytes(buffer, length)
-
-        return reader
-
     def read(self, length=None, buffersize=1*2**20):
         length = self.info.size if length is None else length
         cdef void* buffer = stdlib.malloc(length * sizeof(char))
@@ -232,6 +218,17 @@ cdef class File:
             return self.readline(step=step, buffersize=buffersize)
 
         return self.linebuff
+
+    def read_avro(self, length=None, buffersize=1*2**20):
+        length = self.info.size if length is None else length
+        cdef void* buffer = stdlib.malloc(length * sizeof(char))
+
+        tempbuffer_length = min(length, buffersize)
+        cdef void* tempbuffer = stdlib.malloc(tempbuffer_length * sizeof(char))
+
+        self._read(buffer, length, tempbuffer, tempbuffer_length)
+        cdef cyavro.AvroReader reader = cyavro.reader_from_bytes_c(buffer, length)
+        return reader
 
     def flush(self):
         cdef int flushed = 0

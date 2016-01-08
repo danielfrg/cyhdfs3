@@ -60,8 +60,13 @@ client = cyhdfs3.HDFSClient()
 # print client.path_info('/tmp/iris.csv')
 
 # with client.open('/tmp/cyhdfs3/500mb-0', 'r') as f:
-with client.open('/tmp/newtest', 'r') as f:
-    print len(f.read())
+with client.open('/tmp/quickstop.db', 'r') as f:
+    reader = f.read_avro()
+    print reader
+    reader.init_buffers()
+    print 2
+    print reader.read_chunk()
+
 
 # with client.open('/tmp/iris.csv', 'r') as f:
     # print f.info

@@ -4,6 +4,8 @@ import array
 
 cimport libhdfs3
 
+cimport cyavro._cyavro as cyavro
+
 O_RDONLY = libhdfs3.O_RDONLY
 O_WRONLY = libhdfs3.O_WRONLY
 O_APPEND = libhdfs3.O_APPEND
@@ -165,28 +167,30 @@ cdef class File:
         if nbytes < 0:
             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
 
+    def read_avro(self, length=None, buffersize=1*2**20):
+        length = self.info.size if length is None else length
+        cdef void* buffer = stdlib.malloc(length * sizeof(char))
+
+        tempbuffer_length = min(length, buffersize)
+        cdef void* tempbuffer = stdlib.malloc(tempbuffer_length * sizeof(char))
+
+        self._read(buffer, length, tempbuffer, tempbuffer_length)
+
+        cdef cyavro.AvroReader reader = cyavro.AvroReader("unused")
+        reader.from_bytes(buffer, length)
+
+        return reader
+
     def read(self, length=None, buffersize=1*2**20):
         length = self.info.size if length is None else length
         cdef void* buffer = stdlib.malloc(length * sizeof(char))
 
-        buffersize = min(length, buffersize)
-        cdef void* bytesread = stdlib.malloc(buffersize * sizeof(char))
-        cdef int nbytesread = 0
+        tempbuffer_length = min(length, buffersize)
+        cdef void* tempbuffer = stdlib.malloc(tempbuffer_length * sizeof(char))
 
-        remaining = length
-        pos = 0
-        while remaining > 0:
-            readbuffersize = min(buffersize, remaining)
-            nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, bytesread, readbuffersize)
-            if nbytesread < 0:
-                raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
-            elif nbytesread == 0:
-                break  # EOF
-            buffer[pos:pos + nbytesread] = bytesread
-            pos = pos + nbytesread
-            remaining = remaining - nbytesread
+        self._read(buffer, length, tempbuffer, tempbuffer_length)
 
-        stdlib.free(bytesread)
+        stdlib.free(buffer)
 
         cdef bytes py_string
         cdef char* c_string = <char*> buffer
@@ -195,6 +199,25 @@ cdef class File:
         finally:
             stdlib.free(c_string)
         return py_bytes_string
+
+    cdef _read(self, void* buffer, int buffer_length, void* tempbuffer, int tempbuffer_length):
+        """
+        Reads to a buffer.
+        Caller must: free(buffer)
+        """
+        pos = 0
+        cdef int nbytesread = 0
+        remaining = buffer_length
+        while remaining > 0:
+            readbuffer_length = min(tempbuffer_length, remaining)
+            nbytesread = libhdfs3.hdfsRead(self.client.fs, self._file, tempbuffer, readbuffer_length)
+            if nbytesread < 0:
+                raise IOError("Could not read file:", libhdfs3.hdfsGetLastError())
+            elif nbytesread == 0:
+                break  # EOF
+            buffer[pos:pos + nbytesread] = tempbuffer
+            pos = pos + nbytesread
+            remaining = remaining - nbytesread
 
     def readline(self, step=1*2**19, buffersize=1*2**19):
         index = self.linebuff.find("\n")

@@ -18,13 +18,13 @@ RUN bash /tmp/libhdfs-build.sh
 ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 
 # cyhdfs3
-RUN conda install -y ipython cython pytest
+RUN conda install -y ipython cython pytest conda-build
 RUN conda install -c https://conda.anaconda.org/mvn cyavro
 RUN pip install versioneer twine pywebhdfs click
 RUN conda create -y -n py3 python=3
 RUN conda install -y -n py3 ipython cython pytest
 RUN conda install -y -n py3 -c https://conda.anaconda.org/mvn cyavro
-RUN /opt/conda/envs/py3/pip install versioneer twine pywebhdfs click
+RUN /opt/conda/envs/py3/bin/pip install versioneer twine pywebhdfs click
 
 VOLUME /cyavro
 VOLUME /cyhdfs3

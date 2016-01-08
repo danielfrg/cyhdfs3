@@ -190,14 +190,12 @@ cdef class File:
 
         self._read(buffer, length, tempbuffer, tempbuffer_length)
 
-        stdlib.free(buffer)
-
         cdef bytes py_string
         cdef char* c_string = <char*> buffer
         try:
             py_bytes_string = c_string[:length]
         finally:
-            stdlib.free(c_string)
+            stdlib.free(buffer)
         return py_bytes_string
 
     cdef _read(self, void* buffer, int buffer_length, void* tempbuffer, int tempbuffer_length):

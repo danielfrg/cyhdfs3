@@ -83,7 +83,7 @@ cdef class HDFSClient:
         libhdfs3.hdfsFreeFileInfo(files, numEntries)
         return ret
 
-    def get_blocks(self, path, start=0, length=None):
+    def get_block_locations(self, path, start=0, length=None):
         cdef int numOfBlocks = 0
         length = self.path_info(path).size if length is None  else length
         cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)
@@ -281,7 +281,7 @@ cdef class File:
         "A `FileInfo` reference"
         def __get__(self):
             if getattr(self, '_info', None) is None:
-                self._blocks = self.client.get_blocks(self.path)
+                self._blocks = self.client.get_block_locations(self.path)
             return self._blocks
 
 

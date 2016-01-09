@@ -15,21 +15,18 @@ include_dirs.append(np.get_include())
 
 def make_ext(modname, pyxfilename):
     from distutils.extension import Extension
+    from Cython.Compiler.Options import directive_defaults
+    directive_defaults['linetrace'] = True
+    directive_defaults['embedsignature'] = True
 
-    cython_directives = {}
-    cython_directives['embedsignature'] = True
-    cython_directives['linetrace'] = True
-
-    extension_extras = {}
-    extension_extras['define_macros'] = [('CYTHON_TRACE', '1')]
-    extension_extras['cython_directives'] = cython_directives
-
+    macros = [('CYTHON_TRACE', '1')]
     return Extension(name=modname,
                      sources=[pyxfilename],
                      include_dirs=include_dirs,
                      library_dirs=library_dirs,
                      libraries=['hdfs3', 'avro', 'm', 'snappy'],
-                     **extension_extras
+                     #**extension_extras
+                     define_macros=macros
                     )
 
 def make_setup_args():

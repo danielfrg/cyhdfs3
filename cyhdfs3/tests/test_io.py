@@ -7,7 +7,7 @@ import numpy.testing as npt
 import pickle
 
 
-def test_io_bytes(hdfs):
+def test_bytes(hdfs):
     testname = inspect.stack()[0][3]
     fname = posixpath.join(TEST_DIR, testname)
 
@@ -24,7 +24,7 @@ def test_io_bytes(hdfs):
         assert read == data
 
 
-def test_io_pickle(hdfs):
+def test_pickle(hdfs):
     testname = inspect.stack()[0][3]
     fname = posixpath.join(TEST_DIR, testname)
 
@@ -42,12 +42,12 @@ def test_io_pickle(hdfs):
         npt.assert_equal(arr, read)
 
 
-def test_io_read_nonexisten(hdfs):
+def test_read_nonexisten(hdfs):
     with pytest.raises(IOError):
         f = hdfs.open('/tmp/NOFILE', 'r')
 
 
-def test_io_open_write_read(hdfs):
+def test_open_write_read(hdfs):
     testname = inspect.stack()[0][3]
     fname = posixpath.join(TEST_DIR, testname)
 
@@ -57,7 +57,7 @@ def test_io_open_write_read(hdfs):
     f.close()
 
 
-def test_io_open_read_write(hdfs):
+def test_open_read_write(hdfs):
     testname = inspect.stack()[0][3]
     fname = posixpath.join(TEST_DIR, testname)
 

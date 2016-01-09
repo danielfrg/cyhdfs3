@@ -167,7 +167,7 @@ cdef class File:
     def write(self, char* content):
         cdef isopen = libhdfs3.hdfsFileIsOpenForWrite(self._file)
         if isopen != 1:
-            raise IOError("File not open for write:", self.client.getLastError())
+            raise IOError("File '{}' not open for write".format(self.path))
 
         length = len(content)
         cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> content, length)
@@ -175,6 +175,10 @@ cdef class File:
             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
 
     def read(self, length=None, buffersize=1*2**20):
+        cdef isopen = libhdfs3.hdfsFileIsOpenForRead(self._file)
+        if isopen != 1:
+            raise IOError("File '{}' not open for read".format(self.path))
+
         length = self.info.size if length is None else length
         cdef void* buffer = stdlib.malloc(length * sizeof(char))
 

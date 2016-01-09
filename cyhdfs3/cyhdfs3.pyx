@@ -149,7 +149,7 @@ cdef class File:
         flags = O_RDONLY
         flags = O_WRONLY if mode == 'w' else flags
         flags = O_WRONLY | O_APPEND if mode == 'a' else flags
-        self.replication = 1 if mode == 'a' else self.replication  # Trust in the force Luke
+        self.replication = 1 if mode == 'a' else replication  # Trust in the force Luke
         self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, self.replication, block_size)
 
         is_ok = <int> self._file

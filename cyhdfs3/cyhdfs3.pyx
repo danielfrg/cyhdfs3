@@ -73,7 +73,7 @@ cdef class HDFSClient:
             new = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
                                             replication=fInfo.mReplication, permissions=fInfo.mPermissions,
                                             size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
-                                            blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
+                                            block_size=fInfo.mBlockSize, kind=fInfo.mKind)
             ret.append(new)
 
             if new.kind == b'd' and depth > 1:
@@ -118,7 +118,7 @@ cdef class HDFSClient:
         f = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
                      replication=fInfo.mReplication, permissions=fInfo.mPermissions,
                      size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
-                     blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
+                     block_size=fInfo.mBlockSize, kind=fInfo.mKind)
         libhdfs3.hdfsFreeFileInfo(fInfo, 1)
         return f
 
@@ -298,7 +298,7 @@ cdef class FileInfo(object):
     cdef public str kind
 
     def __init__(self, name, owner, group, replication,
-                 permissions, size, lastMod, lastAccess, blockSize, kind):
+                 permissions, size, lastMod, lastAccess, block_size, kind):
         name = '/' + name.lstrip('/')
         self.name = name
         self.owner = owner
@@ -308,7 +308,7 @@ cdef class FileInfo(object):
         self.size = size
         self.lastMod = lastMod
         self.lastAccess = lastAccess
-        self.blockSize = blockSize
+        self.block_size = block_size
         kind = 'f' if kind == 70 else 'd'
         self.kind = kind
 
@@ -322,7 +322,7 @@ cdef class FileInfo(object):
         dic['size'] = self.size
         dic['lastMod'] = self.lastMod
         dic['lastAccess'] = self.lastAccess
-        dic['blockSize'] = self.blockSize
+        dic['block_size'] = self.block_size
         dic['kind'] = self.kind
         return dic
 

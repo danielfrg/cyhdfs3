@@ -12,25 +12,27 @@ O_APPEND = libhdfs3.O_APPEND
 
 
 cdef class HDFSClient:
-    cdef libhdfs3.hdfsBuilder* builder
-    cdef libhdfs3.hdfsFS fs
     cdef public char* host
     cdef public int port
+    cdef libhdfs3.hdfsBuilder* builder
+    cdef libhdfs3.hdfsFS fs
 
     def __cinit__(self, host='localhost', port=8020):
         self.host = host
         self.port = port
 
         self.builder = libhdfs3.hdfsNewBuilder()
-
-        libhdfs3.hdfsBuilderSetNameNode(self.builder, host)
-        libhdfs3.hdfsBuilderSetNameNodePort(self.builder, port)
+        libhdfs3.hdfsBuilderSetNameNode(self.builder, self.host)
+        libhdfs3.hdfsBuilderSetNameNodePort(self.builder, self.port)
 
         self.fs = libhdfs3.hdfsBuilderConnect(self.builder)
 
     def __dealloc__(self):
         libhdfs3.hdfsDisconnect(self.fs)
         libhdfs3.hdfsFreeBuilder(self.builder)
+
+    def __reduce__(self):
+        return (rebuild_client, (self.host, self.port))
 
     def getLastError(self):
         return libhdfs3.hdfsGetLastError()
@@ -119,6 +121,11 @@ cdef class HDFSClient:
                      blockSize=fInfo.mBlockSize, kind=fInfo.mKind)
         libhdfs3.hdfsFreeFileInfo(fInfo, 1)
         return f
+
+
+def rebuild_client(host, port):
+    c = HDFSClient(host, port)
+    return c
 
 
 cdef class File:

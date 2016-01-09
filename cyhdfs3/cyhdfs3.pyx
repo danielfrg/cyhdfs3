@@ -286,16 +286,16 @@ cdef class File:
 
 
 cdef class FileInfo(object):
-    cdef public char* name
-    cdef public char* owner
-    cdef public char* group
+    cdef public str name
+    cdef public str owner
+    cdef public str group
     cdef public short replication
     cdef public short permissions
     cdef public libhdfs3.tOffset size
     cdef public libhdfs3.tTime lastMod
     cdef public libhdfs3.tTime lastAccess
-    cdef public libhdfs3.tOffset blockSize
-    cdef public char* kind
+    cdef public libhdfs3.tOffset block_size
+    cdef public str kind
 
     def __init__(self, name, owner, group, replication,
                  permissions, size, lastMod, lastAccess, blockSize, kind):

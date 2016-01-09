@@ -29,3 +29,9 @@ MANIFEST
 # Cython
 cyhdfs3.c
 *.pyxbldc
+
+# Coverage
+.coverage
+coverage.xml
+htmlcov
+cyhdfs3/*.html

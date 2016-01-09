@@ -40,11 +40,11 @@ cdef class HDFSClient:
     def exists(self, path):
         return libhdfs3.hdfsExists(self.fs, path) == 0
 
-    def copy(self, src, dst):
+    def _copy(self, src, dst):
         srcFS, dstFS = self.fs, self.fs
         return libhdfs3.hdfsCopy(srcFS, src, dstFS, dst) == 0
 
-    def move(self, src, dst):
+    def _move(self, src, dst):
         srcFS, dstFS = self.fs, self.fs
         return libhdfs3.hdfsMove(srcFS, src, dstFS, dst) == 0
 

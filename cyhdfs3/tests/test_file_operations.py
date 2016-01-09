@@ -29,3 +29,17 @@ def test_create_dir_list(hdfs):
     files = hdfs.list_dir(TEST_DIR)
     filenames = [f.name for f in files]
     assert fname in filenames
+
+
+def test_rename(hdfs):
+    testname = inspect.stack()[0][3]
+    fname = posixpath.join(TEST_DIR, testname)
+    fname2 = posixpath.join(TEST_DIR, testname + '.renamed')
+
+    assert hdfs.exists(fname) == False
+    hdfs.create_dir(fname)
+    assert hdfs.exists(fname)
+
+    assert hdfs.rename(fname, fname2)
+    assert hdfs.exists(fname) == False
+    assert hdfs.exists(fname2)

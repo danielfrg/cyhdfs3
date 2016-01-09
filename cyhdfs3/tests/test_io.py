@@ -40,3 +40,33 @@ def test_io_pickle(hdfs):
         assert data == read
         read = pickle.loads(read)
         npt.assert_equal(arr, read)
+
+
+def test_io_read_nonexisten(hdfs):
+    with pytest.raises(IOError):
+        f = hdfs.open('/tmp/NOFILE', 'r')
+
+
+def test_io_open_write_read(hdfs):
+    testname = inspect.stack()[0][3]
+    fname = posixpath.join(TEST_DIR, testname)
+
+    f = hdfs.open(fname, 'w')
+    with pytest.raises(IOError):
+        f.read()
+    f.close()
+
+
+def test_io_open_read_write(hdfs):
+    testname = inspect.stack()[0][3]
+    fname = posixpath.join(TEST_DIR, testname)
+
+    data = b'a' * 10 * 2**20
+    with hdfs.open(fname, 'w') as f:
+        f.write(data)
+
+
+    f = hdfs.open(fname, 'r')
+    with pytest.raises(IOError):
+        f.write(data)
+    f.close()

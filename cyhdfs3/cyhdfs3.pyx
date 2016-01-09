@@ -50,7 +50,7 @@ cdef class HDFSClient:
         return libhdfs3.hdfsRename(self.fs, src, dst) == 0
 
     def delete(self, path, recursive=False):
-        _recursive = 0 if recursive is False else 1
+        cdef int _recursive = 0 if recursive is False else 1
         return libhdfs3.hdfsDelete(self.fs, path, _recursive) == 0
 
     def create_dir(self, path):

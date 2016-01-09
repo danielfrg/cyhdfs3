@@ -14,5 +14,8 @@ RUN bash /tmp/cdh5-install.sh
 EXPOSE 8020
 EXPOSE 50070
 
+ENV LD_LIBRARY_PATH /opt/conda/lib:$LD_LIBRARY_PATH
+VOLUME /hdfs3
+
 ADD files/start.sh /tmp/start.sh
 CMD ["bash", "/tmp/start.sh"]

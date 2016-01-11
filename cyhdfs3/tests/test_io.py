@@ -47,7 +47,7 @@ def test_read_nonexisten(hdfs):
         f = hdfs.open('/tmp/NOFILE', 'r')
 
 
-def test_open_write_read(hdfs):
+def test_open_for_write_read(hdfs):
     testname = inspect.stack()[0][3]
     fname = posixpath.join(TEST_DIR, testname)
 
@@ -57,7 +57,7 @@ def test_open_write_read(hdfs):
     f.close()
 
 
-def test_open_read_write(hdfs):
+def test_open_for_read_write(hdfs):
     testname = inspect.stack()[0][3]
     fname = posixpath.join(TEST_DIR, testname)
 

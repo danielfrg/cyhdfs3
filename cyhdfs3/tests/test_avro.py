@@ -20,13 +20,15 @@ avroschema = """ {"type": "record",
 """
 
 
-def test_avro_move_read(hdfs, tmpdir, request):
-    testname = request.node.name
-    hdfs_path = posixpath.join(TEST_DIR, testname)
+@pytest.mark.parametrize(("codec",), [("null", ), ("deflate", ), ("snappy", )])
+def test_avro_move_read(hdfs, request, tmpdir, codec):
+    testname = request.node.name.replace('[', '_').replace(']', '_')
+    hdfs_path = posixpath.join(TEST_DIR, testname + '.avro')
     local_path = tmpdir.join(testname + '.avro').realpath().strpath
+    print local_path
 
     # Create an avrofile
-    writer = cyavro.AvroWriter(local_path, 'null', avroschema)
+    writer = cyavro.AvroWriter(local_path, codec, avroschema)
 
     ids = np.random.randint(100, size=10)
     ids = np.arange(10)
@@ -38,7 +40,8 @@ def test_avro_move_read(hdfs, tmpdir, request):
     writer.close()
 
     # Move file to hdfs
-    subprocess.call("hadoop fs -put {} {}".format(local_path, hdfs_path), shell=True)
+    out = subprocess.call("hadoop fs -put {} {}".format(local_path, hdfs_path), shell=True)
+    assert out == 0
 
     # Read avro and compare data
     with hdfs.open(hdfs_path, 'r') as f:
@@ -49,14 +52,14 @@ def test_avro_move_read(hdfs, tmpdir, request):
         pdt.assert_frame_equal(df_write, df_read)
         reader.close()
 
-
-def test_avro_write_read(hdfs, tmpdir, request):
+@pytest.mark.parametrize(("codec",), [("null", ), ("deflate", ), ("snappy", )])
+def test_avro_write_read(hdfs, request, tmpdir, codec):
     testname = request.node.name
-    hdfs_path = posixpath.join(TEST_DIR, testname)
+    hdfs_path = posixpath.join(TEST_DIR, testname + '.avro')
     local_path = tmpdir.join(testname + '.avro').realpath().strpath
 
     # Create an avrofile
-    writer = cyavro.AvroWriter(local_path, 'null', avroschema)
+    writer = cyavro.AvroWriter(local_path, codec, avroschema)
 
     ids = np.random.randint(100, size=10)
     ids = np.arange(10)

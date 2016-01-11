@@ -52,6 +52,7 @@ def test_avro_move_read(hdfs, request, tmpdir, codec):
         pdt.assert_frame_equal(df_write, df_read)
         reader.close()
 
+
 @pytest.mark.parametrize(("codec",), [("null", ), ("deflate", ), ("snappy", )])
 def test_avro_write_read(hdfs, request, tmpdir, codec):
     testname = request.node.name

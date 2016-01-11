@@ -1,14 +1,14 @@
-import inspect
 import posixpath
 
-from utils import *
+import pickle
 import numpy as np
 import numpy.testing as npt
-import pickle
+
+from utils import *
 
 
-def test_bytes(hdfs):
-    testname = inspect.stack()[0][3]
+def test_bytes(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     data = b'a' * 10 * 2**20
@@ -24,8 +24,8 @@ def test_bytes(hdfs):
         assert read == data
 
 
-def test_pickle(hdfs):
-    testname = inspect.stack()[0][3]
+def test_pickle(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     arr = np.random.normal(10, 2, size=(100, 100))
@@ -42,13 +42,13 @@ def test_pickle(hdfs):
         npt.assert_equal(arr, read)
 
 
-def test_read_nonexisten(hdfs):
+def test_read_nonexisten(hdfs, request):
     with pytest.raises(IOError):
         f = hdfs.open('/tmp/NOFILE', 'r')
 
 
-def test_open_for_write_read(hdfs):
-    testname = inspect.stack()[0][3]
+def test_open_for_write_read(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     f = hdfs.open(fname, 'w')
@@ -57,8 +57,8 @@ def test_open_for_write_read(hdfs):
     f.close()
 
 
-def test_open_for_read_write(hdfs):
-    testname = inspect.stack()[0][3]
+def test_open_for_read_write(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     data = b'a' * 10 * 2**20

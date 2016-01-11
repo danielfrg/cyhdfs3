@@ -1,11 +1,10 @@
-import inspect
 import posixpath
 
 from utils import *
 
 
-def test_block_locations(hdfs):
-    testname = inspect.stack()[0][3]
+def test_block_locations(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     data = b'a' * 2 * 2 ** 20
@@ -20,8 +19,8 @@ def test_block_locations(hdfs):
     assert blocks[2].length == 2 * 2 ** 19
 
 
-def test_path_info_file(hdfs):
-    testname = inspect.stack()[0][3]
+def test_path_info_file(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     replication = 1
@@ -40,8 +39,8 @@ def test_path_info_file(hdfs):
     assert fileinfo.group == 'supergroup'
 
 
-def test_path_info_dir(hdfs):
-    testname = inspect.stack()[0][3]
+def test_path_info_dir(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     hdfs.create_dir(fname)

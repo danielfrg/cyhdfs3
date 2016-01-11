@@ -2,6 +2,7 @@ import click
 from click.testing import CliRunner
 
 from cyhdfs3 import cli
+
 from utils import *
 
 

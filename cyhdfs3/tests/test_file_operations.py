@@ -1,11 +1,10 @@
-import inspect
 import posixpath
 
 from utils import *
 
 
-def test_create_dir_remove_exists(hdfs):
-    testname = inspect.stack()[0][3]
+def test_create_dir_remove_exists(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     assert hdfs.exists(fname) == False
@@ -17,8 +16,8 @@ def test_create_dir_remove_exists(hdfs):
     assert hdfs.exists(fname) == False
 
 
-def test_create_dir_list(hdfs):
-    testname = inspect.stack()[0][3]
+def test_create_dir_list(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
 
     files = hdfs.list_dir(TEST_DIR)
@@ -31,8 +30,8 @@ def test_create_dir_list(hdfs):
     assert fname in filenames
 
 
-def test_rename(hdfs):
-    testname = inspect.stack()[0][3]
+def test_rename(hdfs, request):
+    testname = request.node.name
     fname = posixpath.join(TEST_DIR, testname)
     fname2 = posixpath.join(TEST_DIR, testname + '.renamed')
 

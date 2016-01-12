@@ -31,6 +31,29 @@ def cli(ctx, namenode, port):
     ctx.obj['client'] = cyhdfs3.HDFSClient()
 
 
+@cli.command(short_help='Display the first (n) bytes of a file')
+@click.argument('path', required=False, default='/')
+@click.option('--bytes', '-b', 'nbytes', default=1*2**10, required=False, help='Number of bytes', show_default=True)
+@click.pass_context
+def head(ctx, path, nbytes):
+    client = ctx.obj['client']
+    with client.open(path, 'r') as f:
+        click.echo(f.read(length=nbytes))
+
+
+@cli.command(short_help='Display the last (n) bytes of a file')
+@click.argument('path', required=False, default='/')
+@click.option('--bytes', '-b', 'nbytes', default=1*2**10, required=False, help='Number of bytes', show_default=True)
+@click.pass_context
+def tail(ctx, path, nbytes):
+    client = ctx.obj['client']
+    with client.open(path, 'r') as f:
+        file_info = f.info
+        start = max(0, file_info.size - nbytes)
+        f.seek(start)
+        click.echo(f.read(length=nbytes))
+
+
 @cli.command(short_help='Create directory and all non-existent parents')
 @click.argument('path', required=False, default='/')
 @click.pass_context

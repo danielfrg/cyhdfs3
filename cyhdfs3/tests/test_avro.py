@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import posixpath
 import subprocess
 
@@ -27,7 +29,9 @@ def test_avro_move_read(hdfs, request, tmpdir, codec):
     local_path = tmpdir.join(testname + '.avro').realpath().strpath
 
     # Create an avrofile
-    writer = cyavro.AvroWriter(local_path, codec, avroschema)
+    print ('!!!!!', type(local_path))
+    print ('!!!!!', type(local_path.encode('utf-8')))
+    writer = cyavro.AvroWriter(local_path.encode('utf-8'), codec.encode('utf-8'), avroschema.encode('utf-8'))
 
     ids = np.random.randint(100, size=10)
     ids = np.arange(10)
@@ -59,7 +63,7 @@ def test_avro_write_read(hdfs, request, tmpdir, codec):
     local_path = tmpdir.join(testname + '.avro').realpath().strpath
 
     # Create an avrofile
-    writer = cyavro.AvroWriter(local_path, codec, avroschema)
+    writer = cyavro.AvroWriter(local_path.encode('utf-8'), codec.encode('utf-8'), avroschema.encode('utf-8'))
 
     ids = np.random.randint(100, size=10)
     ids = np.arange(10)

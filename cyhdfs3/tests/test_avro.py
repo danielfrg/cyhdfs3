@@ -1,5 +1,6 @@
-from __future__ import unicode_literals
+from __future__ import print_function, absolute_import
 
+import sys
 import posixpath
 import subprocess
 
@@ -22,6 +23,7 @@ avroschema = """ {"type": "record",
 """
 
 
+@pytest.mark.skipif(sys.version_info < (3,0), reason="Test requires python 3")
 @pytest.mark.parametrize(("codec",), [("null", ), ("deflate", ), ("snappy", )])
 def test_avro_move_read(hdfs, request, tmpdir, codec):
     testname = request.node.name.replace('[', '_').replace(']', '_')
@@ -29,9 +31,7 @@ def test_avro_move_read(hdfs, request, tmpdir, codec):
     local_path = tmpdir.join(testname + '.avro').realpath().strpath
 
     # Create an avrofile
-    print ('!!!!!', type(local_path))
-    print ('!!!!!', type(local_path.encode('utf-8')))
-    writer = cyavro.AvroWriter(local_path.encode('utf-8'), codec.encode('utf-8'), avroschema.encode('utf-8'))
+    writer = cyavro.AvroWriter(local_path, codec, avroschema)
 
     ids = np.random.randint(100, size=10)
     ids = np.arange(10)
@@ -56,6 +56,7 @@ def test_avro_move_read(hdfs, request, tmpdir, codec):
         reader.close()
 
 
+@pytest.mark.skipif(sys.version_info < (3,0), reason="Test requires python 3")
 @pytest.mark.parametrize(("codec",), [("null", ), ("deflate", ), ("snappy", )])
 def test_avro_write_read(hdfs, request, tmpdir, codec):
     testname = request.node.name
@@ -63,7 +64,7 @@ def test_avro_write_read(hdfs, request, tmpdir, codec):
     local_path = tmpdir.join(testname + '.avro').realpath().strpath
 
     # Create an avrofile
-    writer = cyavro.AvroWriter(local_path.encode('utf-8'), codec.encode('utf-8'), avroschema.encode('utf-8'))
+    writer = cyavro.AvroWriter(local_path, codec, avroschema)
 
     ids = np.random.randint(100, size=10)
     ids = np.arange(10)

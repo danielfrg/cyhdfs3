@@ -1,9 +1,13 @@
 from __future__ import division
+
+import os
 import sys
 import traceback
 
 import click
 
+import pyximport; pyximport.install()
+import cyhdfs3
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -21,14 +25,18 @@ def main():
 @click.option('--port', '-p', default=8020, required=False, help='Namenode port', show_default=True)
 @click.pass_context
 def cli(ctx, namenode, port):
-    import pyximport; pyximport.install()
-
-    import os
     os.environ["LIBHDFS3_CONF"] = "/etc/hadoop/conf/hdfs-site.xml"
 
-    import cyhdfs3
     ctx.obj = {}
     ctx.obj['client'] = cyhdfs3.HDFSClient()
+
+
+@cli.command(short_help='Create directory and all non-existent parents')
+@click.argument('path', required=False, default='/')
+@click.pass_context
+def mkdir(ctx, path):
+    client = ctx.obj['client']
+    client.create_dir(path)
 
 
 @cli.command(short_help='List a path')
@@ -106,3 +114,7 @@ def df(ctx):
             else:
                 lrow.append(str(col).rjust(cols_lenghts[i]))
         click.echo(" ".join(lrow))
+
+
+if __name__ == '__main__':
+    main()

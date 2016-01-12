@@ -25,7 +25,6 @@ def test_avro_move_read(hdfs, request, tmpdir, codec):
     testname = request.node.name.replace('[', '_').replace(']', '_')
     hdfs_path = posixpath.join(TEST_DIR, testname + '.avro')
     local_path = tmpdir.join(testname + '.avro').realpath().strpath
-    print local_path
 
     # Create an avrofile
     writer = cyavro.AvroWriter(local_path, codec, avroschema)
@@ -72,8 +71,8 @@ def test_avro_write_read(hdfs, request, tmpdir, codec):
     writer.close()
 
     # Read avro file bytes from localfile and write them to hdfs
-    data = b''
-    with open(local_path, 'r') as f:
+    data = ''
+    with open(local_path, 'rb') as f:
         data = f.read()
     with hdfs.open(hdfs_path, 'w') as f:
         f.write(data)

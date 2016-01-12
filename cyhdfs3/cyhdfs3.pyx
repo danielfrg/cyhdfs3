@@ -1,5 +1,6 @@
 # from __future__ import unicode_literals
 
+from cpython cimport bool
 from libc cimport stdlib
 cimport cyavro._cyavro as cyavro
 
@@ -10,11 +11,10 @@ O_WRONLY = libhdfs3.O_WRONLY
 O_APPEND = libhdfs3.O_APPEND
 
 
-cdef convert_string_to_unicode(stringobj):
-    # Python 2.7 helper for unicode fixup
-    if isinstance(stringobj, unicode):
-        return stringobj
-    return unicode(stringobj, 'utf-8')
+cdef str_to_charp(str py_str):
+    py_byte_string = py_str.encode('UTF-8')
+    cdef char *c_string = py_byte_string
+    return c_string
 
 
 cdef class HDFSClient:
@@ -23,17 +23,16 @@ cdef class HDFSClient:
     cdef libhdfs3.hdfsBuilder* builder
     cdef libhdfs3.hdfsFS fs
 
-    def __cinit__(self, str host=None, int port=8020):
-        self.host = 'localhost'
+    def __init__(self, str host='localhost', int port=8020):
+        self.host = host
         self.port = port
 
         self.builder = libhdfs3.hdfsNewBuilder()
-
-        py_byte_string = self.host.encode('UTF-8')
-        cdef char *c_host = py_byte_string
+        _ = str_to_charp(self.host)
+        cdef char *c_host = _
         libhdfs3.hdfsBuilderSetNameNode(self.builder, c_host)
-
         libhdfs3.hdfsBuilderSetNameNodePort(self.builder, self.port)
+
         self.fs = libhdfs3.hdfsBuilderConnect(self.builder)
 
     def __dealloc__(self):
@@ -43,55 +42,75 @@ cdef class HDFSClient:
     def __reduce__(self):
         return (rebuild_client, (self.host, self.port))
 
-    def getLastError(self):
-        return libhdfs3.hdfsGetLastError()
+    def get_last_error(self):
+        cdef char* c_string = libhdfs3.hdfsGetLastError()
+        cdef str py_string = c_string.decode('utf-8')
+        return py_string
 
-    def exists(self, path):
-        py_byte_string = self.host.encode('UTF-8')
-        cdef char *c_path = py_byte_string
+    def exists(self, str path):
+        _ = str_to_charp(path)
+        cdef char *c_path = _
         return libhdfs3.hdfsExists(self.fs, c_path) == 0
 
-    def _copy(self, src, dst):
-        srcFS, dstFS = self.fs, self.fs
-        return libhdfs3.hdfsCopy(srcFS, src, dstFS, dst) == 0
+    # def _copy(self, src, dst):
+    #     srcFS, dstFS = self.fs, self.fs
+    #     return libhdfs3.hdfsCopy(srcFS, src, dstFS, dst) == 0
+    #
+    # def _move(self, src, dst):
+    #     srcFS, dstFS = self.fs, self.fs
+    #     return libhdfs3.hdfsMove(srcFS, src, dstFS, dst) == 0
 
-    def _move(self, src, dst):
-        srcFS, dstFS = self.fs, self.fs
-        return libhdfs3.hdfsMove(srcFS, src, dstFS, dst) == 0
+    def rename(self, str src, str dst):
+        _ = str_to_charp(src)
+        cdef char *c_src = _
+        _ = str_to_charp(dst)
+        cdef char *c_dst = _
+        return libhdfs3.hdfsRename(self.fs, c_src, c_dst) == 0
 
-    def rename(self, src, dst):
-        return libhdfs3.hdfsRename(self.fs, src, dst) == 0
+    def delete(self, str path, bool recursive=False):
+        _ = str_to_charp(path)
+        cdef char *c_path = _
+        cdef int c_recursive = 0 if recursive is False else 1
+        return libhdfs3.hdfsDelete(self.fs, c_path, c_recursive) == 0
 
-    def delete(self, path, recursive=False):
-        cdef int _recursive = 0 if recursive is False else 1
-        return libhdfs3.hdfsDelete(self.fs, path, _recursive) == 0
+    def create_dir(self, str path):
+        _ = str_to_charp(path)
+        cdef char *c_path = _
+        return libhdfs3.hdfsCreateDirectory(self.fs, c_path) == 0
 
-    def create_dir(self, path):
-        return libhdfs3.hdfsCreateDirectory(self.fs, path) == 0
-
-    def list_dir(self, path='/', recurse=False, max_depth=5):
+    def list_dir(self, str path='/', bool recurse=False, int max_depth=5):
         ret = []
         depth = 1 if recurse is False else max_depth
         self.list_dir_recursive(path, ret=ret, depth=depth)
         return ret
 
-    def list_dir_recursive(self, path='/', ret=None, depth=1):
-        cdef int numEntries = 0
-        cdef libhdfs3.hdfsFileInfo* files = libhdfs3.hdfsListDirectory(self.fs, path, &numEntries)
+    def list_dir_recursive(self, str path='/', list ret=None, int depth=1):
+        _ = str_to_charp(path)
+        cdef char *c_path = _
+        cdef int num_entries = 0
+        cdef libhdfs3.hdfsFileInfo* files = libhdfs3.hdfsListDirectory(self.fs, c_path, &num_entries)
 
-        for i in range(numEntries):
+        cdef str py_name = ""
+        cdef str py_owner = ""
+        cdef str py_group = ""
+        cdef str py_kind = ""
+        for i in range(num_entries):
             fInfo = files[i]
-            new = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
-                                            replication=fInfo.mReplication, permissions=fInfo.mPermissions,
-                                            size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
-                                            block_size=fInfo.mBlockSize, kind=fInfo.mKind)
+            py_name = fInfo.mName.decode('utf-8')
+            py_owner = fInfo.mOwner.decode('utf-8')
+            py_group = fInfo.mGroup.decode('utf-8')
+            py_kind = 'f' if fInfo.mKind == 70 else 'd'
+            new = FileInfo(name=py_name, owner=py_owner, group=py_group,
+                            replication=fInfo.mReplication, permissions=fInfo.mPermissions,
+                            size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
+                            block_size=fInfo.mBlockSize, kind=py_kind)
             ret.append(new)
 
             if new.kind == b'd' and depth > 1:
                 path = new.name
                 self.list_dir_recursive(path=path, ret=ret, depth=(depth - 1))
 
-        libhdfs3.hdfsFreeFileInfo(files, numEntries)
+        libhdfs3.hdfsFreeFileInfo(files, num_entries)
         return ret
 
     def chown(self, str path, str owner=None, str group=None):
@@ -120,10 +139,12 @@ cdef class HDFSClient:
         rval = libhdfs3.hdfsChmod(self.fs, c_path, c_mode)
         return rval == 0
 
-    def get_block_locations(self, path, start=0, length=None):
+    def get_block_locations(self, str path, int start=0, int length=0):
+        _ = str_to_charp(path)
+        cdef char *c_path = _
         cdef int numOfBlocks = 0
-        length = self.path_info(path).size if length is None  else length
-        cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, path, start, length, &numOfBlocks)
+        cdef int c_length = self.path_info(path).size if length == 0 else length
+        cdef libhdfs3.BlockLocation* blocks = libhdfs3.hdfsGetFileBlockLocations(self.fs, c_path, start, c_length, &numOfBlocks)
 
         ret = []
         for i in range(numOfBlocks):
@@ -147,15 +168,22 @@ cdef class HDFSClient:
     def get_used(self):
         return libhdfs3.hdfsGetUsed(self.fs)
 
-    def open(self, path, mode='r',  *args, **kwargs):
+    def open(self, str path, str mode='r', *args, **kwargs):
         return File(self, path, mode, *args, **kwargs)
 
-    def path_info(self, path):
-        cdef libhdfs3.hdfsFileInfo* fInfo = libhdfs3.hdfsGetPathInfo(self.fs, path)
-        f = FileInfo(name=fInfo.mName, owner=fInfo.mOwner, group=fInfo.mGroup,
-                     replication=fInfo.mReplication, permissions=fInfo.mPermissions,
-                     size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
-                     block_size=fInfo.mBlockSize, kind=fInfo.mKind)
+    def path_info(self, str path):
+        _ = str_to_charp(path)
+        cdef char *c_path = _
+        cdef libhdfs3.hdfsFileInfo* fInfo = libhdfs3.hdfsGetPathInfo(self.fs, c_path)
+
+        cdef str py_name = fInfo.mName.decode('utf-8')
+        cdef str py_owner = fInfo.mOwner.decode('utf-8')
+        cdef str py_group = fInfo.mGroup.decode('utf-8')
+        cdef str py_kind = 'f' if fInfo.mKind == 70 else 'd'
+        f = FileInfo(name=py_name, owner=py_owner, group=py_group,
+                        replication=fInfo.mReplication, permissions=fInfo.mPermissions,
+                        size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
+                        block_size=fInfo.mBlockSize, kind=py_kind)
         libhdfs3.hdfsFreeFileInfo(fInfo, 1)
         return f
 
@@ -168,30 +196,32 @@ def rebuild_client(host, port):
 cdef class File:
     cdef HDFSClient client
     cdef libhdfs3.hdfsFile _file
-    cdef public char* path
-    cdef public char* mode
-    cdef public char* encoding
+    cdef public str path
+    cdef public str mode
+    cdef public str encoding
     cdef public short replication
     cdef public FileInfo _info
     cdef public list _blocks
     cdef bytes linebuff
 
-    def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0,
+    def __cinit__(self, client, str path, str mode, buffer_size=0, replication=0, block_size=0,
                   encoding='utf-8'):
         self.client = client
         self.path = path
         self.mode = mode
         self.encoding = encoding
 
+        _ = str_to_charp(self.path)
+        cdef char *c_path = _
         flags = O_RDONLY
         flags = O_WRONLY if mode == 'w' else flags
         flags = O_WRONLY | O_APPEND if mode == 'a' else flags
         self.replication = 1 if mode == 'a' else replication  # Trust in the force Luke
-        self._file = libhdfs3.hdfsOpenFile(self.client.fs, self.path, flags, buffer_size, self.replication, block_size)
+        self._file = libhdfs3.hdfsOpenFile(self.client.fs, c_path, flags, buffer_size, self.replication, block_size)
 
         is_ok = <int> self._file
         if is_ok == 0:
-            raise IOError("File open failed: " + self.client.getLastError())
+            raise IOError("File open failed: " + self.client.get_last_error())
 
         self.linebuff = b""
         self._info = None
@@ -292,13 +322,13 @@ cdef class File:
     def seek(self, pos):
         out = libhdfs3.hdfsSeek(self.client.fs, self._file, pos)
         if out != 0:
-            raise IOError('Seek Failed:', self.client.getLastError())
+            raise IOError('Seek Failed:', self.client.get_last_error())
         return True
 
     def tell(self):
         out = libhdfs3.hdfsTell(self.client.fs, self._file)
         if out == -1:
-            raise IOError('Tell Failed:', self.client.getLastError())
+            raise IOError('Tell Failed:', self.client.get_last_error())
         return out
 
     def __enter__(self):
@@ -318,7 +348,7 @@ cdef class File:
             return self._info
 
     property blocks:
-        "A `FileInfo` reference"
+        "A `BlockLocation` reference"
         def __get__(self):
             if getattr(self, '_info', None) is None:
                 self._blocks = self.client.get_block_locations(self.path)
@@ -337,8 +367,8 @@ cdef class FileInfo(object):
     cdef public libhdfs3.tOffset block_size
     cdef public str kind
 
-    def __init__(self, name, owner, group, replication,
-                 permissions, size, lastMod, lastAccess, block_size, kind):
+    def __init__(self, str name, str owner, str group, short replication,
+                 short permissions, size, lastMod, lastAccess, block_size, str kind):
         name = '/' + name.lstrip('/')
         self.name = name
         self.owner = owner
@@ -349,7 +379,6 @@ cdef class FileInfo(object):
         self.lastMod = lastMod
         self.lastAccess = lastAccess
         self.block_size = block_size
-        kind = 'f' if kind == 70 else 'd'
         self.kind = kind
 
     def todict(self):

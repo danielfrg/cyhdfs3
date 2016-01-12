@@ -20,7 +20,7 @@ def main():
 @click.option('--port', '-p', default=8020, required=False, help='Namenode port', show_default=True)
 @click.pass_context
 def cli(ctx, namenode, port):
-    import pyximport; pyximport.install()
+    # import pyximport; pyximport.install()
     import os
     import cyhdfs3
     os.environ["LIBHDFS3_CONF"] = "/etc/hadoop/conf/hdfs-site.xml"

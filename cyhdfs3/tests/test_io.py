@@ -42,7 +42,7 @@ def test_pickle(hdfs, request):
         npt.assert_equal(arr, read)
 
 
-def test_read_nonexisten(hdfs, request):
+def test_read_nonexistent(hdfs, request):
     with pytest.raises(IOError):
         f = hdfs.open('/tmp/NOFILE', 'r')
 

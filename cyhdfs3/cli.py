@@ -37,8 +37,13 @@ def cli(ctx, namenode, port):
 @click.pass_context
 def head(ctx, path, nbytes):
     client = ctx.obj['client']
-    with client.open(path, 'r') as f:
-        click.echo(f.read(length=nbytes))
+    try:
+        with client.open(path, 'r') as f:
+            click.echo(f.read(length=nbytes))
+    except IOError:
+        if client.path_info(path).kind == 'd':
+            click.echo("head: error reading '{}': Is a directory".format(path), err=True)
+            sys.exit(1)
 
 
 @cli.command(short_help='Display the last (n) bytes of a file')
@@ -47,11 +52,14 @@ def head(ctx, path, nbytes):
 @click.pass_context
 def tail(ctx, path, nbytes):
     client = ctx.obj['client']
-    with client.open(path, 'r') as f:
-        file_info = f.info
-        start = max(0, file_info.size - nbytes)
-        f.seek(start)
-        click.echo(f.read(length=nbytes))
+    try:
+        with client.open(path, 'r') as f:
+            start = max(0, f.info.size - nbytes)
+            f.seek(start)
+            click.echo(f.read(length=nbytes))
+    except IOError as e:
+        if client.path_info(path).kind == 'd':
+            click.echo("tail: error reading '{}': Is a directory".format(path), err=True)
 
 
 @cli.command(short_help='Create directory and all non-existent parents')

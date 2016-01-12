@@ -1,4 +1,4 @@
-from __future__ import division
+from __future__ import print_function, absolute_import, division
 
 import sys
 import click

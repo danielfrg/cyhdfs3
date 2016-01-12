@@ -3,7 +3,7 @@ MAINTAINER Daniel Rodriguez
 
 # conda
 RUN apt-get update && apt-get install -y curl bzip2
-RUN curl http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -o /tmp/miniconda.sh
+RUN curl http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh
 RUN /bin/bash /tmp/miniconda.sh -b -p /opt/conda
 RUN rm /tmp/miniconda.sh
 ENV PATH /opt/conda/bin:$PATH
@@ -21,10 +21,10 @@ ENV LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
 RUN conda install -y ipython cython pytest conda-build
 RUN conda install -c https://conda.anaconda.org/mvn cyavro
 RUN pip install versioneer twine pywebhdfs click
-RUN conda create -y -n py3 python=3
-RUN conda install -y -n py3 ipython cython pytest
-RUN conda install -y -n py3 -c https://conda.anaconda.org/mvn cyavro
-RUN /opt/conda/envs/py3/bin/pip install versioneer twine pywebhdfs click
+RUN conda create -y -n py2 python=27
+RUN conda install -y -n py2 ipython cython pytest
+RUN conda install -y -n py2 -c https://conda.anaconda.org/mvn cyavro
+RUN /opt/conda/envs/py2/bin/pip install versioneer twine pywebhdfs click
 
 VOLUME /cyavro
 VOLUME /cyhdfs3

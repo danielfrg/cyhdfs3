@@ -9,10 +9,10 @@ def test_create_dir_remove_exists(hdfs, request):
 
     assert hdfs.exists(fname) == False
 
-    assert hdfs.create_dir(fname)
-    assert hdfs.exists(fname)
+    assert hdfs.create_dir(fname) == True
+    assert hdfs.exists(fname) == True
 
-    assert hdfs.delete(fname)
+    assert hdfs.delete(fname) == True
     assert hdfs.exists(fname) == False
 
 

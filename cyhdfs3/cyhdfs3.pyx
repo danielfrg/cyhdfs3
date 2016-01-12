@@ -1,10 +1,7 @@
 from libc cimport stdlib
-from cpython cimport array
-import array
+cimport cyavro._cyavro as cyavro
 
 cimport libhdfs3
-
-cimport cyavro._cyavro as cyavro
 
 O_RDONLY = libhdfs3.O_RDONLY
 O_WRONLY = libhdfs3.O_WRONLY

@@ -76,14 +76,18 @@ def mkdir(ctx, path):
 @click.pass_context
 def ls(ctx, path, recurse):
     client = ctx.obj['client']
-    files = client.list_dir(path, recurse=recurse)
 
+    if not client.exists(path):
+        click.echo("ls: cannot access {}: No such file or directory".format(path))
+        sys.exit(2)
+
+    files = client.list_dir(path, recurse=recurse)
     for f in files:
         row = []
-
         perm = octal_to_perm(f.permissions)
         t_perm = ('d' if f.kind == 'd' else '-') + perm
         row.append(t_perm)
+        
         s = max([len(j.owner) for j in files]) + 3
         row.append(f.owner.ljust(s))
         s = max([len(j.group) for j in files]) + 3
@@ -91,7 +95,6 @@ def ls(ctx, path, recurse):
         s = max([len(str(j.size)) for j in files]) + 3
         row.append(str(f.size).ljust(s))
         row.append(f.name)
-
         click.echo(" ".join(row))
 
 

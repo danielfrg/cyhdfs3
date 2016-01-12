@@ -1,6 +1,9 @@
 FROM ubuntu:trusty
 MAINTAINER Daniel Rodriguez
 
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
 RUN apt-get update && apt-get install -y git build-essential curl bzip2
 
 # conda

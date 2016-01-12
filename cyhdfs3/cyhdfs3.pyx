@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from libc cimport stdlib
 cimport cyavro._cyavro as cyavro
 

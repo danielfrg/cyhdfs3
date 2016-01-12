@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+# from __future__ import unicode_literals
 
 from libc cimport stdlib
 cimport cyavro._cyavro as cyavro
@@ -10,20 +10,30 @@ O_WRONLY = libhdfs3.O_WRONLY
 O_APPEND = libhdfs3.O_APPEND
 
 
+cdef convert_string_to_unicode(stringobj):
+    # Python 2.7 helper for unicode fixup
+    if isinstance(stringobj, unicode):
+        return stringobj
+    return unicode(stringobj, 'utf-8')
+
+
 cdef class HDFSClient:
-    cdef public char* host
+    cdef public str host
     cdef public int port
     cdef libhdfs3.hdfsBuilder* builder
     cdef libhdfs3.hdfsFS fs
 
-    def __cinit__(self, host='localhost', port=8020):
-        self.host = host
+    def __cinit__(self, str host=None, int port=8020):
+        self.host = 'localhost'
         self.port = port
 
         self.builder = libhdfs3.hdfsNewBuilder()
-        libhdfs3.hdfsBuilderSetNameNode(self.builder, self.host)
-        libhdfs3.hdfsBuilderSetNameNodePort(self.builder, self.port)
 
+        py_byte_string = self.host.encode('UTF-8')
+        cdef char *c_host = py_byte_string
+        libhdfs3.hdfsBuilderSetNameNode(self.builder, c_host)
+
+        libhdfs3.hdfsBuilderSetNameNodePort(self.builder, self.port)
         self.fs = libhdfs3.hdfsBuilderConnect(self.builder)
 
     def __dealloc__(self):
@@ -37,7 +47,9 @@ cdef class HDFSClient:
         return libhdfs3.hdfsGetLastError()
 
     def exists(self, path):
-        return libhdfs3.hdfsExists(self.fs, path) == 0
+        py_byte_string = self.host.encode('UTF-8')
+        cdef char *c_path = py_byte_string
+        return libhdfs3.hdfsExists(self.fs, c_path) == 0
 
     def _copy(self, src, dst):
         srcFS, dstFS = self.fs, self.fs

@@ -20,12 +20,43 @@ def main():
 @click.option('--port', '-p', default=8020, required=False, help='Namenode port', show_default=True)
 @click.pass_context
 def cli(ctx, namenode, port):
-    # import pyximport; pyximport.install()
     import os
     import cyhdfs3
     os.environ["LIBHDFS3_CONF"] = "/etc/hadoop/conf/hdfs-site.xml"
     ctx.obj = {}
     ctx.obj['client'] = cyhdfs3.HDFSClient()
+
+
+@cli.command(short_help='Copy files to local file system destination')
+@click.argument('path', required=True)
+@click.argument('localpath', required=True)
+@click.option('--buffer', '-b', 'buffersize', default=1*2**10, required=False, help='Buffer size', show_default=True)
+@click.pass_context
+def get(ctx, path, localpath, buffersize):
+    client = ctx.obj['client']
+    with open(localpath, 'w') as lf:
+        with client.open(path, 'r') as hdfsf:
+            data = ''
+            while data is not None:
+                data = hdfsf.read(length=buffersize)
+                if data is not None:
+                    lf.write(data.decode('utf-8'))
+
+
+@cli.command(short_help='Copy files to local file system destination')
+@click.argument('localpath', required=True)
+@click.argument('path', required=True)
+@click.option('--buffer', '-b', 'buffersize', default=1*2**10, required=False, help='Buffer size', show_default=True)
+@click.pass_context
+def put(ctx, localpath, path, buffersize):
+    client = ctx.obj['client']
+    with client.open(path, 'w') as hdfsf:
+        with open(localpath, 'rb') as lf:
+            while True:
+                data = lf.read(buffersize)
+                if not data:
+                    break
+                hdfsf.write(data)
 
 
 @cli.command(short_help='Change mode of a file or directory.')

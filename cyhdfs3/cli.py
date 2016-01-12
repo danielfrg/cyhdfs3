@@ -213,5 +213,22 @@ def df(ctx):
         click.echo(" ".join(lrow))
 
 
+@cli.command(short_help='Create a file of zero length')
+@click.argument('path', required=True)
+@click.pass_context
+def touch(ctx, path):
+    client = ctx.obj['client']
+    with client.open(path, 'w'):
+        pass
+
+
+@cli.command(short_help='Delete files')
+@click.argument('path', required=True)
+@click.option('--recursive', '-R', is_flag=True, default=False, required=False, help='Deletes the directory and any content under it recursively', show_default=True)
+@click.pass_context
+def rm(ctx, path, recursive):
+    client = ctx.obj['client']
+    client.delete(path, recursive=recursive)
+
 if __name__ == '__main__':
     main()

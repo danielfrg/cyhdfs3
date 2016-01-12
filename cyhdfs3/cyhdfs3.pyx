@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from libc cimport stdlib
 from cpython cimport bool
 from cpython.version cimport PY_MAJOR_VERSION
@@ -11,28 +9,6 @@ cimport libhdfs3
 O_RDONLY = libhdfs3.O_RDONLY
 O_WRONLY = libhdfs3.O_WRONLY
 O_APPEND = libhdfs3.O_APPEND
-
-
-cdef unicode ustring(s):
-    if type(s) is unicode:
-        # fast path for most common case(s)
-        return <unicode>s
-    elif PY_MAJOR_VERSION < 3 and isinstance(s, bytes):
-        # only accept byte strings in Python 2.x, not in Py3
-        return (<bytes>s).decode('UTF-8')
-    elif isinstance(s, unicode):
-        # an evil cast to <unicode> might work here in some(!) cases,
-        # depending on what the further processing does.  to be safe,
-        # we can always create a copy instead
-        return unicode(s)
-    else:
-        raise TypeError("Not a str")
-
-
-cdef str_to_charp(py_str):
-    py_byte_string = ustring(py_str).encode('UTF-8')
-    cdef char *c_string = py_byte_string
-    return c_string
 
 
 cdef class HDFSClient:
@@ -246,14 +222,14 @@ cdef class File:
         libhdfs3.hdfsCloseFile(self.client.fs, self._file)
 
     def write(self, bytes content):
-        cdef char* c_char =  content
 
         cdef isopen = libhdfs3.hdfsFileIsOpenForWrite(self._file)
         if isopen != 1:
             raise IOError("File '{}' not open for write".format(self.path))
 
-        length = len(content)
-        cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> c_char, length)
+        cdef char* c_content =  content
+        cdef int c_length = len(content)
+        cdef int nbytes = libhdfs3.hdfsWrite(self.client.fs, self._file, <void*> c_content, c_length)
         if nbytes < 0:
             raise IOError("Could not write contents to file:", libhdfs3.hdfsGetLastError())
         return nbytes
@@ -271,7 +247,7 @@ cdef class File:
 
         self._read(buffer, length, tempbuffer, tempbuffer_length)
 
-        cdef bytes py_string
+        cdef bytes py_bytes_string
         cdef char* c_string = <char*> buffer
         try:
             py_bytes_string = c_string[:length]
@@ -333,7 +309,7 @@ cdef class File:
                 raise IOError("Could not flush file:", libhdfs3.hdfsGetLastError())
         return True
 
-    def seek(self, pos):
+    def seek(self, int pos):
         out = libhdfs3.hdfsSeek(self.client.fs, self._file, pos)
         if out != 0:
             raise IOError('Seek Failed:', self.client.get_last_error())
@@ -447,3 +423,34 @@ cdef class BlockLocation(object):
 
     def __str__(self):
         return str(self.todict())
+
+
+cdef str_to_charp(py_str):
+    """
+    Get any string (Py2 or Py3) and return a char*
+    """
+    py_byte_string = None
+    if isinstance(py_str, bytes):
+        py_byte_string = py_str
+    elif isinstance(py_str, unicode):
+        py_byte_string = py_str.encode('UTF-8')
+    else:
+        raise TypeError("Not a str")
+    cdef char *c_string = py_byte_string
+    return c_string
+
+
+cdef unicode ustring(s):
+    if type(s) is unicode:
+        # fast path for most common case(s)
+        return <unicode>s
+    elif PY_MAJOR_VERSION < 3 and isinstance(s, bytes):
+        # only accept byte strings in Python 2.x, not in Py3
+        return (<bytes>s).decode('UTF-8')
+    elif isinstance(s, unicode):
+        # an evil cast to <unicode> might work here in some(!) cases,
+        # depending on what the further processing does.  to be safe,
+        # we can always create a copy instead
+        return unicode(s)
+    else:
+        raise TypeError("Not a str")

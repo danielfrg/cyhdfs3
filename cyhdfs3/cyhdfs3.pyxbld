@@ -1,17 +1,16 @@
 import os
 import numpy as np
 
-include_dirs = ['/usr/local/include/hdfs']
-library_dirs = ['/usr/local/lib/']
-
-prefix = os.getenv('PREFIX', None)
-if prefix is not None:
-    include_dirs.append(os.path.join(prefix, 'include'))
-    library_dirs.append(os.path.join(prefix, 'lib'))
-
-
+include_dirs = ["/usr/local/include", "/usr/local/include/hdfs"]
 include_dirs.append(np.get_include())
+library_dirs = ["/usr/local/lib/"]
 
+# If conda PREFIX is present add conda paths
+prefix = os.getenv("PREFIX", None)
+if prefix is not None:
+    include_dirs.append(os.path.join(prefix, "include"))
+    include_dirs.append(os.path.join(prefix, "include", "hdfs"))
+    library_dirs.append(os.path.join(prefix, "lib"))
 
 def make_ext(modname, pyxfilename):
     from distutils.extension import Extension

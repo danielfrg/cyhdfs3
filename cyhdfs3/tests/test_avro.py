@@ -23,7 +23,6 @@ avroschema = """ {"type": "record",
 """
 
 
-@pytest.mark.skipif(sys.version_info < (3,0), reason="Test requires python 3")
 @pytest.mark.parametrize(("codec",), [("null", ), ("deflate", ), ("snappy", )])
 def test_avro_move_read(hdfs, request, tmpdir, codec):
     testname = request.node.name.replace('[', '_').replace(']', '_')
@@ -56,7 +55,6 @@ def test_avro_move_read(hdfs, request, tmpdir, codec):
         reader.close()
 
 
-@pytest.mark.skipif(sys.version_info < (3,0), reason="Test requires python 3")
 @pytest.mark.parametrize(("codec",), [("null", ), ("deflate", ), ("snappy", )])
 def test_avro_write_read(hdfs, request, tmpdir, codec):
     testname = request.node.name

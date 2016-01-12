@@ -75,6 +75,7 @@ def mkdir(ctx, path):
 @click.option('--recurse', '-R', is_flag=True, default=False, required=False, help='Recurse into subdirectories', show_default=True)
 @click.pass_context
 def ls(ctx, path, recurse):
+    import datetime
     client = ctx.obj['client']
 
     if not client.exists(path):
@@ -82,18 +83,25 @@ def ls(ctx, path, recurse):
         sys.exit(2)
 
     files = client.list_dir(path, recurse=recurse)
+    click.echo("Found {} files".format(len(files)))
     for f in files:
         row = []
         perm = octal_to_perm(f.permissions)
         t_perm = ('d' if f.kind == 'd' else '-') + perm
         row.append(t_perm)
-        
-        s = max([len(j.owner) for j in files]) + 3
+
+        s = max([len(str(j.replication)) for j in files]) + 1
+        r = '-' if f.kind == 'd' else str(f.replication)
+        row.append(r.rjust(s))
+        s = max([len(j.owner) for j in files]) + 1
         row.append(f.owner.ljust(s))
-        s = max([len(j.group) for j in files]) + 3
+        s = max([len(j.group) for j in files]) + 1
         row.append(f.group.ljust(s))
-        s = max([len(str(j.size)) for j in files]) + 3
+        s = max([len(str(j.size)) for j in files]) + 1
         row.append(str(f.size).ljust(s))
+        d = lambda x: datetime.datetime.fromtimestamp(x).strftime("%Y-%m-%d %H:%M")
+        s = max([len(d(j.lastMod)) for j in files]) + 1
+        row.append(d(f.lastMod).ljust(s))
         row.append(f.name)
         click.echo(" ".join(row))
 

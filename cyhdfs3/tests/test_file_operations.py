@@ -42,3 +42,39 @@ def test_rename(hdfs, request):
     assert hdfs.rename(fname, fname2)
     assert hdfs.exists(fname) == False
     assert hdfs.exists(fname2)
+
+
+def test_chmod(hdfs, request):
+    testname = request.node.name
+    fname = posixpath.join(TEST_DIR, testname)
+
+    with hdfs.open(fname, 'w') as f:
+        f.write(b'a')
+        assert int(str('777'), 8) == 511
+        assert f.info.permissions == int(str('777'), 8)
+
+    new_mode = int(str('611'), 8)
+    assert new_mode == 393
+    hdfs.chmod(fname, new_mode)
+    assert hdfs.path_info(fname).permissions == new_mode
+
+    # Change using cmod_s
+    new_mode = '444'
+    hdfs.chmod_s(fname, new_mode)
+    assert hdfs.path_info(fname).permissions == int(str(new_mode), 8)
+
+
+@pytest.mark.skipif(True, reason="This test requires to be ran as the `hdfs` user")
+def test_chown(hdfs, request):
+    testname = request.node.name
+    fname = posixpath.join(TEST_DIR, testname)
+
+    with hdfs.open(fname, 'w') as f:
+        f.write(b'a')
+        assert f.info.owner == "root"
+        assert f.info.group == "supergroup"
+
+    rval = hdfs.chown(fname, 'ubuntu')
+    assert rval == True
+
+    assert hdfs.path_info(fname).owner == 'ubuntu'

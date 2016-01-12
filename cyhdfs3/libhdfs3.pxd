@@ -37,6 +37,8 @@ cdef extern from "hdfs.h":
     int hdfsRename(hdfsFS fs, char *oldPath, char *newPath)
     int hdfsDelete(hdfsFS fs, char *path, int recursive)
     int hdfsCreateDirectory(hdfsFS fs, char *path)
+    int hdfsChown(hdfsFS fs, char *path, char *owner, char *group)
+    int hdfsChmod(hdfsFS fs, char *path, short mode)
 
     ctypedef struct hdfsFileInfo:
         tObjectKind mKind

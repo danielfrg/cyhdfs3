@@ -80,6 +80,32 @@ cdef class HDFSClient:
         libhdfs3.hdfsFreeFileInfo(files, numEntries)
         return ret
 
+    def chown(self, str path, str owner=None, str group=None):
+        py_byte_string = path.encode('UTF-8')
+        cdef char *c_path = py_byte_string
+        cdef char *c_owner = NULL
+        cdef char *c_group = NULL
+        if owner != None:
+            py_byte_string = owner.encode('UTF-8')
+            c_owner = py_byte_string
+        if group != None:
+            py_byte_string = group.encode('UTF-8')
+            c_group = py_byte_string
+        rval = libhdfs3.hdfsChown(self.fs, c_path, c_owner, c_group)
+        return rval == 0
+
+    def chmod_s(self, str path, str mode):
+        py_byte_string = mode.encode('UTF-8')
+        cdef short c_mode = int(py_byte_string, 8)
+        return self.chmod(path, c_mode)
+
+    def chmod(self, str path, short mode):
+        py_byte_string = path.encode('UTF-8')
+        cdef char *c_path = py_byte_string
+        cdef short c_mode = mode
+        rval = libhdfs3.hdfsChmod(self.fs, c_path, c_mode)
+        return rval == 0
+
     def get_block_locations(self, path, start=0, length=None):
         cdef int numOfBlocks = 0
         length = self.path_info(path).size if length is None  else length

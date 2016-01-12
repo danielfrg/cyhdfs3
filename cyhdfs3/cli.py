@@ -28,6 +28,33 @@ def cli(ctx, namenode, port):
     ctx.obj['client'] = cyhdfs3.HDFSClient()
 
 
+@cli.command(short_help='Change mode of a file or directory.')
+@click.argument('mode', required=True)
+@click.argument('path', required=True)
+@click.pass_context
+def chmod(ctx, mode, path):
+    client = ctx.obj['client']
+    client.chmod_s(path.encode('UTF-8'), mode.encode('UTF-8'))
+
+
+@cli.command(short_help='Change owner of a file or directory.')
+@click.argument('owner', required=True)
+@click.argument('path', required=True)
+@click.pass_context
+def chown(ctx, owner, path):
+    client = ctx.obj['client']
+    client.chown(path.encode('UTF-8'), owner=owner.encode('UTF-8'))
+
+
+@cli.command(short_help='Change group of a file or directory.')
+@click.argument('group', required=True)
+@click.argument('path', required=True)
+@click.pass_context
+def chgrp(ctx, group, path):
+    client = ctx.obj['client']
+    client.chown(path.encode('UTF-8'), group=group.encode('UTF-8'))
+
+
 @cli.command(short_help='Display the first (n) bytes of a file')
 @click.argument('path', required=False, default='/')
 @click.option('--bytes', '-b', 'nbytes', default=1*2**10, required=False, help='Number of bytes', show_default=True)

@@ -245,7 +245,9 @@ cdef class File:
         tempbuffer_length = min(length, buffersize)
         cdef void* tempbuffer = stdlib.malloc(tempbuffer_length * sizeof(char))
 
-        self._read(buffer, length, tempbuffer, tempbuffer_length)
+        nbytesread = self._read(buffer, length, tempbuffer, tempbuffer_length)
+        if nbytesread == 0:
+            return None
 
         cdef bytes py_bytes_string
         cdef char* c_string = <char*> buffer
@@ -273,6 +275,7 @@ cdef class File:
             buffer[pos:pos + nbytesread] = tempbuffer
             pos = pos + nbytesread
             remaining = remaining - nbytesread
+        return nbytesread
 
     def readline(self, step=1*2**19, buffersize=1*2**19):
         index = self.linebuff.find("\n")

@@ -230,5 +230,34 @@ def rm(ctx, path, recursive):
     client = ctx.obj['client']
     client.delete(path, recursive=recursive)
 
+
+@cli.command(short_help='Delete files')
+@click.option('-e', required=False, help='if the path exists, return 0.')
+@click.option('-d', required=False, help='if the path is a directory, return 0.')
+@click.option('-f', required=False, help='if the path is a file, return 0.')
+@click.option('-z', required=False, help='if the file is zero length, return 0.')
+@click.pass_context
+def test(ctx, e, d, f, z):
+    client = ctx.obj['client']
+    if d is None and e is None and f is None and s is None and z is None:
+        click.echo("test: Not enough arguments: expected 1 but got 0", err=True)
+        sys.exit(1)
+
+    ret = True
+    if e is not None:
+        ret &= client.exists(e)
+    if d is not None:
+        ret &= client.path_info(d).kind == 'd'
+    if f is not None:
+        ret &= client.path_info(f).kind == 'f'
+    if z is not None:
+        pinfo = client.path_info(d)
+        ret &= pinfo.kind == 'f' and pinfo.size == 0
+
+    if ret == True:
+        sys.exit(0)
+    else:
+        sys.exit(1)
+
 if __name__ == '__main__':
     main()

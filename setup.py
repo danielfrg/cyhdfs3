@@ -52,7 +52,7 @@ if USE_CYTHON:
 else:
     macros = []
 
-include_dirs = ["/usr/local/include/hdfs"]
+include_dirs = ["/usr/local/include", "/usr/local/include/hdfs"]
 include_dirs.append(np.get_include())
 library_dirs = ["/usr/local/lib/"]
 
@@ -60,6 +60,7 @@ library_dirs = ["/usr/local/lib/"]
 prefix = os.getenv("PREFIX", None)
 if prefix is not None:
     include_dirs.append(os.path.join(prefix, "include"))
+    include_dirs.append(os.path.join(prefix, "include", "hdfs"))
     library_dirs.append(os.path.join(prefix, "lib"))
 
 

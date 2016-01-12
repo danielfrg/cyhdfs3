@@ -1,29 +1,47 @@
-# from __future__ import unicode_literals
+from __future__ import unicode_literals
 
-from cpython cimport bool
 from libc cimport stdlib
-cimport cyavro._cyavro as cyavro
+from cpython cimport bool
+from cpython.version cimport PY_MAJOR_VERSION
 
+cimport cyavro._cyavro as cyavro
 cimport libhdfs3
 
+# Constants
 O_RDONLY = libhdfs3.O_RDONLY
 O_WRONLY = libhdfs3.O_WRONLY
 O_APPEND = libhdfs3.O_APPEND
 
 
-cdef str_to_charp(str py_str):
-    py_byte_string = py_str.encode('UTF-8')
+cdef unicode ustring(s):
+    if type(s) is unicode:
+        # fast path for most common case(s)
+        return <unicode>s
+    elif PY_MAJOR_VERSION < 3 and isinstance(s, bytes):
+        # only accept byte strings in Python 2.x, not in Py3
+        return (<bytes>s).decode('UTF-8')
+    elif isinstance(s, unicode):
+        # an evil cast to <unicode> might work here in some(!) cases,
+        # depending on what the further processing does.  to be safe,
+        # we can always create a copy instead
+        return unicode(s)
+    else:
+        raise TypeError("Not a str")
+
+
+cdef str_to_charp(py_str):
+    py_byte_string = ustring(py_str).encode('UTF-8')
     cdef char *c_string = py_byte_string
     return c_string
 
 
 cdef class HDFSClient:
-    cdef public str host
+    cdef public host
     cdef public int port
     cdef libhdfs3.hdfsBuilder* builder
     cdef libhdfs3.hdfsFS fs
 
-    def __init__(self, str host='localhost', int port=8020):
+    def __init__(self, host='localhost', int port=8020):
         self.host = host
         self.port = port
 
@@ -44,10 +62,9 @@ cdef class HDFSClient:
 
     def get_last_error(self):
         cdef char* c_string = libhdfs3.hdfsGetLastError()
-        cdef str py_string = c_string.decode('utf-8')
-        return py_string
+        return c_string.decode('utf-8')
 
-    def exists(self, str path):
+    def exists(self, path):
         _ = str_to_charp(path)
         cdef char *c_path = _
         return libhdfs3.hdfsExists(self.fs, c_path) == 0
@@ -60,40 +77,40 @@ cdef class HDFSClient:
     #     srcFS, dstFS = self.fs, self.fs
     #     return libhdfs3.hdfsMove(srcFS, src, dstFS, dst) == 0
 
-    def rename(self, str src, str dst):
+    def rename(self, src, dst):
         _ = str_to_charp(src)
         cdef char *c_src = _
         _ = str_to_charp(dst)
         cdef char *c_dst = _
         return libhdfs3.hdfsRename(self.fs, c_src, c_dst) == 0
 
-    def delete(self, str path, bool recursive=False):
+    def delete(self, path, bool recursive=False):
         _ = str_to_charp(path)
         cdef char *c_path = _
         cdef int c_recursive = 0 if recursive is False else 1
         return libhdfs3.hdfsDelete(self.fs, c_path, c_recursive) == 0
 
-    def create_dir(self, str path):
+    def create_dir(self, path):
         _ = str_to_charp(path)
         cdef char *c_path = _
         return libhdfs3.hdfsCreateDirectory(self.fs, c_path) == 0
 
-    def list_dir(self, str path='/', bool recurse=False, int max_depth=5):
+    def list_dir(self, path='/', bool recurse=False, int max_depth=5):
         ret = []
         depth = 1 if recurse is False else max_depth
         self.list_dir_recursive(path, ret=ret, depth=depth)
         return ret
 
-    def list_dir_recursive(self, str path='/', list ret=None, int depth=1):
+    def list_dir_recursive(self, path='/', list ret=None, int depth=1):
         _ = str_to_charp(path)
         cdef char *c_path = _
         cdef int num_entries = 0
         cdef libhdfs3.hdfsFileInfo* files = libhdfs3.hdfsListDirectory(self.fs, c_path, &num_entries)
 
-        cdef str py_name = ""
-        cdef str py_owner = ""
-        cdef str py_group = ""
-        cdef str py_kind = ""
+        py_name = ""
+        py_owner = ""
+        py_group = ""
+        py_kind = ""
         for i in range(num_entries):
             fInfo = files[i]
             py_name = fInfo.mName.decode('utf-8')
@@ -107,13 +124,13 @@ cdef class HDFSClient:
             ret.append(new)
 
             if new.kind == b'd' and depth > 1:
-                path = new.name
+                path = new.name.decode()
                 self.list_dir_recursive(path=path, ret=ret, depth=(depth - 1))
 
         libhdfs3.hdfsFreeFileInfo(files, num_entries)
         return ret
 
-    def chown(self, str path, str owner=None, str group=None):
+    def chown(self, path, owner=None, group=None):
         py_byte_string = path.encode('UTF-8')
         cdef char *c_path = py_byte_string
         cdef char *c_owner = NULL
@@ -127,19 +144,19 @@ cdef class HDFSClient:
         rval = libhdfs3.hdfsChown(self.fs, c_path, c_owner, c_group)
         return rval == 0
 
-    def chmod_s(self, str path, str mode):
+    def chmod_s(self, path, mode):
         py_byte_string = mode.encode('UTF-8')
         cdef short c_mode = int(py_byte_string, 8)
         return self.chmod(path, c_mode)
 
-    def chmod(self, str path, short mode):
+    def chmod(self, path, short mode):
         py_byte_string = path.encode('UTF-8')
         cdef char *c_path = py_byte_string
         cdef short c_mode = mode
         rval = libhdfs3.hdfsChmod(self.fs, c_path, c_mode)
         return rval == 0
 
-    def get_block_locations(self, str path, int start=0, int length=0):
+    def get_block_locations(self, path, int start=0, int length=0):
         _ = str_to_charp(path)
         cdef char *c_path = _
         cdef int numOfBlocks = 0
@@ -168,18 +185,18 @@ cdef class HDFSClient:
     def get_used(self):
         return libhdfs3.hdfsGetUsed(self.fs)
 
-    def open(self, str path, str mode='r', *args, **kwargs):
+    def open(self, path, mode='r', *args, **kwargs):
         return File(self, path, mode, *args, **kwargs)
 
-    def path_info(self, str path):
+    def path_info(self, path):
         _ = str_to_charp(path)
         cdef char *c_path = _
         cdef libhdfs3.hdfsFileInfo* fInfo = libhdfs3.hdfsGetPathInfo(self.fs, c_path)
 
-        cdef str py_name = fInfo.mName.decode('utf-8')
-        cdef str py_owner = fInfo.mOwner.decode('utf-8')
-        cdef str py_group = fInfo.mGroup.decode('utf-8')
-        cdef str py_kind = 'f' if fInfo.mKind == 70 else 'd'
+        py_name = fInfo.mName.decode('utf-8')
+        py_owner = fInfo.mOwner.decode('utf-8')
+        py_group = fInfo.mGroup.decode('utf-8')
+        py_kind = 'f' if fInfo.mKind == 70 else 'd'
         f = FileInfo(name=py_name, owner=py_owner, group=py_group,
                         replication=fInfo.mReplication, permissions=fInfo.mPermissions,
                         size=fInfo.mSize, lastMod=fInfo.mLastMod, lastAccess=fInfo.mLastAccess,
@@ -196,20 +213,17 @@ def rebuild_client(host, port):
 cdef class File:
     cdef HDFSClient client
     cdef libhdfs3.hdfsFile _file
-    cdef public str path
-    cdef public str mode
-    cdef public str encoding
+    cdef public path
+    cdef public mode
     cdef public short replication
     cdef public FileInfo _info
     cdef public list _blocks
     cdef bytes linebuff
 
-    def __cinit__(self, client, str path, str mode, buffer_size=0, replication=0, block_size=0,
-                  encoding='utf-8'):
+    def __cinit__(self, client, path, mode, buffer_size=0, replication=0, block_size=0):
         self.client = client
         self.path = path
         self.mode = mode
-        self.encoding = encoding
 
         _ = str_to_charp(self.path)
         cdef char *c_path = _
@@ -356,19 +370,19 @@ cdef class File:
 
 
 cdef class FileInfo(object):
-    cdef public str name
-    cdef public str owner
-    cdef public str group
+    cdef public name
+    cdef public owner
+    cdef public group
     cdef public short replication
     cdef public short permissions
     cdef public libhdfs3.tOffset size
     cdef public libhdfs3.tTime lastMod
     cdef public libhdfs3.tTime lastAccess
     cdef public libhdfs3.tOffset block_size
-    cdef public str kind
+    cdef public kind
 
-    def __init__(self, str name, str owner, str group, short replication,
-                 short permissions, size, lastMod, lastAccess, block_size, str kind):
+    def __init__(self, name, owner, group, short replication,
+                 short permissions, size, lastMod, lastAccess, block_size, kind):
         name = '/' + name.lstrip('/')
         self.name = name
         self.owner = owner

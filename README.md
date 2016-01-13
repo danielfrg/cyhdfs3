@@ -1,6 +1,14 @@
 # cyhdfs3
 
-An attempt to wrap [libhdfs3](https://github.com/PivotalRD/libhdfs3) using cython.
+Cython based wrapper for [libhdfs3](https://github.com/PivotalRD/libhdfs3).
+
+## Install
+
+Requirements are basically [`libhdfs3`](https://github.com/PivotalRD/libhdfs3)
+and [`cyavro`](https://github.com/PivotalRD/libhdfs3) both are available as conda
+packages: `conda install -c https://conda.anaconda.org/blaze https://conda.anaconda.org/mvn libhdfs3 cyavro`
+
+Then you should be able to: `pip install cyhdfs3`
 
 ## Basic usage
 

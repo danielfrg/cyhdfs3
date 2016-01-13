@@ -4,3 +4,4 @@ include versioneer.py
 include cyhdfs3/_version.py
 include cyhdfs3/*.pyx
 include cyhdfs3/*.pxd
+include cyhdfs3/tests/*

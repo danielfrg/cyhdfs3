@@ -21,7 +21,7 @@ RUN conda install -y -c https://conda.anaconda.org/mvn cyavro
 RUN pip install versioneer twine pywebhdfs click
 RUN conda create -y -n py2 python=2
 RUN conda install -y -n py2 ipython cython pytest
-RUN conda install -y -c https://conda.anaconda.org/blaze libhdfs3
+RUN conda install -y -n py2 -c https://conda.anaconda.org/blaze libhdfs3
 RUN conda install -y -n py2 -c https://conda.anaconda.org/mvn cyavro
 RUN /opt/conda/envs/py2/bin/pip install versioneer twine pywebhdfs click
 

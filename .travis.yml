@@ -38,4 +38,4 @@ install:
 
 script:
   - pwd
-  - docker exec -it $CONTAINER_ID $DOCKER_ENV/bin/py.test cyhdfs3 -s -vv
+  - docker exec -it $CONTAINER_ID $CONDA_ENV_PATH/bin/py.test cyhdfs3 -s -vv

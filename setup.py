@@ -90,6 +90,7 @@ class install(_install):
     def run(self):
         if USE_CYTHON:
             from Cython.Build import cythonize
+            global ext_modules
             ext_modules = cythonize(ext_modules)
         _install.run(self)
 cmdclass["install"] = install

@@ -13,9 +13,11 @@ before_install:
   - pwd
   - echo $TRAVIS_PYTHON_VERSION
   - if [[ "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then
-      export DOCKER_ENV=/opt/conda;
+      export CONDA_ENV=root;
+      export CONDA_ENV_PATH=/opt/conda;
     else
-      export DOCKER_ENV=/opt/conda/envs/py2;
+      export CONDA_ENV=py2;
+      export CONDA_ENV_PATH=/opt/conda/envs/py2;
     fi
   - pushd ../
   - git clone https://github.com/danielfrg/cyavro.git
@@ -28,9 +30,11 @@ before_install:
 
 install:
   - pwd
-  - echo $DOCKER_ENV
-  - docker exec -it $CONTAINER_ID $DOCKER_ENV/bin/pip install -e /cyavro
-  - docker exec -it $CONTAINER_ID $DOCKER_ENV/bin/python setup.py install
+  - echo $CONDA_ENV
+  - echo $CONDA_ENV_PATH
+  - docker exec -it $CONTAINER_ID /opt/conda/bin/conda remove cyavro -n $CONDA_ENV -y
+  - docker exec -it $CONTAINER_ID $CONDA_ENV_PATH/bin/pip install -e /cyavro
+  - docker exec -it $CONTAINER_ID $CONDA_ENV_PATH/bin/python setup.py install
 
 script:
   - pwd
